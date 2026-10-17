@@ -4,7 +4,7 @@
 
 Created in [T3 Code](https://t3.codes).
 
-[pstack](https://github.com/cursor/plugins/tree/main/pstack), Lauren Tan's skills for Cursor, packaged for Claude Code and Codex running in T3 Code. Upstream text stays unchanged. Adapters map Cursor's names to each agent and to T3.
+[pstack](https://github.com/cursor/plugins/tree/main/pstack), Lauren Tan's skills for Cursor, rewritten for Claude Code and Codex running in T3 Code. The build replaces each upstream paragraph that uses Cursor's names with one that uses T3's, so agents read only the finished skills. Every change, and the intent behind it, is recorded in `patchbook/`.
 
 ## Layout
 
@@ -12,11 +12,10 @@ Created in [T3 Code](https://t3.codes).
 | --- | --- |
 | `vendor/pstack/` | Upstream, byte for byte. Never edit it. |
 | `upstream.json` | The pinned upstream commit and its tree hash. |
-| `adapters/agents/` | Agent adapters: `claude-code.md` (on top of upstream's own) and `codex.md`. |
-| `adapters/hosts/t3.md` | The T3 Code adapter: subagents, models, schedules, pull requests. |
-| `patches/` | Policy changes to upstream, applied in `series` order. Empty so far. |
-| `dist/skills/` | Build output, one folder per skill, plus a `pstack` folder holding the adapters and agent briefs. Never edit it. |
-| `tools/wstack.py` | Sync and build. |
+| `patchbook/` | Every change to upstream: `patch.md` (the rules and the entry format), `snippets.md`, `entries/` (one file per upstream file), `retired.md`. |
+| `models.json` | The default model for each pstack role. A project's `.agents/pstack-models.md` overrides it line by line (`/setup-pstack` writes that file). |
+| `dist/skills/` | Build output, one folder per skill, plus a `pstack` folder holding the subagent briefs. Never edit it. |
+| `tools/wstack.py` | Sync, status, scaffold, and build. |
 
 ## Use
 
@@ -33,7 +32,9 @@ Maintaining the build needs Python 3.9+ and git:
 
 ```sh
 tools/wstack.py sync [ref]   # replace vendor/ with upstream <ref> (default main)
-tools/wstack.py build        # vendor/ + patches/ + adapters/ -> dist/skills/
+tools/wstack.py status       # list blocks missing an entry, orphaned entries, and leftover Cursor terms (--json for agents)
+tools/wstack.py scaffold     # append a skeleton entry for each missing block
+tools/wstack.py build        # vendor/ + patchbook/ + models.json -> dist/skills/
 ```
 
-`build` fails if `vendor/` differs from `upstream.json`, if a patch lacks its header or doesn't apply, or if a conflict marker reaches `dist/`. A build at an unchanged pin leaves `git status` clean.
+`build` fails if `vendor/` differs from `upstream.json`, if `status` reports any problem, or if a conflict marker reaches `dist/`. A build at an unchanged pin leaves `git status` clean. After a sync, run `status` and resolve what it lists as `patchbook/patch.md` describes.
