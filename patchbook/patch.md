@@ -192,3 +192,12 @@ T3: drop the link and keep the sentence if it still says something on its own; o
 Intent: remove steps that cannot happen here, so they don't distract.
 Cursor: automations, cloud agents and their VMs, the agents dashboard, Ask mode and `allow_multiple` question options, workspace-scoped transcript paths, a Cursor restart, Cursor's pull request tool, skill frontmatter keys only Cursor reads.
 T3: delete the step or clause. Bugbot is a GitHub app, so its PR comments can still appear: keep Bugbot triage, but call it Bugbot, not Cursor Bugbot.
+
+## Changes the build makes in code
+
+These apply to every build, not to one block, so `tools/wstack.py` makes them. Each still records its intent here.
+
+- **Ship only what T3 agents read.** `skills/`, `agents/`, and `LICENSE`. Upstream's `docs/`, `automations/`, `README.md`, and `plugin.json` are for Cursor users. Intent: nothing in the install points at Cursor.
+- **The `pstack` support skill.** Holds `agents/` (the subagent briefs) and `LICENSE`, beside the other skills. Intent: the `skills` CLI installs skill folders only, and briefs need a stable sibling path.
+- **Each skill's `name` is its folder name.** Intent: the `skills` CLI names the install folder after `name`, and Codex matches `$name` against it.
+- **`node_modules/` is gitignored beside each `scripts/package.json`.** Intent: Bun installs packages inside the user's project.
