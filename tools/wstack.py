@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Sync upstream pstack into vendor/, build dist/<agent>/, and install a build."""
+"""Sync upstream pstack into vendor/ and build dist/skills/ for the `skills` CLI."""
 
 import argparse
 import json
@@ -18,16 +18,29 @@ PATCHES = REPO / "patches"
 DIST = REPO / "dist"
 CACHE = Path(os.environ.get("XDG_CACHE_HOME", Path.home() / ".cache")) / "wstack" / "upstream"
 
-AGENTS = {
-    "claude-code": {"skills_dir": Path.home() / ".claude" / "skills"},
-    "codex": {"skills_dir": Path.home() / ".agents" / "skills"},
-}
 # docs/guide is the human guide (2.4 MB of images). No skill reads it.
-SHIPPED = ("skills/", "agents/", "docs/harness/", "LICENSE", "README.md", ".gitignore")
-ROOT_PLACEHOLDER = "{{PSTACK_ROOT}}"
+SHIPPED = ("skills/", "agents/", "docs/harness/", "LICENSE", "README.md")
+SUPPORT_SKILL = "pstack"
+SUPPORT_SKILL_MD = """---
+name: pstack
+description: Support files the other pstack skills read (agent and T3 adapters, subagent briefs). Not a task skill.
+disable-model-invocation: true
+---
+
+# pstack support files
+
+The other pstack skills point here. Nothing to run.
+"""
 PATCH_HEADER_FIELDS = ["Kind", "Why", "Source", "Upstream"]
 CONFLICT_MARKER = re.compile(r"^(<{7}|>{7}) ", re.MULTILINE)
-INSTALL_MANIFEST = ".wstack-install.json"
+PREAMBLE = (
+    "> **pstack install note.** Once per session, before following this skill, read your agent's "
+    "adapter. It maps the Cursor names below to your agent. Paths are relative to this file's folder. "
+    "In Claude Code, read `../pstack/docs/harness/claude-code.md`, then `../pstack/adapters/claude-code.md`. "
+    "In Codex, read `../pstack/adapters/codex.md`. If the T3 Code tools are present (`delegate_task`), "
+    "also read `../pstack/adapters/t3.md`. Its rows win for subagents, models, schedules, pull "
+    "requests, and transcripts.\n\n"
+)
 
 
 class Fail(Exception):
@@ -156,33 +169,35 @@ ADAPTER_FILES = {
 }
 
 
-def preamble(agent):
-    files = ", then ".join(f"`{ROOT_PLACEHOLDER}/{f}`" for f in ADAPTER_FILES[agent])
-    maps = "They map" if len(ADAPTER_FILES[agent]) > 1 else "It maps"
-    return (
-        f"> **pstack install note.** `<pstack>` is `{ROOT_PLACEHOLDER}`. Once per session, before "
-        f"following this skill, read {files}. {maps} the Cursor names below to this agent. If the "
-        f"T3 Code tools are present (`delegate_task`), also read `{ROOT_PLACEHOLDER}/adapters/t3.md`. "
-        f"Its rows win for subagents, models, schedules, pull requests, and transcripts.\n\n"
-    )
+def build_tree(staged):
+    out = DIST / "skills"
+    if DIST.exists():
+        shutil.rmtree(DIST)
+    shutil.copytree(staged / "skills", out)
 
+    support = out / SUPPORT_SKILL
+    if support.exists():
+        raise Fail(f"upstream now has a skill called {SUPPORT_SKILL}; rename the support skill")
+    support.mkdir()
+    (support / "SKILL.md").write_text(SUPPORT_SKILL_MD)
+    for name in ("agents", "docs", "LICENSE", "README.md"):
+        src = staged / name
+        (shutil.copytree if src.is_dir() else shutil.copy2)(src, support / name)
+    (support / "adapters").mkdir()
+    for adapter in [*(REPO / "adapters" / "agents").glob("*.md"), REPO / "adapters" / "hosts" / "t3.md"]:
+        shutil.copy2(adapter, support / "adapters" / adapter.name)
 
-def build_agent(agent, staged):
-    out = DIST / agent
-    if out.exists():
-        shutil.rmtree(out)
-    shutil.copytree(staged, out)
-    (out / "adapters").mkdir()
-    shutil.copy2(REPO / "adapters" / "agents" / f"{agent}.md", out / "adapters" / f"{agent}.md")
-    shutil.copy2(REPO / "adapters" / "hosts" / "t3.md", out / "adapters" / "t3.md")
-
-    for skill_md in sorted((out / "skills").glob("*/SKILL.md")):
+    for skill_md in sorted(out.glob("*/SKILL.md")):
+        if skill_md.parent == support:
+            continue
         front, body = frontmatter_split(skill_md.read_text())
-        if agent == "codex":
-            # T3 sends `$name` to Codex as plain text, so Codex finds a skill only in the list
-            # it is given. Keep every skill listed, and match each name to its folder.
-            front = re.sub(r"^name: .*$", f"name: {skill_md.parent.name}", front, count=1, flags=re.MULTILINE)
-        skill_md.write_text(front + "\n" + preamble(agent) + body.lstrip("\n"))
+        # The skills CLI names each install folder after `name`, and Codex matches `$name` against it.
+        front = re.sub(r"^name: .*$", f"name: {skill_md.parent.name}", front, count=1, flags=re.MULTILINE)
+        skill_md.write_text(front + "\n" + PREAMBLE + body.lstrip("\n"))
+
+    # Bun installs packages next to these, inside the user's project.
+    for package_json in out.glob("*/scripts/package.json"):
+        (package_json.parent / ".gitignore").write_text("node_modules/\n")
 
     for path in out.rglob("*"):
         if path.is_file() and path.suffix in {".md", ".ts", ".mjs", ".sh", ".json"}:
@@ -201,60 +216,8 @@ def cmd_build(args):
     with tempfile.TemporaryDirectory() as tmp:
         staged = Path(tmp)
         stage_patched_tree(files, staged)
-        for agent in AGENTS:
-            build_agent(agent, staged)
-    print(f"built dist/ from {pin['commit'][:7]} with {len(read_series())} patches")
-
-
-# install
-
-
-def cmd_install(args):
-    agent = args.agent
-    src = DIST / agent
-    if not src.exists():
-        raise Fail(f"dist/{agent} does not exist. Run build first.")
-    root = Path(args.root or Path.home() / ".local" / "share" / "wstack" / agent).expanduser().resolve()
-    skills_dir = Path(args.skills_dir or AGENTS[agent]["skills_dir"]).expanduser()
-
-    previous = root / INSTALL_MANIFEST
-    old_skills = set()
-    if previous.exists():
-        old = json.loads(previous.read_text())
-        if old["skills_dir"] == str(skills_dir):
-            old_skills = set(old["skills"])
-    if root.exists():
-        shutil.rmtree(root)
-    shutil.copytree(src, root, symlinks=True)
-    for md in root.rglob("*.md"):
-        text = md.read_text()
-        if ROOT_PLACEHOLDER in text:
-            md.write_text(text.replace(ROOT_PLACEHOLDER, str(root)))
-
-    skills_dir.mkdir(parents=True, exist_ok=True)
-    installed, skipped = [], []
-    for skill in sorted(p for p in (root / "skills").iterdir() if p.is_dir()):
-        link = skills_dir / skill.name
-        if link.is_symlink() and Path(os.readlink(link)).is_relative_to(root):
-            link.unlink()
-        elif link.exists() or link.is_symlink():
-            skipped.append(skill.name)
-            continue
-        link.symlink_to(skill, target_is_directory=True)
-        installed.append(skill.name)
-    for name in old_skills - set(installed):
-        link = skills_dir / name
-        if link.is_symlink() and Path(os.readlink(link)).is_relative_to(root):
-            link.unlink()
-
-    upstream = read_upstream()
-    previous.write_text(json.dumps(
-        {"agent": agent, "commit": upstream["commit"], "skills_dir": str(skills_dir), "skills": installed},
-        indent=2,
-    ) + "\n")
-    print(f"installed {len(installed)} {agent} skills into {skills_dir} (files in {root})")
-    if skipped:
-        print(f"skipped {len(skipped)} that already exist and are not ours: {', '.join(skipped)}")
+        build_tree(staged)
+    print(f"built dist/skills/ from {pin['commit'][:7]} with {len(read_series())} patches")
 
 
 def main():
@@ -263,13 +226,8 @@ def main():
     s = sub.add_parser("sync", help="replace vendor/ with an upstream commit")
     s.add_argument("ref", nargs="?", default="main")
     s.set_defaults(func=cmd_sync)
-    b = sub.add_parser("build", help="build dist/<agent>/ from vendor/, patches/ and adapters/")
+    b = sub.add_parser("build", help="build dist/skills/ from vendor/, patches/ and adapters/")
     b.set_defaults(func=cmd_build)
-    i = sub.add_parser("install", help="install dist/<agent>/ and link its skills")
-    i.add_argument("agent", choices=AGENTS)
-    i.add_argument("--skills-dir", help="default: the agent's user skills folder")
-    i.add_argument("--root", help="where the files live, default ~/.local/share/wstack/<agent>")
-    i.set_defaults(func=cmd_install)
     args = parser.parse_args()
     try:
         args.func(args)
