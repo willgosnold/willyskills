@@ -11,7 +11,7 @@ Created in [T3 Code](https://t3.codes).
 | Path | What it is |
 | --- | --- |
 | `vendor/pstack/` | Upstream, byte for byte. Never edit it. |
-| `.patchbook/` | Every change to upstream, for the [patchbook](https://github.com/willgosnold/patchbook) CLI: `config.toml`, `upstream.lock` (the pin), `blocks/` (paragraph edits, one file per upstream file), `changes/` (file edits and moves), `patch.md` (the rules for writing them), `hooks.py`, `testing.md`. |
+| `.patchbook/` | Every change to upstream, for the [patchbook](https://github.com/willgosnold/patchbook) CLI: `config.toml` (the upstreams and their mounts), `upstream.lock` (the pins), `blocks/` (paragraph edits, one file per upstream file), `changes/` (file edits and moves), `patch.md` (the rules for writing them), `hooks.py`, `testing.md`. |
 | `models.json` | The default model for each pstack role. A project's `.agents/pstack-models.md` overrides it line by line (`/setup-pstack` writes that file). |
 | `skills/` | Build output, one folder per skill, plus a `pstack` folder holding the subagent briefs. Never edit it. |
 | `tools/update-projects.sh` | Runs `npx skills update` in every project under `~/Projects` that installed wstack, then commits and pushes the result. |

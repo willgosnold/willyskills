@@ -2,10 +2,12 @@ layout = "vendor"
 # The rules an agent follows to write or repair a block entry.
 guide = ".patchbook/patch.md"
 
-[upstream]
+[[upstream]]
+name = "pstack"
 remote = "https://github.com/cursor/plugins.git"
 path = "pstack"
 branch = "main"
+mount = ""
 vendor = "vendor/pstack"
 
 # Only skills/ ships. Upstream's docs/, automations/, README.md and plugin.json are for Cursor users.
