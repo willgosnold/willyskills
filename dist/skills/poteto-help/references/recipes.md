@@ -4,6 +4,7 @@ Swap in the real paths, skills, and done checks. Informal wording works.
 
 ## Understand
 
+In Codex, start with `$` instead of `/`.
 - `/poteto-mode read <thread>. restate the underlying issue in your own words, in plain english.`
 - `/in-your-own-words <long or messy ask>`
 - `/sharpen <your task>`
@@ -15,6 +16,7 @@ Swap in the real paths, skills, and done checks. Informal wording works.
 
 ## Build
 
+In Codex, start with `$` instead of `/`.
 - Bug: `/poteto-mode <symptom>. repro first, then fix and verify.`
 - Bug in an app: `/poteto-mode repro this with /verify-<app>. if it repros on main, fix it and show me a video as proof.`
 - Bug with a cheap test: `/poteto-mode repro <bug> first. if there's a cheap test path, /tdd it. then fix and rerun.`
@@ -24,6 +26,7 @@ Swap in the real paths, skills, and done checks. Informal wording works.
 
 ## Design and plan
 
+In Codex, start with `$` instead of `/`.
 - `/poteto-mode prototype a few options for <feature>. take screenshots or videos for me to compare.`
 - `/poteto-mode we need <feature>. /architect it first, and answer open questions with prototypes. let me review before proceeding.`
 - `/poteto-mode write a tutorial for how i would use <new package> first. then /teach me why it beats the current one.`
@@ -33,6 +36,7 @@ Swap in the real paths, skills, and done checks. Informal wording works.
 
 ## Review and ship
 
+In Codex, start with `$` instead of `/`.
 - `/interrogate the whole branch, but skeptically. don't change anything yet. no nitpicks unless it's a real bug or regression.` Read the dismissals too.
 - `/swarm check every package under <dir> against its check script. one worker per package. one report.`
 - `/poteto-mode open the pr. small ordered commits, evidence in the description.`
@@ -41,6 +45,7 @@ Swap in the real paths, skills, and done checks. Informal wording works.
 
 ## Away and back
 
+In Codex, start with `$` instead of `/`.
 - `/poteto-mode im going to bed. <goal> in a fresh worktree off <base>. done means <checks>. keep a decision log. don't ask me before committing. loop until done, with a scheduled heartbeat every 30 minutes. if you're truly stuck after a few hours, stop and write up why.`
 - `/show-me-your-work catch me up on what you did last night.` Read its Attention section first.
 - `/poteto-mode full autopilot on this queue. each item is independent.`
