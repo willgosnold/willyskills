@@ -14,7 +14,7 @@ mount = ""
 from = "skills"
 to = "skills"
 
-# {{model:<role>}}: filled by hooks.py from models.json.
+# {{model:<role>}}: filled by hooks.ts from models.json.
 [placeholders.model]
 
 # {{snippet:<name>}}: the text under `## <name>`.
