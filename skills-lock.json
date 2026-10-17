@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "patchbook-update": {
+      "source": "willgosnold/patchbook",
+      "sourceType": "github",
+      "skillPath": "skills/patchbook-update/SKILL.md",
+      "computedHash": "4b86d86de5b228d273b153a1f55565dce291ec57eacfaccfd2091883a5db85d9"
+    }
+  }
+}
