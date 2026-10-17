@@ -93,3 +93,12 @@ intent: The skill-authoring handoffs go to the `skill-creator` skill, if it is i
 - Substantive existing-skill edit (a new section, a new pattern table, more than ~10 lines): hand to the `skill-creator` skill, if it is installed, and run its draft / test / iterate loop.
 - `tune description: <skill path>` (the skill exists but didn't trigger when it should have): hand to `skill-creator` and run its description-optimization loop.
 - `new skill via skill-creator: <kebab-name>`: hand creation to `skill-creator`. Do not invent the shape ad hoc.
+
+=== entry bdf8364557df
+kind: translation
+rules: invoke
+intent: The trigger is what the user types, so it gives both forms. Preserve the skip conditions and that one-offs are not learnings.
+--- upstream
+Invoke when the user says "reflect" or "/reflect". Skip when the conversation is trivial, off-topic, or already covered by an existing skill the parent followed correctly. One-offs are not learnings.
+--- patched
+Invoke when the user says "reflect" or "/reflect" ("$reflect" in Codex). Skip when the conversation is trivial, off-topic, or already covered by an existing skill the parent followed correctly. One-offs are not learnings.

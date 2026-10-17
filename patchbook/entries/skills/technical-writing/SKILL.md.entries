@@ -1,0 +1,16 @@
+=== entry 501a825d7d70
+kind: translation
+rules: invoke
+intent: The description names both invocations, /technical-writing for Claude Code and $technical-writing for Codex. Everything else stays verbatim.
+--- upstream
+---
+name: technical-writing
+description: "Layered technical-writing standard: Diátaxis structure, Google developer style sentences, STE instruction rules, Global English syntax. Use for /technical-writing or when writing or reviewing docs, RFCs, readmes, PR descriptions, or commit messages."
+disable-model-invocation: true
+---
+--- patched
+---
+name: technical-writing
+description: "Layered technical-writing standard: Diátaxis structure, Google developer style sentences, STE instruction rules, Global English syntax. Use for /technical-writing or $technical-writing, or when writing or reviewing docs, RFCs, readmes, PR descriptions, or commit messages."
+disable-model-invocation: true
+---

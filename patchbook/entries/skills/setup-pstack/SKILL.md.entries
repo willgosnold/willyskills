@@ -122,8 +122,8 @@ The roles, in this order, with their defaults:
 
 === entry 61b0ac6d6414
 kind: translation
-rules: setup-pstack
-intent: The description says the skill writes the project models file, not an always-applied rule. Keep the name, the triggers, and model invocation.
+rules: setup-pstack, invoke
+intent: The description says the skill writes the project models file, not an always-applied rule. Keep the name, the triggers, and model invocation. The description names both invocations, /setup-pstack and $setup-pstack.
 --- upstream
 ---
 name: setup-pstack
@@ -132,7 +132,7 @@ description: Configure which models pstack uses per role and at what reasoning b
 --- patched
 ---
 name: setup-pstack
-description: Configure which models pstack uses per role and at what reasoning budget. Detects your available models and writes a project models file that overrides the defaults. Use for /setup-pstack, "configure pstack models", "pstack budget", or changing pstack's model choices.
+description: Configure which models pstack uses per role and at what reasoning budget. Detects your available models and writes a project models file that overrides the defaults. Use for /setup-pstack or $setup-pstack, "configure pstack models", "pstack budget", or changing pstack's model choices.
 ---
 
 === entry 7427877805de
@@ -161,3 +161,12 @@ intent: Says skills read the file at each spawn (not new sessions only) and to c
 Tell the user the rule was written and that it applies to new sessions. Re-running this skill updates it.
 --- patched
 Tell the user the file was written and that skills read it at each spawn. Re-running this skill updates it. Tell the user to commit the file if worktrees and other people should see it.
+
+=== entry 14896129b2e6
+kind: translation
+rules: invoke
+intent: The offer and the yes-path name the create-verification-skill skill, with no slash, since the agent runs it. Preserve that the offer is made once and a no moves on without pushing.
+--- upstream
+Check whether the project has a way to drive the real app for proof (a `verify-*` skill, or an existing harness). If not, offer once: "want a project-local verification skill, so agents can drive the app the way a user does and prove changes work? I can generate one with /create-verification-skill." On yes, invoke `/create-verification-skill` (resolves wherever pstack is installed: workspace, user, or plugin). On no, move on without pushing.
+--- patched
+Check whether the project has a way to drive the real app for proof (a `verify-*` skill, or an existing harness). If not, offer once: "want a project-local verification skill, so agents can drive the app the way a user does and prove changes work? I can generate one with the **create-verification-skill** skill." On yes, run the **create-verification-skill** skill (resolves wherever pstack is installed: workspace, user, or plugin). On no, move on without pushing.

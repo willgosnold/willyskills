@@ -30,3 +30,20 @@ intent: Replaces picking a reasoning level and fast or standard speed with the e
 - For one-way-door design decisions, run the **architect** skill (it runs **arena**). Skip it for mechanical work whose shape is already concrete. A second arena over a settled design is over-engineering (the **laziness-protocol** principle skill).
 - Decide what fans out. Parallelize only across seams, and give each worker its own worktree or branch (the **separate-before-serializing-shared-state** principle skill). Don't over-fan. Set each subagent's effort for the job, lowering its line's effort for routine work and never raising it. See the Subagents section of the **poteto-mode** skill.
 - Write the designed phase list down. That list is what the human reviews.
+
+=== entry 5258218a2e24
+kind: translation
+rules: invoke
+intent: The description names both invocations, /figure-it-out for Claude Code and $figure-it-out for Codex. Everything else stays verbatim.
+--- upstream
+---
+name: figure-it-out
+description: "Design an auditable playbook when no narrower one fits: a large migration, an ambitious multi-part change, or work a human reviews after stepping away. Scales rigor to the task, runs a hypothesis loop, and logs decisions. Use for /figure-it-out or 'figure it out'."
+disable-model-invocation: true
+---
+--- patched
+---
+name: figure-it-out
+description: "Design an auditable playbook when no narrower one fits: a large migration, an ambitious multi-part change, or work a human reviews after stepping away. Scales rigor to the task, runs a hypothesis loop, and logs decisions. Use for /figure-it-out or $figure-it-out, or 'figure it out'."
+disable-model-invocation: true
+---

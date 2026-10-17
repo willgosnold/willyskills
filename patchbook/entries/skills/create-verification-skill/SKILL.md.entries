@@ -33,3 +33,29 @@ intent: "a fresh VM" is an example of the target the user's app runs on, not a C
 Run its own instructions end to end once: launch, doctor, drive ONE mapped feature (one is enough; the map exists so later runs can cover the rest), capture evidence, clean up. After cleanup, confirm the evidence still exists at the named location — a cleanup that eats the proof fails this step. Fix what fails, and run the generated cleanup after every failed iteration too, so broken attempts don't strand processes and ports. A generated skill that was never executed is a draft, not a deliverable. If you proved it in a stand-in for the real target (a container in place of a fresh VM, a local stack in place of a remote one), list every setup step the stand-in did that the target will not. Those steps stay unverified until a run on the real target covers them.
 --- patched
 Run its own instructions end to end once: launch, doctor, drive ONE mapped feature (one is enough; the map exists so later runs can cover the rest), capture evidence, clean up. After cleanup, confirm the evidence still exists at the named location — a cleanup that eats the proof fails this step. Fix what fails, and run the generated cleanup after every failed iteration too, so broken attempts don't strand processes and ports. A generated skill that was never executed is a draft, not a deliverable. If you proved it in a stand-in for the real target (a container in place of a fresh VM, a local stack in place of a remote one), list every setup step the stand-in did that the target will not. Those steps stay unverified until a run on the real target covers them.
+
+=== entry 5448ba844f55
+kind: translation
+rules: invoke
+intent: The description names both invocations, /create-verification-skill for Claude Code and $create-verification-skill for Codex. Everything else stays verbatim.
+--- upstream
+---
+name: create-verification-skill
+description: "Generate a project-local verification skill that drives your app the way a user does — any language, framework, or platform. Use for /create-verification-skill, \"make a control skill for this repo\", or when a project has no scripted way to prove UI/CLI/service behavior."
+disable-model-invocation: true
+---
+--- patched
+---
+name: create-verification-skill
+description: "Generate a project-local verification skill that drives your app the way a user does — any language, framework, or platform. Use for /create-verification-skill or $create-verification-skill, \"make a control skill for this repo\", or when a project has no scripted way to prove UI/CLI/service behavior."
+disable-model-invocation: true
+---
+
+=== entry 88723fe270b7
+kind: translation
+rules: invoke
+intent: The user is told what to type for upkeep, in both forms. Preserve that a cadence is suggested only on request.
+--- upstream
+Point the user at `/maintain-verification-skill` for keeping the map honest as the app changes. Suggest a cadence only if they ask.
+--- patched
+Point the user at `/maintain-verification-skill` (`$maintain-verification-skill` in Codex) for keeping the map honest as the app changes. Suggest a cadence only if they ask.

@@ -9,9 +9,18 @@ intent: Parallel writers on one branch are `delegate_task` calls with `isolation
 
 === entry 9a4d7f564f09
 kind: translation
-rules: team-kit
-intent: `/deslop` loses its plugin name and runs only if installed. Preserves the order (deslop before commit, no-comments before review) and the technical-writing and unslop requirements.
+rules: team-kit, invoke
+intent: `/deslop` loses its plugin name and runs only if installed. Preserves the order (deslop before commit, no-comments before review) and the technical-writing and unslop requirements. The deslop, no-comments, technical-writing, and unslop skills are named with no slash.
 --- upstream
 **PRs.** Run `/deslop` from `cursor-team-kit` over the diff before commit and `/no-comments` before review. Write every PR title, description, and commit body with `/technical-writing` (every layer except Diátaxis, and apply the STE vocabulary rules: one word per action, keep articles, a plain verb over `-ing` where one works), then apply `/unslop`.
 --- patched
-**PRs.** Run `/deslop`, if it is installed, over the diff before commit and `/no-comments` before review. Write every PR title, description, and commit body with `/technical-writing` (every layer except Diátaxis, and apply the STE vocabulary rules: one word per action, keep articles, a plain verb over `-ing` where one works), then apply `/unslop`.
+**PRs.** Run the **deslop** skill, if it is installed, over the diff before commit and the **no-comments** skill before review. Write every PR title, description, and commit body with the **technical-writing** skill (every layer except Diátaxis, and apply the STE vocabulary rules: one word per action, keep articles, a plain verb over `-ing` where one works), then apply the **unslop** skill.
+
+=== entry a60ae6c65955
+kind: translation
+rules: invoke
+intent: The subagent runs the interrogate, deslop, and no-comments skills, named with no slash. Preserve the no-babysitting default and the Autopilot owner exemption.
+--- upstream
+A subagent that opens a PR runs `interrogate`, `/deslop`, and `/no-comments`, and posts the URL. It returns to the parent without babysitting, unless it is an Autopilot-full or Autopilot-stack owner. That owner's brief assigns the babysit loop and is the ask `playbooks/babysit.md` waits for. The owner starts the loop after its code-ready report, reports merge-ready or STACK-READY per its playbook, and is exempt from the rules here and in `playbooks/babysit.md` that hold babysitting until a whole stack is built.
+--- patched
+A subagent that opens a PR runs the **interrogate**, **deslop**, and **no-comments** skills, and posts the URL. It returns to the parent without babysitting, unless it is an Autopilot-full or Autopilot-stack owner. That owner's brief assigns the babysit loop and is the ask `playbooks/babysit.md` waits for. The owner starts the loop after its code-ready report, reports merge-ready or STACK-READY per its playbook, and is exempt from the rules here and in `playbooks/babysit.md` that hold babysitting until a whole stack is built.

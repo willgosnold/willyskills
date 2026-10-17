@@ -11,12 +11,12 @@ intent: Each PR owner is an async delegate_task child in its own worktree, since
 
 === entry c80ac440daf0
 kind: translation
-rules: team-kit
-intent: The slop-strip is /deslop when it is installed, with the plugin name dropped. Keep the order: deslop and /no-comments, then rebase, report the code-ready head, then self-proof.
+rules: team-kit, invoke
+intent: The slop-strip is /deslop when it is installed, with the plugin name dropped. Keep the order: deslop and /no-comments, then rebase, report the code-ready head, then self-proof. The deslop and no-comments skills are named with no slash.
 --- upstream
    Open the PR early so CI and bots run alongside the work. The code is ready only after the slop-strip (the `deslop` skill from the `cursor-team-kit` plugin (`/deslop`)) and the `/no-comments` pass, so the full swarm runs on finished code. Then rebase onto current trunk and report the code-ready head before self-proof, so verification runs on the base the patch lands on. Report every later head, and merge-ready once self-proof, CI, and babysit are done. Fix rounds stay on that base unless trunk conflicts or breaks CI, because each rebase restarts CI. Run the repo's checks for the touched paths on the committed head before the code-ready push and before a later push that needs a verifier.
 --- patched
-   Open the PR early so CI and bots run alongside the work. The code is ready only after the slop-strip (`/deslop`, if it is installed) and the `/no-comments` pass, so the full swarm runs on finished code. Then rebase onto current trunk and report the code-ready head before self-proof, so verification runs on the base the patch lands on. Report every later head, and merge-ready once self-proof, CI, and babysit are done. Fix rounds stay on that base unless trunk conflicts or breaks CI, because each rebase restarts CI. Run the repo's checks for the touched paths on the committed head before the code-ready push and before a later push that needs a verifier.
+   Open the PR early so CI and bots run alongside the work. The code is ready only after the slop-strip (the **deslop** skill, if it is installed) and the **no-comments** pass, so the full swarm runs on finished code. Then rebase onto current trunk and report the code-ready head before self-proof, so verification runs on the base the patch lands on. Report every later head, and merge-ready once self-proof, CI, and babysit are done. Fix rounds stay on that base unless trunk conflicts or breaks CI, because each rebase restarts CI. Run the repo's checks for the touched paths on the committed head before the code-ready push and before a later push that needs a verifier.
 
 === entry 782fa9a9f78b
 kind: translation

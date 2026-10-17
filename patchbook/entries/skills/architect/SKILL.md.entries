@@ -15,3 +15,29 @@ intent: Architect's runners come from the `architect runners` line in the projec
 Take the runners from the `architect runners` line in the `pstack-models.mdc` rule, in place of the `arena runners` line. If the rule or that line is missing, use `claude-opus-5-5-xhigh` and `grok-4.7-xhigh-fast`. Alias and rejected entries follow the runner rules in the **arena** skill's Phase A.
 --- patched
 Take the runners from the `architect runners` line in {{snippet:models-file}}, else {{model:architect runners}}, in place of the `arena runners` line. Entries follow the runner rules in the **arena** skill's Phase A.
+
+=== entry 1fa2b22a8856
+kind: translation
+rules: invoke
+intent: The description names both invocations, /architect for Claude Code and $architect for Codex. Everything else stays verbatim.
+--- upstream
+---
+name: architect
+description: "Sketch types, signatures, and module structure before code, then stay in the loop while implementation fills in. Use for /architect, 'architect this', 'design this', or non-trivial work where jumping to code would lock in the wrong shape."
+disable-model-invocation: true
+---
+--- patched
+---
+name: architect
+description: "Sketch types, signatures, and module structure before code, then stay in the loop while implementation fills in. Use for /architect or $architect, 'architect this', 'design this', or non-trivial work where jumping to code would lock in the wrong shape."
+disable-model-invocation: true
+---
+
+=== entry 3ded7fe1302c
+kind: translation
+rules: invoke
+intent: The quoted opt-in phrase is what the user types, so it gives both forms. Preserve that the checkpoint is opt-in and pauses for sign-off.
+--- upstream
+Opt in to a checkpoint when the invoker explicitly asks: "/architect with checkpoint," "stop and show me before implementing," or similar. Then surface the synthesized design and pause for sign-off.
+--- patched
+Opt in to a checkpoint when the invoker explicitly asks: "/architect with checkpoint" ("$architect with checkpoint" in Codex), "stop and show me before implementing," or similar. Then surface the synthesized design and pause for sign-off.
