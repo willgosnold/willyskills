@@ -102,7 +102,13 @@ T3: the line's effort is a ceiling. Lower it for routine work, never raise it. N
 
 ### model-unnamed
 Intent: spawns that name no role still get a deliberate model.
-T3: "fast code model" / trivial mechanical edits → `feature, refactoring`. "Strongest judgment model" / hardest changes → `hardest tasks`. "Fast, cheap model" → `how explorer`. A reviewer, judge, or verifier "on a different model family" → the first `arena cross-judge pool` entry whose provider differs from the worker's, else the first entry, saying so. Anything else → `judgment and prose`.
+T3: "fast code model" / trivial mechanical edits → `feature, refactoring`. "Strongest judgment model" / hardest changes → `hardest tasks`. "Fast, cheap model" → `how explorer`. A reviewer or verifier "on a different model family" → rule `same-model-review`. Anything else → `judgment and prose`.
+
+### same-model-review
+Kind: policy.
+Intent: a review or verification runs on the same model and effort as the work it checks, unless the user names another. Cross-family runs are only for the panels that compare competing implementations, designs, or reviews (`arena runners`, `architect runners`, `interrogate reviewers`), which list two families on purpose.
+Upstream: a reviewer, verifier, or judge "on a different model family", or the first `arena cross-judge pool` entry whose provider differs from the worker's.
+Patched: "on the same model and effort as the worker it checks, unless the user named another". A judge that picks between candidates (arena, eval) takes the `arena cross-judge pool` line as written.
 
 ### setup-pstack
 Intent: `/setup-pstack` writes the project models file.

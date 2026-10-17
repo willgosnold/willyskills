@@ -1,7 +1,7 @@
 === entry 0ef91098b139
 kind: translation
-rules: model-effort, transcripts
-intent: Candidate effort is capped by each role line. Chain verification reads each candidate's own thread with `t3_thread_read` on its `childThreadId`, and the privacy warning against reading unrelated projects' chats is kept as a ban on searching across threads. Preserve grading from files actually opened, never from self-report.
+rules: model-effort, transcripts, same-model-review
+intent: Candidate effort is capped by each role line. Chain verification reads each candidate's own thread with `t3_thread_read` on its `childThreadId`, and the privacy warning against reading unrelated projects' chats is kept as a ban on searching across threads. Preserve grading from files actually opened, never from self-report. Policy: the judge comes from the arena cross-judge pool line as arena's Phase C picks it, without requiring a different family (rule same-model-review).
 --- upstream
 1. **Frame.** State what variant is under test and what behavior counts as success. Write the rubric (3-6 concrete criteria) for the judge only. Hold it back from candidates.
 2. **Set up sanitized environments.** Per-candidate working dir with the variant in place. Plant any context an organic task would have: a project skeleton, the skills the candidate would naturally read.
@@ -15,6 +15,6 @@ intent: Candidate effort is capped by each role line. Chain verification reads e
 2. **Set up sanitized environments.** Per-candidate working dir with the variant in place. Plant any context an organic task would have: a project skeleton, the skills the candidate would naturally read.
 3. **Author one organic prompt.** What a user would type. No leakage of what's being measured.
 4. **Spawn N parallel candidates** on different models per the **arena** skill's Phase B. Each works in its own sanitized dir. Same prompt to each. Set each subagent's effort for the job per the Subagents section, lowering its line's effort for routine work and never raising it.
-5. **Spawn one blinded judge** on a different model family per the **arena** skill's Phase C. Judge sees outputs by sanitized label and the rubric, never a model name.
+5. **Spawn one blinded judge** per the **arena** skill's Phase C. Judge sees outputs by sanitized label and the rubric, never a model name.
 6. **Verify the chain from transcripts, not self-report.** Read each candidate's transcript with `t3_thread_read` on its `childThreadId` (`view: "activity"` for tool calls, paging with `afterPosition`). Do not search across threads with `t3_thread_search`. That crosses project boundaries and reads private chats from unrelated projects. Look at which files each candidate actually opened. Grade chain-following from the files it really read plus the shape of the code, never from the candidate's own claims.
 7. **Read every candidate output yourself** end to end. Compare to the judge's verdict. Disagreement means a model is biased or the rubric is ambiguous. Synthesize.
