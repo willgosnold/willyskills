@@ -24,7 +24,7 @@ These came from building the adapters and from two probe children that listed th
 | 5 | Both | An agent store path named in the system prompt (orchestrate, autopilot-full, multi-phase-plan) | T3 names none. | Yes. `t3.md` row added: `~/.local/state/pstack/<repo>/`. |
 | 6 | Both | `bun` for `scripts/orch` and `scripts/watch-pr` | Bun is not installed. Bun-only code is confined to `bootstrap.ts` (`Bun.spawnSync`, `import.meta.dir`, which installs `commander` from `bun.lock`). Under Node 26, `watch-pr` runs once `commander` is installed. `orch` fails because it imports `bootstrap.ts` and `store.ts` uses a parameter property that Node's type stripping rejects. `tsx` gets past the syntax but not `import.meta.dir`. | No. Running without Bun needs a patch to `bootstrap.ts` and `store.ts`. Installing Bun keeps `vendor/` untouched. |
 | 7 | Both | `bootstrap.ts` runs a package install inside the skill folder | With symlinks into `vendor/`, `node_modules/` would land in `vendor/`. | Mostly. Upstream's `vendor/pstack/.gitignore` already ignores it, so git stays clean. Phase 1 still builds into `dist/`, so installs land there. |
-| 8 | Both | `name: Poteto Mode` and `name: Make Bot UI` in frontmatter | The folder names are `poteto-mode` and `make-bot-ui`. | Claude Code: no issue. Run 1's `/poteto-mode` loaded the skill. Codex untested. |
+| 8 | Both | `name: Poteto Mode` and `name: Make Bot UI` in frontmatter | The folder names are `poteto-mode` and `make-bot-ui`. | No issue on either agent. `/poteto-mode` (run 1) and `$poteto-mode` (run 6) both loaded the skill. |
 | 9 | Both | `deslop`, `control-ui`, `control-cli` from `cursor-team-kit`, and `/loop`, `/create-skill` from Cursor | Not installed. | Partly. `t3.md` maps `control-ui` to `preview_*` and `/loop` to `schedule_task`. `codex.md` maps `create-skill` to `skill-creator`. `deslop` has no row, so it is skipped. It is a code cleanup pass over the branch diff (needless comments, abnormal try/catch, `any` casts, deep nesting), not commit message rules. |
 | 10 | Both | Each child can delegate further (orchestrate's sub-coordinators) | Both agents' children get the full T3 tool set and `canRunChildTask` for both providers. | Yes, no row needed. |
 
@@ -97,4 +97,38 @@ All four tasks finished and verified their own work. Rows exercised and working:
 One adapter row changed (`environment: "cloud"` for read-only workers). No upstream text edits were needed.
 
 Untested so far: `schedule_task` for `/loop`, `watch_pull_request`, `task_cancel`, `t3_thread_send` for resume, the transcript rows, the agent store path, `preview_*`, and everything on Codex.
+
+## Round 2
+
+| # | Playbook | Agent | wstack commit | Thread | Result |
+| --- | --- | --- | --- | --- | --- |
+| 5 | Babysit | Claude Code | `9c212e7` | `mcp:21f283b9-95a5-431f-b3c9-c67ac5ab2cda` | Pass over two turns. `watch-pr` ran under Bun in a background shell, its `READY` verdict woke the thread when CI finished, and it did not merge. |
+| 6 | Bug fix | Codex (GPT-6.1-Sol, low) | `9c212e7` | `mcp:83c55533-6210-4479-b7bc-259008be2eaf` | Pass in 2 minutes. 3 Claude children, failing test first, PR [#4](https://github.com/willgosnold/pstack-phase0-sandbox/pull/4) linked. |
+
+The fixture gained a CI workflow on `main` that sleeps 180 seconds before running the tests, so Babysit has something to wait for. PR #3 was updated from `main` to start CI.
+
+### What worked in run 6 (Codex)
+
+- `AGENTS.md` led it to `codex.md`, then to `t3.md`. It read both before starting.
+- `update_plan` held the bug-fix steps, as `codex.md` maps.
+- `orchestrator_capabilities`, then three `delegate_task` calls, all with Claude targets under the budget: a worktree implementer on Sonnet 5.5, a read-only explainer, and `comment-sicko` from its agent file.
+- Codex kept working while children ran. T3 delivered each completion as a notification inside the turn, and Codex read each with `task_status`.
+- `gh pr create`, then `link_pull_request`, then `list_thread_pull_requests` to confirm.
+
+| Playbook | Agent | Skill asked for | Agent did | New adapter row? |
+| --- | --- | --- | --- | --- |
+| Bug fix | Codex | Read-only explainer | Shared the checkout while the parent cherry-picked the fix, so the explainer saw the code change mid-read and said so | No. Harmless here. A read-only worker that needs a stable tree could be pinned to a commit in its brief. |
+| Babysit | Claude Code | Wait for CI, then report the forge verdict | Ran `watch-pr` (Bun) in a Claude Code background shell and ended its turn. The shell's exit woke the thread 2 minutes later. It never called `watch_pull_request`. | Yes, a clarification. Both work. The row now says a background shell wakes Claude Code only while its session lives, and to use `watch_pull_request` for longer waits. Codex has no equivalent. Fixed after run 5. |
+| Babysit | Claude Code | `scripts/watch-pr/watch-pr` | Looked for it under `<pstack>/scripts/` first, then found it under `skills/poteto-mode/scripts/`. Its reply calls this a pstack docs bug. | No. The playbook path is relative to the skill folder. The agent's bug claim looks wrong. |
+
+### What worked in run 5
+
+- `watch-pr` ran under Bun with no setup beyond the mise install. Finding 6 is closed.
+- A T3 thread woke from a Claude Code background command's exit after its turn had ended.
+- `t3_thread_search` looked for another babysitter on the PR before starting, which the playbook asks for.
+- `link_pull_request` on the PR it was given.
+
+## Round 2 summary
+
+Codex follows the same adapters through `AGENTS.md`, `codex.md`, and `t3.md` with no extra rows. Babysit's waiting worked, through a Claude Code mechanism rather than the T3 one. Still untested: `schedule_task`, `watch_pull_request`, `task_cancel`, resume through `t3_thread_send`, the agent store path, and `preview_*`.
 
