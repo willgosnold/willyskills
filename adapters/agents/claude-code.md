@@ -9,3 +9,4 @@ That upstream file assumes pstack is installed as a Claude Code plugin. The `ski
 | Tell the user to type `/pstack:<name>` | `/<name>`. Skills have no plugin namespace. |
 | `subagent_type: "pstack:poteto-agent"` or `"pstack:comment-sicko"` | No such agent types. Use `general-purpose` and start the brief with "Read `<pstack>/agents/<name>.md` and act as that agent", using an absolute path. |
 | `~/.claude/plugins/` (where `poteto-agent` searches for `poteto-mode`) | Your parent gives you the absolute path. If it didn't, stop and say so. |
+| The `pstack-models.mdc` rule, and "`setup-pstack` has nothing to write" | In T3 Code, the Models section of `<pstack>/adapters/t3.md` replaces this row. `setup-pstack` writes the project file it names. |
