@@ -1,6 +1,6 @@
 # pstack in Codex
 
-pstack skills use Cursor names. In Codex, read this file once per session, then map each Cursor name in a skill with the tables below. `<pstack>` means the folder that holds `skills/`, `agents/`, and `docs/`. If the T3 Code MCP tools are present (`mcp__t3_code__delegate_task`), also read the T3 host adapter that `AGENTS.md` names. Its rows replace this file's rows for subagents, scheduling, pull requests, transcripts, and models. If a Cursor field has no row, drop it and say so. Never pass a field or value the tool schema rejects.
+pstack skills use Cursor names. In Codex, read this file once per session, then map each Cursor name in a skill with the tables below. `<pstack>` means the folder that holds `skills/`, `agents/`, and `docs/`. If the T3 Code MCP tools are present (`mcp__t3_code__delegate_task`), also read `t3.md` in the same folder as this file. Its rows replace this file's rows for subagents, scheduling, pull requests, transcripts, and models. If a Cursor field has no row, drop it and say so. Never pass a field or value the tool schema rejects.
 
 ## Tools
 
