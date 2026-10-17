@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Sync upstream pstack into vendor/, patch it from patchbook/, and build dist/skills/ for the `skills` CLI."""
+"""Sync upstream pstack into vendor/, patch it from patchbook/, and build skills/ for the `skills` CLI."""
 
 import argparse
 import difflib
@@ -19,7 +19,8 @@ UPSTREAM_JSON = REPO / "upstream.json"
 PATCHBOOK = REPO / "patchbook"
 ENTRIES = PATCHBOOK / "entries"
 MODELS_JSON = REPO / "models.json"
-DIST = REPO / "dist"
+# Top level, so `npx skills add <owner>/wstack` finds the built skills before vendor/.
+OUT = REPO / "skills"
 CACHE = Path(os.environ.get("XDG_CACHE_HOME", Path.home() / ".cache")) / "wstack" / "upstream"
 
 # docs/ and automations/ are for Cursor users. No T3 skill reads them.
@@ -366,9 +367,9 @@ def stage_shipped(files, dest):
 
 
 def build_tree(staged):
-    out = DIST / "skills"
-    if DIST.exists():
-        shutil.rmtree(DIST)
+    out = OUT
+    if out.exists():
+        shutil.rmtree(out)
     shutil.copytree(staged / "skills", out)
 
     support = out / SUPPORT_SKILL
@@ -419,7 +420,7 @@ def cmd_build(args):
                 print(describe(p), file=sys.stderr)
             raise Fail(f"{len(problems)} problems; nothing built. See patchbook/patch.md.")
         build_tree(staged)
-    print(f"built dist/skills/ from {pin['commit'][:7]} with {applied} patchbook entries")
+    print(f"built skills/ from {pin['commit'][:7]} with {applied} patchbook entries")
 
 
 def cmd_status(args):
@@ -481,7 +482,7 @@ def main():
     s = sub.add_parser("sync", help="replace vendor/ with an upstream commit")
     s.add_argument("ref", nargs="?", default="main")
     s.set_defaults(func=cmd_sync)
-    b = sub.add_parser("build", help="build dist/skills/ from vendor/ and patchbook/")
+    b = sub.add_parser("build", help="build skills/ from vendor/ and patchbook/")
     b.set_defaults(func=cmd_build)
     st = sub.add_parser("status", help="list missing, orphaned, and invalid patchbook entries")
     st.add_argument("--json", action="store_true", help="machine-readable output, with block text")

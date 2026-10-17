@@ -4,7 +4,7 @@
 
 `vendor/pstack/` is an unmodified copy of pstack from https://github.com/cursor/plugins (path `pstack/`), by Lauren Tan (@poteto). MIT License. See `vendor/pstack/LICENSE`.
 
-`dist/skills/` is a modified copy, built from `vendor/pstack/` with the changes recorded in `patchbook/`. The patchbook's rules started from upstream's `docs/harness/claude-code.md`.
+`skills/` is a modified copy, built from `vendor/pstack/` with the changes recorded in `patchbook/`. The patchbook's rules started from upstream's `docs/harness/claude-code.md`.
 
 ## Ports
 
