@@ -261,7 +261,8 @@ def nearest(block, candidates, limit=2):
 
 
 def patch_tree(staged):
-    """Apply the patchbook to every shipped Markdown file in staged/, in place.
+    """Apply the patchbook to staged/, in place: every shipped Markdown file, plus any other
+    shipped file that has an entries file (scripts). Only Markdown is checked for Cursor terms.
 
     Returns the problems found, each a dict with a "problem" key: missing, orphan, invalid,
     placeholder, or leak (a Cursor term left in the output).
@@ -269,8 +270,10 @@ def patch_tree(staged):
     models, snippets = read_models(), read_snippets()
     problems, applied = [], 0
     unread = {p.relative_to(ENTRIES).as_posix()[: -len(".entries")]: p for p in ENTRIES.rglob("*.entries")}
-    for path in sorted(staged.rglob("*.md")):
+    patched_files = set(staged.rglob("*.md")) | {staged / rel for rel in unread if (staged / rel).is_file()}
+    for path in sorted(patched_files):
         rel = path.relative_to(staged).as_posix()
+        markdown = path.suffix == ".md"
         entries = read_entries(unread.pop(rel)) if rel in unread else {}
         lines = path.read_text().split("\n")
         spans = block_spans(lines)
@@ -284,7 +287,7 @@ def patch_tree(staged):
             entry = entries.get(h)
             if entry is None:
                 unmatched.append({"line": start + 1, "hash": h, "upstream": block})
-                terms = sorted({m.group(0) for m in CURSOR_TERMS.finditer(block)})
+                terms = sorted({m.group(0) for m in CURSOR_TERMS.finditer(block)}) if markdown else []
                 if terms:
                     problems.append({"problem": "missing", **where, "terms": terms, "upstream": block})
                 out.extend(lines[start:end])
@@ -295,7 +298,7 @@ def patch_tree(staged):
                 problems.append({"problem": "invalid", **where, "detail": error})
             applied += 1
             patched = expand(entry["patched"], models, snippets, problems, where)
-            if entry["kind"] != "keep":
+            if markdown and entry["kind"] != "keep":
                 terms = sorted({m.group(0) for m in CURSOR_TERMS.finditer(patched)})
                 if terms:
                     problems.append({"problem": "leak", **where, "terms": terms})

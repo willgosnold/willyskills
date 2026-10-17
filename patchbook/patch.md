@@ -10,7 +10,7 @@ Each entry has a kind:
 
 ## Entries
 
-`entries/<upstream path>.entries` holds the entries for one upstream file, such as `entries/skills/poteto-mode/SKILL.md.entries`. (The suffix keeps the `skills` CLI from mistaking them for skills.) A block is a run of lines between blank lines, a whole fenced code block, or a file's frontmatter. Each entry:
+`entries/<upstream path>.entries` holds the entries for one upstream file, such as `entries/skills/poteto-mode/SKILL.md.entries`. (The suffix keeps the `skills` CLI from mistaking them for skills.) A block is a run of lines between blank lines, a whole fenced code block, or a file's frontmatter. Any shipped file with an entries file is patched, scripts included; only Markdown is checked for Cursor terms. Each entry:
 
 ```
 === entry <hash>
