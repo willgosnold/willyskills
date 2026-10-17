@@ -1,0 +1,16 @@
+=== entry 242a24b2d0e7
+kind: translation
+rules: loop
+intent: The per-component repeat-until-zero-diff loop wakes on each owner finishing plus a 20 to 30 minute schedule_task heartbeat, re-diffing on every wake and deleting the heartbeat once the diffs are zero. Keep the baseline-first rule, the anti-shortcut clauses, one owner per component, and nonzero-diff-is-a-fail.
+--- upstream
+1. Establish the baseline first, before any migration: a visual regression harness that screenshots the current component across its states, plus the target when matching two implementations. No baseline, no parity claim. A blocking prerequisite, not a follow-up.
+2. Anti-shortcut clauses, stated and held: no harness modifications, no baseline tampering, no component restructuring to make a diff pass. If the baseline looks wrong, stop and ask, don't edit it.
+3. Migrate one component at a time. Parallelize across worktrees, one owner per component (the **separate-before-serializing-shared-state** principle skill). Shared primitives migrate first as a blocking phase.
+4. Verify each component against its baseline via image diff on the matching surface via the control skill. A nonzero diff is a fail. Investigate the pixel delta. `/loop` per component until the diff is zero.
+5. Run **Opening a PR** per component or per safe batch.
+--- patched
+1. Establish the baseline first, before any migration: a visual regression harness that screenshots the current component across its states, plus the target when matching two implementations. No baseline, no parity claim. A blocking prerequisite, not a follow-up.
+2. Anti-shortcut clauses, stated and held: no harness modifications, no baseline tampering, no component restructuring to make a diff pass. If the baseline looks wrong, stop and ask, don't edit it.
+3. Migrate one component at a time. Parallelize across worktrees, one owner per component (the **separate-before-serializing-shared-state** principle skill). Shared primitives migrate first as a blocking phase.
+4. Verify each component against its baseline via image diff on the matching surface via the control skill. A nonzero diff is a fail. Investigate the pixel delta. Loop per component until the diff is zero. Each owner finishing wakes you, a `schedule_task` heartbeat every 20 to 30 minutes covers the rest, and each wake re-checks the diff. Delete the heartbeat with `delete_scheduled_task` once every diff is zero.
+5. Run **Opening a PR** per component or per safe batch.

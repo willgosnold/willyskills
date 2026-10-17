@@ -1,0 +1,40 @@
+=== entry 4361cd5210cd
+kind: translation
+rules: cursor-only
+intent: Drops Cursor's "Grok Bot" product name: the UI wakes this agent over a webhook. No rule names the bot; closest faithful version. Preserve the triggers (custom UI, sender key, Tailscale) and the frontmatter keys.
+--- upstream
+---
+name: Make Bot UI
+description: >-
+  Use when building a custom UI (page, dashboard, buttons) that should wake a
+  Grok Bot over a webhook, when the user must provide a webhook sender key, or
+  when exposing that UI on Tailscale.
+disable-model-invocation: true
+---
+--- patched
+---
+name: Make Bot UI
+description: >-
+  Use when building a custom UI (page, dashboard, buttons) that should wake
+  this agent over a webhook, when the user must provide a webhook sender key,
+  or when exposing that UI on Tailscale.
+disable-model-invocation: true
+---
+
+=== entry 801ce3dd4d37
+kind: translation
+rules: cursor-only
+intent: Drops the Cursor API URL example. Preserve no query string, copy from the routine, and never guess the id.
+--- upstream
+The URL looks like `https://api2.cursor.sh/automations/webhook/<id>` with no query string. Copy the URL from the routine. Do not guess the id.
+--- patched
+The URL has no query string. Copy the URL from the routine. Do not guess the id.
+
+=== entry e668f32b4236
+kind: translation
+rules: cursor-only
+intent: Drops Cursor's "Grok Bot" name: the server POSTs to the routine's webhook. Preserve that the key stays server-side and the browser never POSTs to the webhook.
+--- upstream
+Store `{url, key}` in that UI's own directory. Buttons POST to this local server. The local server, not the browser, POSTs to the Grok Bot webhook.
+--- patched
+Store `{url, key}` in that UI's own directory. Buttons POST to this local server. The local server, not the browser, POSTs to the routine's webhook.

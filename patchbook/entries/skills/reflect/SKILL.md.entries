@@ -1,0 +1,95 @@
+=== entry f52fea82398f
+kind: translation
+rules: transcripts, capabilities
+intent: The active transcript is this thread: get its ID as `parentThreadId` from `orchestrator_capabilities` instead of finding a transcript file. Keep the warning against reading other threads, which holds private chats from unrelated projects.
+--- upstream
+Before fanning out, find this conversation's transcript in the `agent-transcripts/` directory the system prompt names. Do not glob across `~/.cursor/projects/*/`. That crosses workspace boundaries and reads private chats from unrelated projects.
+--- patched
+Before fanning out, find this conversation's transcript: call `orchestrator_capabilities` once, and it returns this thread's ID as `parentThreadId`. Do not search other threads for it. That crosses workspace boundaries and reads private chats from unrelated projects.
+
+=== entry 1fcdeb5e787b
+kind: translation
+rules: transcripts
+intent: Deletes the command that lists transcript files. The thread ID from the step above names the transcript directly, so there is nothing to list.
+--- upstream
+```bash
+ls -t <agent-transcripts>/*.jsonl <agent-transcripts>/*/*.jsonl <agent-transcripts>/*/subagents/*.jsonl 2>/dev/null | head -10
+```
+--- patched
+
+=== entry 612bf39b7f1c
+kind: translation
+rules: transcripts
+intent: Replaces the transcript-file layouts and the opening-prompt match with how the thread is read: `t3_thread_read` on `parentThreadId`, and a subagent's chat on its `childThreadId`. Keeps the fallback to a tight digest. This block has no Cursor term, but without the change it describes files that no longer exist.
+--- upstream
+That covers the legacy flat (`<id>.jsonl`), current nested (`<id>/<id>.jsonl`), and subagent (`<parent>/subagents/<child>.jsonl`) layouts. For each candidate, read the first JSONL line. Take the file whose `message.content[0].text` contains the conversation's opening user prompt. If none matches, pass a tight digest of the session instead.
+--- patched
+The transcript is read with `t3_thread_read` and `threadId: <parentThreadId>`, paging with `afterPosition`, and `view: "activity"` shows tool calls. A subagent's chat is its own `childThreadId`. If the thread can't be read, pass a tight digest of the session instead.
+
+=== entry cb36f987c82e
+kind: translation
+rules: delegate, general-purpose, read-only
+intent: Three reviewers spawn together as three `delegate_task` calls in one message, each with its whole brief and its own `clientRequestId`. Drops the agent type and the `readonly: false` setting (the default), and keeps the reason: reviewers need MCP access to the context the transcript references.
+--- upstream
+One message, three `Task` calls, `subagent_type: generalPurpose`, agent mode (`readonly: false`). Reviewers need MCP access to look up the tickets, chat threads, and observability traces the transcript references, and readonly strips MCPs.
+--- patched
+One message, three `delegate_task` calls, each with its whole brief in `task` and its own `clientRequestId`. Never set `runtimeMode`. Reviewers need MCP access to look up the tickets, chat threads, and observability traces the transcript references.
+
+=== entry 5157161f31ee
+kind: translation
+rules: model-role, model-effort
+intent: Each reviewer and the synthesizer take their model from their role line in the project models file, else the default in the table, applied as the model-entry snippet says. Drops the rejected-slug fallbacks, and the poteto-mode pointer now only lowers effort within the line's ceiling.
+--- upstream
+Each reviewer and the synthesizer name a role line in the `pstack-models.mdc` rule and a default. Set `model` to that line's value, or to the default if the rule or the line is missing. Leave `model` unset when the value is `auto` or `inherit-parent`. If the Task tool rejects a slug, use the default and say so. If it rejects the default, use the closest valid slug of the same family from its error message. Pick each subagent's reasoning level and fast or standard speed for the job, per the Subagents section of the **poteto-mode** skill.
+--- patched
+Each reviewer and the synthesizer name a role line and a default. Take each one's model from that line in {{snippet:models-file}}, else from its default. {{snippet:model-entry}} Pick each subagent's effort for the job within that ceiling, per the Subagents section of the **poteto-mode** skill.
+
+=== entry ef9be67a1261
+kind: translation
+rules: model-role
+intent: The default column holds each role's wstack default from models.json instead of a hard-coded model. Keeps the lens, role line, and template columns as they are.
+--- upstream
+| Lens | Role line | Default `model` | Prompt template |
+|---|---|---|---|
+| Judgment | `reflect judgment, divergent, synthesizer` | `claude-opus-5-5-xhigh` | `references/judgment-reviewer.md` |
+| Tooling | `reflect tooling` | `grok-4.7-xhigh-fast` | `references/tooling-reviewer.md` |
+| Divergent | `reflect judgment, divergent, synthesizer` | `claude-opus-5-5-xhigh` | `references/divergent-reviewer.md` |
+--- patched
+| Lens | Role line | Default | Prompt template |
+|---|---|---|---|
+| Judgment | `reflect judgment, divergent, synthesizer` | {{model:reflect judgment, divergent, synthesizer}} | `references/judgment-reviewer.md` |
+| Tooling | `reflect tooling` | {{model:reflect tooling}} | `references/tooling-reviewer.md` |
+| Divergent | `reflect judgment, divergent, synthesizer` | {{model:reflect judgment, divergent, synthesizer}} | `references/divergent-reviewer.md` |
+
+=== entry ec00188f9333
+kind: translation
+rules: delegate, background, transcripts
+intent: The templates go verbatim as each child's `task`, with the thread reference (and how to read it) standing in for the transcript path. Reviewers return findings as their task result; each completion wakes this thread, and synthesis waits until all three have returned.
+--- upstream
+Pass each template verbatim, substituting the transcript path or digest where marked. Reviewers return findings in the `Task` response body.
+--- patched
+Pass each template verbatim as the `task`, substituting the transcript or digest where marked. For the transcript path, write "T3 thread `<parentThreadId>` (read it with `t3_thread_read`, paging with `afterPosition`; `view: "activity"` shows tool calls)". Reviewers return findings as their task result. Each completion wakes this thread, so end the turn until all three have returned.
+
+=== entry b18d28d636f2
+kind: translation
+rules: delegate, general-purpose, read-only, model-role
+intent: The synthesizer is one `delegate_task` call with its model from the `reflect judgment, divergent, synthesizer` line, else that role's default. Drops the agent type and `readonly: false`, and keeps the reason it needs MCP: spot-verifying citations.
+--- upstream
+One `Task` call, `subagent_type: generalPurpose`, `model` from the `reflect judgment, divergent, synthesizer` line (default `claude-opus-5-5-xhigh`), agent mode (`readonly: false`). It spot-verifies citations through MCP, and readonly strips MCPs. Pass `references/synthesizer.md` verbatim, with each reviewer's full output inlined where marked. It returns an Accepted / Rejected / Backlog list.
+--- patched
+One `delegate_task` call, with its own `clientRequestId` and its model from the `reflect judgment, divergent, synthesizer` line (default {{model:reflect judgment, divergent, synthesizer}}). Never set `runtimeMode`. It spot-verifies citations through MCP. Pass `references/synthesizer.md` verbatim as the `task`, with each reviewer's full output inlined where marked. It returns an Accepted / Rejected / Backlog list.
+
+=== entry ff502e4a2467
+kind: translation
+rules: team-kit
+intent: No rule names this skill; team-kit (a Cursor-shipped skill that may be absent) is the closest. Cursor's built-in `create-skill` becomes the `skill-creator` skill, if it is installed (the skill-creator plugin in Claude Code, the built-in `skill-creator` in Codex), which has the same draft / test / iterate and description-optimization loops. The routing label `new skill via create-skill:` stays, since the synthesizer template emits it.
+--- upstream
+- Trivial existing-skill edit (a one-line bullet, a tightened sentence, a stale fact corrected): the parent does it directly.
+- Substantive existing-skill edit (a new section, a new pattern table, more than ~10 lines): hand to Cursor's built-in `create-skill` skill and run its draft / test / iterate loop.
+- `tune description: <skill path>` (the skill exists but didn't trigger when it should have): hand to `create-skill` and run its description-optimization loop.
+- `new skill via create-skill: <kebab-name>`: hand creation to `create-skill`. Do not invent the shape ad hoc.
+--- patched
+- Trivial existing-skill edit (a one-line bullet, a tightened sentence, a stale fact corrected): the parent does it directly.
+- Substantive existing-skill edit (a new section, a new pattern table, more than ~10 lines): hand to the `skill-creator` skill, if it is installed, and run its draft / test / iterate loop.
+- `tune description: <skill path>` (the skill exists but didn't trigger when it should have): hand to `skill-creator` and run its description-optimization loop.
+- `new skill via create-skill: <kebab-name>`: hand creation to `skill-creator`. Do not invent the shape ad hoc.

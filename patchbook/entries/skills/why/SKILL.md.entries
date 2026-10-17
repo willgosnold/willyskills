@@ -1,0 +1,49 @@
+=== entry 1dee5fd9349d
+kind: translation
+rules: model-role, model-effort
+intent: Every spawn takes its model from its role line in the project models file, else the role's wstack default, applied as the model-entry snippet says. Drops the rejected-slug fallbacks; the poteto-mode pointer now only lowers effort within the line's ceiling.
+--- upstream
+Each spawn below names a role line in the `pstack-models.mdc` rule and a default. Set `model` to that line's value, or to the default if the rule or the line is missing. Leave `model` unset when the value is `auto` or `inherit-parent`. If the Task tool rejects a slug, use the default and say so. If it rejects the default, use the closest valid slug of the same family from its error message. Pick each subagent's reasoning level and fast or standard speed for the job, per the Subagents section of the **poteto-mode** skill.
+--- patched
+Each spawn below names a role line and a default. Take each spawn's model from that line in {{snippet:models-file}}, else from its default. {{snippet:model-entry}} Pick each subagent's effort for the job within that ceiling, per the Subagents section of the **poteto-mode** skill.
+
+=== entry 68051d8304d7
+kind: translation
+rules: delegate, general-purpose, read-only
+intent: Every spawn is a plain `delegate_task` that keeps full tool and MCP access; never narrowing `runtimeMode` replaces "do not use readonly/Ask mode". Keeps the reason (MCP-backed investigators and citation spot-checks) and that investigators write nothing, now enforced by the brief and a `git status` check.
+--- upstream
+Every spawn is `generalPurpose` with `readonly: false` (agent mode). **Do not use readonly/Ask mode.** It strips MCP access, which disables the MCP-backed investigators and the synthesizer's citation spot-checks. Investigators still shouldn't write anything.
+--- patched
+Every spawn is a `delegate_task` call with its whole brief in `task` and its own `clientRequestId`. **Never set `runtimeMode`.** A narrower mode stalls the child on approvals no one can give, which disables the MCP-backed investigators and the synthesizer's citation spot-checks. Investigators still shouldn't write anything: each brief says "Do not edit, create, commit, or push files.", and you run `git status` afterward.
+
+=== entry e13a8a92d392
+kind: translation
+rules: verify-surface
+intent: The available MCP servers are the MCP tools in this agent's tool list. Drops the available-tools map and the `mcps/` folder.
+--- upstream
+Before spawning investigators, list the available MCPs from the Cursor environment. Use the available-tools map when present. Otherwise inspect the `mcps/` directory Cursor exposes for enabled MCP servers.
+--- patched
+Before spawning investigators, list the available MCPs. They are the MCP servers whose tools are in your tool list.
+
+=== entry 9aad2f123d9c
+kind: translation
+rules: delegate, model-role
+intent: Investigators spawn as one `delegate_task` per category in a single message, each owning one MCP, with the model from the `why investigators` line, else its wstack default.
+--- upstream
+Spawn one investigator per category that has a matching MCP, all in a single message so they run concurrently, each owning exactly one tool or MCP. Don't ask one agent to cover multiple MCPs. `model`: the `why investigators` line, default `grok-4.7-xhigh-fast`.
+--- patched
+Spawn one investigator per category that has a matching MCP, one `delegate_task` call each, all in a single message so they run concurrently, each owning exactly one tool or MCP. Don't ask one agent to cover multiple MCPs. Model: the `why investigators` line, default {{model:why investigators}}.
+
+=== entry 9ea9cff1882e
+kind: translation
+rules: delegate, model-role
+intent: The synthesizer takes its model from the `why synthesizer` line, else its wstack default. The list of what it gets is unchanged.
+--- upstream
+Spawn one synthesizer. `model`: the `why synthesizer` line, default `claude-opus-5-5-xhigh`. It gets:
+1. The investigator findings, including any null results and any categories skipped with justification
+2. The code anchor
+3. The user's original question
+4. The epistemics framework from `references/epistemics.md`
+5. The synthesizer prompt template from `references/synthesizer-prompt.md`
+--- patched
+Spawn one synthesizer with `delegate_task`. Model: the `why synthesizer` line, default {{model:why synthesizer}}. It gets:

@@ -1,0 +1,14 @@
+=== entry 347bcafe76fb
+kind: translation
+rules: cursor-only
+intent: No rule covers Cursor's built-in create-skill skill; the closest equivalent is the skill-creator skill (bundled with Codex, a plugin in Claude Code), used if installed. Preserves the validation, test-case, and Opening a PR steps verbatim.
+--- upstream
+1. Use the **create-skill** skill (Cursor's built-in for authoring SKILL.md files).
+2. Validate the skill: frontmatter has `name` and `description`, referenced files exist, cross-skill links resolve.
+3. Test cases if structural. Skip if subjective.
+4. Run **Opening a PR**.
+--- patched
+1. Use the **skill-creator** skill (for authoring SKILL.md files), if it is installed.
+2. Validate the skill: frontmatter has `name` and `description`, referenced files exist, cross-skill links resolve.
+3. Test cases if structural. Skip if subjective.
+4. Run **Opening a PR**.

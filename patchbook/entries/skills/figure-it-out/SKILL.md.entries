@@ -1,0 +1,17 @@
+=== entry 12867a0400bb
+kind: translation
+rules: todolist
+intent: Opens the visible step list in T3's terms (update_plan in Codex, the reply in Claude Code) and keeps it current. Preserve that its first item is reading poteto-mode's Principles, then the phases.
+--- upstream
+Open a todolist whose first item is to read the Principles section of the **poteto-mode** skill. Then add the phases below as todos.
+--- patched
+Open a step list whose first item is to read the Principles section of the **poteto-mode** skill. Then add the phases below as todos. Keep the list current at each phase: Codex keeps it with `update_plan`, Claude Code in the reply.
+
+=== entry 431393d7d75a
+kind: translation
+rules: todolist
+intent: Refers to the same step list opened at Start. Preserve where the design steps go (between Phase C and D) and the woven-in Phase D log.
+--- upstream
+Then execute the design. Add its steps to the todolist as concrete items between the Phase C and Phase D entries. Run each under the Phase C loop discipline, and weave the Phase D log through them, a row as each step lands, rather than saving the whole trail for the end.
+--- patched
+Then execute the design. Add its steps to the step list as concrete items between the Phase C and Phase D entries. Run each under the Phase C loop discipline, and weave the Phase D log through them, a row as each step lands, rather than saving the whole trail for the end.

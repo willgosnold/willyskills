@@ -1,0 +1,18 @@
+=== entry 8aa17f8a5273
+kind: translation
+rules: loop
+intent: Turns "/loop until done" in the overnight recipe into looping until done on a 30-minute scheduled heartbeat. Keep the rest of the recipe and the other recipes.
+--- upstream
+- `/poteto-mode im going to bed. <goal> in a fresh worktree off <base>. done means <checks>. keep a decision log. don't ask me before committing. /loop until done. if you're truly stuck after a few hours, stop and write up why.`
+- `/show-me-your-work catch me up on what you did last night.` Read its Attention section first.
+- `/poteto-mode full autopilot on this queue. each item is independent.`
+- `/poteto-mode autopilot these changes but stack them, don't ship. i'll land the stack.`
+- `/reflect capture what we learned so the next run doesn't repeat it.` Approve only edits that change a future decision.
+- `/bro` restates the last reply in plain words.
+--- patched
+- `/poteto-mode im going to bed. <goal> in a fresh worktree off <base>. done means <checks>. keep a decision log. don't ask me before committing. loop until done, with a scheduled heartbeat every 30 minutes. if you're truly stuck after a few hours, stop and write up why.`
+- `/show-me-your-work catch me up on what you did last night.` Read its Attention section first.
+- `/poteto-mode full autopilot on this queue. each item is independent.`
+- `/poteto-mode autopilot these changes but stack them, don't ship. i'll land the stack.`
+- `/reflect capture what we learned so the next run doesn't repeat it.` Approve only edits that change a future decision.
+- `/bro` restates the last reply in plain words.

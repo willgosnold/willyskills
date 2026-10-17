@@ -1,0 +1,17 @@
+=== entry 49969656b7a9
+kind: translation
+rules: delegate, isolation
+intent: Parallel writers on one branch are `delegate_task` calls with `isolation: "worktree"`, which copies only committed work. Preserves the worktree-off-main rule, the reset alternative, and the dirty and snarled worktree recoveries.
+--- upstream
+**Worktree.** Work from a git worktree off main. Subagents inherit it. Multiple `Task` calls on the same branch each get their own worktree, or `git fetch && git reset --hard origin/<branch>` between them. Dirty branch with unrelated work: patch out, fresh worktree, apply. Snarled worktree: reset from main, redo minimally.
+--- patched
+**Worktree.** Work from a git worktree off main. Subagents inherit it. Multiple `delegate_task` calls on the same branch each get their own worktree (`isolation: "worktree"`, a checkout of the parent's current local commit, so commit first), or `git fetch && git reset --hard origin/<branch>` between them. Dirty branch with unrelated work: patch out, fresh worktree, apply. Snarled worktree: reset from main, redo minimally.
+
+=== entry 9a4d7f564f09
+kind: translation
+rules: team-kit
+intent: `/deslop` loses its plugin name and runs only if installed. Preserves the order (deslop before commit, no-comments before review) and the technical-writing and unslop requirements.
+--- upstream
+**PRs.** Run `/deslop` from `cursor-team-kit` over the diff before commit and `/no-comments` before review. Write every PR title, description, and commit body with `/technical-writing` (every layer except Diátaxis, and apply the STE vocabulary rules: one word per action, keep articles, a plain verb over `-ing` where one works), then apply `/unslop`.
+--- patched
+**PRs.** Run `/deslop`, if it is installed, over the diff before commit and `/no-comments` before review. Write every PR title, description, and commit body with `/technical-writing` (every layer except Diátaxis, and apply the STE vocabulary rules: one word per action, keep articles, a plain verb over `-ing` where one works), then apply `/unslop`.

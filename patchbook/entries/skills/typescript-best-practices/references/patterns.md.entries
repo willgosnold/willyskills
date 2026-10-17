@@ -1,0 +1,39 @@
+=== entry 9594984f79fd
+kind: keep
+rules: 
+intent: `readonly` here is the TypeScript modifier in a branded type, not Cursor's subagent setting.
+--- upstream
+```ts
+type AgentId = string & { readonly __brand: "AgentId" };
+
+function parseAgentId(input: string): AgentId {
+  if (!isUUID(input)) throw new Error(`Invalid agent id: ${input}`);
+  return input as AgentId;
+}
+
+function focusAgent(id: AgentId): void {
+  /* input is trusted */
+}
+```
+--- patched
+```ts
+type AgentId = string & { readonly __brand: "AgentId" };
+
+function parseAgentId(input: string): AgentId {
+  if (!isUUID(input)) throw new Error(`Invalid agent id: ${input}`);
+  return input as AgentId;
+}
+
+function focusAgent(id: AgentId): void {
+  /* input is trusted */
+}
+```
+
+=== entry ff1815922476
+kind: keep
+rules: 
+intent: `readonly` here is the TypeScript modifier in a branded type, not Cursor's subagent setting.
+--- upstream
+Match the `readonly __brand: 'X'` shape. Don't invent a new convention.
+--- patched
+Match the `readonly __brand: 'X'` shape. Don't invent a new convention.

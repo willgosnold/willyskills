@@ -1,0 +1,18 @@
+=== entry a782ef91fd61
+kind: translation
+rules: loop
+intent: Turns "give /loop that predicate" into asking the agent to loop until the predicate holds, on a scheduled heartbeat. Keep the other away-from-keyboard steers.
+--- upstream
+- Say "im going to bed" or "im stepping away" so the agent stops asking.
+- Write done as checks every iteration can run, and give `/loop` that predicate.
+- Ask for a fresh worktree off a named base.
+- Pre-answer what the agent would stop for, such as "don't ask me before committing".
+- Ask for a decision log to audit later.
+- Give an exit: "if you're truly stuck after a few hours, stop and write up why".
+--- patched
+- Say "im going to bed" or "im stepping away" so the agent stops asking.
+- Write done as checks every iteration can run, and ask the agent to loop until that predicate holds, with a `schedule_task` heartbeat.
+- Ask for a fresh worktree off a named base.
+- Pre-answer what the agent would stop for, such as "don't ask me before committing".
+- Ask for a decision log to audit later.
+- Give an exit: "if you're truly stuck after a few hours, stop and write up why".

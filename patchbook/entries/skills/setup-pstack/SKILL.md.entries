@@ -1,0 +1,163 @@
+=== entry 4e4d5475f257
+kind: translation
+rules: setup-pstack, model-role
+intent: Names the file the skill writes: the project models file. Keep that it sets pstack's model per role.
+--- upstream
+Write `~/.cursor/rules/pstack-models.mdc`, an always-applied rule that sets pstack's model per role.
+--- patched
+Write {{snippet:models-file}}. It sets pstack's model per role and overrides the defaults.
+
+=== entry d0aae5b2aecc
+kind: translation
+rules: setup-pstack, capabilities, model-role, cursor-only
+intent: Detects models with `orchestrator_capabilities`, including each model's effort options; drops the Cursor models API and the `auto` alias. Keep "ask the user if detection fails" and "never write an unconfirmed model".
+--- upstream
+Enumerate the model slugs you can pass to a `Task` subagent in this session. That is the dependable source. If Cursor also exposes a models API or CLI that lists the user's entitled models, prefer it for completeness. If you cannot detect any, ask the user to paste the slugs they have access to. Never write a real slug you have not confirmed is available. The aliases `inherit-parent` and `auto` are always valid even though they are not detected slugs.
+--- patched
+Call `orchestrator_capabilities`. Each entry in `providers` lists a provider instance's models and each model's effort options (`effort`, or `reasoningEffort` for `codex`). That is the dependable source. A provider whose `canRunChildTask` is false can't run a role, so leave it out. If you cannot detect any, ask the user to paste the models they have access to. Never write a real model you have not confirmed is available. The alias `inherit-parent` is always valid even though it is not a detected model.
+
+=== entry 77990365c1b2
+kind: translation
+rules: setup-pstack, model-role
+intent: Loads current choices from the project models file and its `# budget:` line, else the defaults listed in step 5. Keep the retired-role drop.
+--- upstream
+The default role-to-model mapping is the rule shape shown in step 5 below. If `~/.cursor/rules/pstack-models.mdc` already exists, read it and treat its `# budget` line and its role values as the current choices. Otherwise start from those defaults. A line whose role is not in step 5, such as `how critics`, is from a retired role. Drop it.
+--- patched
+The defaults are the role entries listed in step 5 below. If that file already exists, read it and treat its `# budget:` line and its role entries as the current choices. Otherwise start from those defaults. A line whose role is not in step 5, such as `how critics`, is from a retired role. Drop it.
+
+=== entry 0cf6684b6be5
+kind: translation
+rules: ask, setup-pstack
+intent: Asks for the budget in plain text and ends the turn; with no models file, names the budget whose effort matches the defaults instead of hard-coding one. Keep the four exact labels.
+--- upstream
+**(a) Ask for a budget.** Prefer AskQuestion over free text. Offer these four options with these exact labels, and name the current budget when the rule records one. With no rule, say that `large` matches the skill defaults.
+--- patched
+**(a) Ask for a budget.** Ask in plain text, then end the turn. Offer these four options with these exact labels, and name the current budget when the file records one. With no models file, name the budget whose effort matches the defaults in step 5.
+
+=== entry 6b1ae68d1673
+kind: translation
+rules: setup-pstack, model-role
+intent: A budget sets each entry's effort to its level, or the highest that model offers below it; drops slug parsing, the `auto` alias, and the Grok/Claude slug examples. Keep "keep the user's changed roles on a re-run" and "mark a role needing a choice".
+--- upstream
+**(b) Apply it.** Build the working table from the skill defaults, and on a re-run keep any role you changed by family, list, or alias (`inherit-parent`, `auto`). `unlimited`, `large`, `medium`, and `small` set the effort token of every real slug, panel entries included, to `max`, `xhigh`, `high`, or `medium`. The effort token is the last token, or the one before a trailing `fast`, on the ladder `max` > `xhigh` > `high` > `medium` > `low`. If the result is not a detected slug, use the same family's detected slug with the highest effort at or below the target, else mark the role as needing a choice. `inherit-parent` and `auto` do not change. So `unlimited` turns `claude-opus-5-5-xhigh` into `claude-opus-5-5-max`. Grok slugs top out at `xhigh`, so under `unlimited` the fallback puts Grok at `xhigh` and keeps `grok-4.7-xhigh-fast` as it is. `large` keeps both defaults. `small` turns them into `claude-opus-5-5-medium` and `grok-4.7-medium-fast`.
+--- patched
+**(b) Apply it.** Build the working table from the defaults, and on a re-run keep any role you changed by model, list, or alias (`inherit-parent`). `unlimited`, `large`, `medium`, and `small` set the effort of every real entry, panel entries included, to `max`, `xhigh`, `high`, or `medium`, on the ladder `max` > `xhigh` > `high` > `medium` > `low`. Ignore effort options off that ladder. If the model doesn't offer that effort, use the highest effort it offers below it, else mark the role as needing a choice. `inherit-parent` does not change. So under `unlimited`, a model whose efforts stop at `xhigh` runs at `xhigh`.
+
+=== entry a866843b1db8
+kind: translation
+rules: ask, setup-pstack, model-role, cursor-only
+intent: Confirms roles in plain text with `inherit-parent` as the only alias; drops `auto` and Cursor's Auto. Keep the panel-list, cross-judge, and swarm notes.
+--- upstream
+**(c) Show the roles and confirm.** Show every role with its model, marking any real slug not in the detected set as needing a choice. Also list each line step 2 dropped. Ask whether to accept as-is or change specific roles, offering the detected models plus `inherit-parent` and `auto` (both mean: this role runs on the parent chat model, which is how Auto users stay on Auto) as the options. Prefer AskQuestion over free text. For panel roles (arena runners, architect runners, interrogate reviewers) the value is a list, and one subagent runs per entry, alias entries included, so the list length sets the count. `arena cross-judge pool` is also a list, but Arena selects one value from it whose model family differs from the parent's when possible. `swarm workers` is the default model for every worker unless a race or comparison assigns another model per arm.
+--- patched
+**(c) Show the roles and confirm.** Show every role with its entries, marking any real entry not in the detected set as needing a choice. Also list each line step 2 dropped. Ask whether to accept as-is or change specific roles, offering the detected models plus `inherit-parent` (this role runs on the parent chat model) as the options. Ask in plain text, then end the turn. For panel roles (arena runners, architect runners, interrogate reviewers) the value is a list, and one subagent runs per entry, alias entries included, so the list length sets the count. `arena cross-judge pool` is also a list, but Arena selects one value from it whose model family differs from the parent's when possible. `swarm workers` is the default model for every worker unless a race or comparison assigns another model per arm.
+
+=== entry 123c59674009
+kind: translation
+rules: setup-pstack, model-role
+intent: Writes the project models file with a `# budget:` line and one line per role named as in models.json; drops `alwaysApply`. Keep the whole-file overwrite for idempotent re-runs.
+--- upstream
+Write `~/.cursor/rules/pstack-models.mdc` with `alwaysApply: true`, a `# budget` line with the chosen label and its target effort, and one line per role, using the same labels poteto-mode uses. Overwrite the whole file so re-runs stay idempotent. Shape:
+--- patched
+Write that file with a `# budget:` line holding the chosen label and its target effort, and one line per role, using the role names below. Create `.agents/` if it is missing. Overwrite the whole file so re-runs stay idempotent. Shape:
+
+=== entry 44feae09a7e5
+kind: translation
+rules: setup-pstack, model-role
+intent: Shows the file's shape without frontmatter or model names, then lists every role with its default from models.json. Keep the header comments' meaning and one line per role.
+--- upstream
+```
+---
+description: pstack per-role model choices (overrides skill defaults)
+alwaysApply: true
+---
+# pstack model configuration. One line per role. Delete a line to fall back to the skill default.
+# `inherit-parent` or `auto` as a value: the role runs on the parent chat model (omit Task `model`). Alias entries in a panel list still count toward its fan-out.
+# budget: large (xhigh)
+feature, refactoring: grok-4.7-xhigh-fast
+bug-fix: grok-4.7-xhigh-fast
+perf-issue: grok-4.7-xhigh-fast
+hillclimb: grok-4.7-xhigh-fast
+judgment and prose: claude-opus-5-5-xhigh
+hardest tasks: claude-opus-5-5-xhigh
+how explorer: grok-4.7-xhigh-fast
+how explainer: claude-opus-5-5-xhigh
+why investigators: grok-4.7-xhigh-fast
+why synthesizer: claude-opus-5-5-xhigh
+reflect tooling: grok-4.7-xhigh-fast
+reflect judgment, divergent, synthesizer: claude-opus-5-5-xhigh
+arena runners: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast
+arena cross-judge pool: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast
+swarm workers: grok-4.7-xhigh-fast
+architect runners: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast
+interrogate reviewers: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast
+```
+--- patched
+```
+# pstack model configuration. One line per role. Delete a line to fall back to the default.
+# Entry: <provider>/<model> <effort>. `inherit-parent` runs the role on the parent's model (omit `target`). Alias entries in a panel list still count toward its fan-out.
+# budget: <label> (<effort>)
+<role>: <entry>, <entry>, ...
+```
+
+The roles, in this order, with their defaults:
+
+- `feature, refactoring`: {{model:feature, refactoring}}
+- `bug-fix`: {{model:bug-fix}}
+- `perf-issue`: {{model:perf-issue}}
+- `hillclimb`: {{model:hillclimb}}
+- `judgment and prose`: {{model:judgment and prose}}
+- `hardest tasks`: {{model:hardest tasks}}
+- `how explorer`: {{model:how explorer}}
+- `how explainer`: {{model:how explainer}}
+- `why investigators`: {{model:why investigators}}
+- `why synthesizer`: {{model:why synthesizer}}
+- `reflect tooling`: {{model:reflect tooling}}
+- `reflect judgment, divergent, synthesizer`: {{model:reflect judgment, divergent, synthesizer}}
+- `arena runners`: {{model:arena runners}}
+- `arena cross-judge pool`: {{model:arena cross-judge pool}}
+- `swarm workers`: {{model:swarm workers}}
+- `architect runners`: {{model:architect runners}}
+- `interrogate reviewers`: {{model:interrogate reviewers}}
+
+=== entry 61b0ac6d6414
+kind: translation
+rules: setup-pstack
+intent: The description says the skill writes the project models file, not an always-applied rule. Keep the name, the triggers, and model invocation.
+--- upstream
+---
+name: setup-pstack
+description: Configure which models pstack uses per role and at what reasoning budget. Detects your available models and writes an always-applied rule that overrides the skill defaults. Use for /setup-pstack, "configure pstack models", "pstack budget", or changing pstack's model choices.
+---
+--- patched
+---
+name: setup-pstack
+description: Configure which models pstack uses per role and at what reasoning budget. Detects your available models and writes a project models file that overrides the defaults. Use for /setup-pstack, "configure pstack models", "pstack budget", or changing pstack's model choices.
+---
+
+=== entry 7427877805de
+kind: translation
+rules: setup-pstack, model-role
+intent: Validation checks each entry's model and effort against what `orchestrator_capabilities` returned; drops `auto`. Keep "stop and ask again".
+--- upstream
+Every real slug written must be in the detected set. `inherit-parent` and `auto` always pass. If a chosen real slug is not available, stop and ask again.
+--- patched
+Every real entry written must be a detected model with an effort that model offers. `inherit-parent` always passes. If a chosen real entry is not available, stop and ask again.
+
+=== entry 963df20bf6dd
+kind: translation
+rules: setup-pstack
+intent: Renames the step from writing a rule to writing the models file.
+--- upstream
+### 5. Write the rule
+--- patched
+### 5. Write the models file
+
+=== entry 651ea5d15f41
+kind: translation
+rules: setup-pstack
+intent: Says skills read the file at each spawn (not new sessions only) and to commit it if worktrees and other people should see it. Keep "re-running updates it".
+--- upstream
+Tell the user the rule was written and that it applies to new sessions. Re-running this skill updates it.
+--- patched
+Tell the user the file was written and that skills read it at each spawn. Re-running this skill updates it. Tell the user to commit the file if worktrees and other people should see it.

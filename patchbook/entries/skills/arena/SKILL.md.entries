@@ -1,0 +1,41 @@
+=== entry 959714ba4fcc
+kind: translation
+rules: todolist
+intent: Opens the visible phase list in T3's terms (update_plan in Codex, the reply in Claude Code) and keeps it current. Preserve the six phase names and that it opens before launching anything.
+--- upstream
+Open a todolist with one entry per phase (Frame, Fan out, Cross-judge, Pick, Graft, Verify) before launching anything.
+--- patched
+Open a step list with one entry per phase (Frame, Fan out, Cross-judge, Pick, Graft, Verify) before launching anything, and keep it current at each phase. Codex keeps it with `update_plan`. Claude Code keeps it in the reply.
+
+=== entry 770da2ab6869
+kind: translation
+rules: model-role, model-effort
+intent: Runners come from the `arena runners` line in the project models file, else wstack's default, applied with the model-entry snippet; the rejected-slug and family-prefix fallbacks and the speed/reasoning sentence are dropped. Preserve the frame steps, the more-runners and same-model-N-times guidance, and the per-candidate output location.
+--- upstream
+1. State the artifact each candidate is producing.
+2. Derive the rubric, 3-6 concrete gradeable criteria for what success looks like on *this* task. It is the picker's tool in Phase D. Candidates only see the task.
+3. Pick the runners. Use the `arena runners` line in `~/.cursor/rules/pstack-models.mdc`. If the rule or that line is missing, default to one each on `claude-opus-5-5-xhigh` and `grok-4.7-xhigh-fast`. An `auto` or `inherit-parent` entry in this line or the cross-judge line means the parent model, so omit `model` for it. If the Task tool rejects a configured entry, run that seat on its family's default and say so. Families go by prefix: `claude-*`, and `grok-*` with `cursor-grok-*` and `composer-*`. A refused `composer-*` entry runs on `grok-4.7-xhigh-fast`. With no family match, use `claude-opus-5-5-xhigh`. If it rejects a default, use the closest valid slug of the same family from its error message. Spawn more runners when the arena covers multiple design directions. Use the same model N times when the work is generation-bound rather than judgment-sensitive. Pick each subagent's reasoning level and fast or standard speed for the job, per the Subagents section of the **poteto-mode** skill.
+4. Give each candidate its own output location (a git worktree where possible, otherwise `/tmp/arena-<slug>/candidate-<n>/`), per the **separate-before-serializing-shared-state** principle skill.
+--- patched
+1. State the artifact each candidate is producing.
+2. Derive the rubric, 3-6 concrete gradeable criteria for what success looks like on *this* task. It is the picker's tool in Phase D. Candidates only see the task.
+3. Pick the runners. Use the `arena runners` line in {{snippet:models-file}}, else {{model:arena runners}}, one runner per entry. {{snippet:model-entry}} Spawn more runners when the arena covers multiple design directions. Use the same model N times when the work is generation-bound rather than judgment-sensitive.
+4. Give each candidate its own output location (a git worktree where possible, otherwise `/tmp/arena-<slug>/candidate-<n>/`), per the **separate-before-serializing-shared-state** principle skill.
+
+=== entry ea996dc046fd
+kind: translation
+rules: delegate, background, isolation
+intent: Fans out N candidates as N async delegate_task calls in one message, each writer in its own worktree, and ends the turn until completions wake the parent. Preserve what each brief carries: task, shared grounding path, own output path, artifact plus rationale with rejected alternatives.
+--- upstream
+Spawn all N subagents in one message with `run_in_background: true`, each with the task, the path to the shared grounding, its own output path, and instructions to produce the artifact and a short rationale naming the alternatives it considered and what it rejected.
+--- patched
+Spawn all N subagents in one message: N `delegate_task` calls with `mode: "async"`, each with its own `clientRequestId` and, when its output location is a worktree, `isolation: "worktree"`. A worktree starts from the parent's current local commit without uncommitted edits, so commit the shared grounding first or give it by absolute path. Each `task` holds the whole brief: the task, the path to the shared grounding, its own output path, and instructions to produce the artifact and a short rationale naming the alternatives it considered and what it rejected. Keep each `taskId` and `childThreadId`. Each completion wakes this thread, so end the turn instead of polling.
+
+=== entry 3beef0b00105
+kind: translation
+rules: model-role, delegate, read-only, background
+intent: The cross-judge model comes from the `arena cross-judge pool` line in the project models file, else wstack's default, and the judge is a read-only async delegate_task child. Preserve the different-family preference, what the judge sees and returns, that it runs alongside Phase D, and that it waits for all candidates.
+--- upstream
+After all Phase B candidates complete, choose one model from the `arena cross-judge pool` line in `~/.cursor/rules/pstack-models.mdc`. If the rule or that line is missing, choose from `claude-opus-5-5-xhigh` and `grok-4.7-xhigh-fast`. Prefer a different model family from the parent's. Spawn one readonly judge subagent on that model. It sees the rubric and the candidates by path label, scores each criterion, and recommends a base with rationale. It runs in parallel with your reading in Phase D. Don't spawn it while candidates are still writing.
+--- patched
+After all Phase B candidates complete, choose one entry from the `arena cross-judge pool` line in {{snippet:models-file}}, else from {{model:arena cross-judge pool}}. Prefer a different model family from the parent's. Spawn one judge subagent on that entry with `delegate_task`, `mode: "async"`, and no `isolation`. Its brief says "Do not edit, create, commit, or push files.", and you run `git status` afterward. It sees the rubric and the candidates by path label, scores each criterion, and recommends a base with rationale. It runs in parallel with your reading in Phase D. Don't spawn it while candidates are still writing.

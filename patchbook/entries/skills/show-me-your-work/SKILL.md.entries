@@ -1,0 +1,17 @@
+=== entry 22d6f5149208
+kind: translation
+rules: transcripts, capabilities
+intent: The run's transcript is this thread, read with `t3_thread_read` on `parentThreadId`. Keep the warning against reading other threads and everything about walking this run's stretches of rows.
+--- upstream
+At the end of the run, before handing back, check the log told the truth. Read this run's transcript under the active workspace's `agent-transcripts/` directory (the system prompt names the path). Don't glob across `~/.cursor/projects/*/`. That reads unrelated private chats. Walk this run's rows against what actually happened. Each stretch of them begins at one of this run's `start` rows, or at the first row if this run created the log, and ends at the next `start` row of another run:
+--- patched
+At the end of the run, before handing back, check the log told the truth. Read this run's transcript with `t3_thread_read` and this thread's ID (`parentThreadId` from `orchestrator_capabilities`), paging with `afterPosition`; `view: "activity"` shows tool calls. Don't search other threads for it. That reads unrelated private chats. Walk this run's rows against what actually happened. Each stretch of them begins at one of this run's `start` rows, or at the first row if this run created the log, and ends at the next `start` row of another run:
+
+=== entry 6507928f20ed
+kind: translation
+rules: model-unnamed, model-effort, delegate, transcripts
+intent: The trail reviewer on a different model family takes the first `arena cross-judge pool` entry whose provider differs from the worker's, else the first entry, saying so; its effort only drops below the entry's. It reads the run's transcript through this thread's ID. This block has no Cursor term but names an unnamed-role model and the reasoning-and-speed choice.
+--- upstream
+Before handing back, spawn a subagent on a different model family from the one that did the work. Self-review is not a substitute. The subagent reads the audit trail and the run's transcript, then flags what the user should pay attention to. Not a redo of the work, a scan for what's suboptimal or risky. Pick each subagent's reasoning level and fast or standard speed for the job, per the Subagents section of the **poteto-mode** skill.
+--- patched
+Before handing back, spawn a subagent with `delegate_task` on a different model family from the one that did the work: the first entry of the `arena cross-judge pool` line in {{snippet:models-file}}, else {{model:arena cross-judge pool}}, whose provider differs from the worker's, or the first entry if none does, and say so. Self-review is not a substitute. The subagent reads the audit trail and the run's transcript (give it this thread's ID to read with `t3_thread_read`), then flags what the user should pay attention to. Not a redo of the work, a scan for what's suboptimal or risky. Pick its effort for the job within that entry's ceiling, per the Subagents section of the **poteto-mode** skill.

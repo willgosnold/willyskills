@@ -1,0 +1,39 @@
+=== entry 341a35d859a2
+kind: translation
+rules: delegate, model-role
+intent: Reviewers are delegate_task calls in one message, one per entry on the `interrogate reviewers` line of the project models file, else the defaults below. Preserve the single-message launch and the A, B labeling.
+--- upstream
+Launch all reviewers in a single message with the Task tool, one per entry on the `interrogate reviewers` line in `~/.cursor/rules/pstack-models.mdc`, labeled Reviewer A, B, and so on to match the entry count. If the rule or that line is missing, use the table defaults.
+--- patched
+Launch all reviewers in a single message, one `delegate_task` call per entry on the `interrogate reviewers` line in {{snippet:models-file}}, labeled Reviewer A, B, and so on to match the entry count. If that line is missing, use the table defaults, one reviewer per entry.
+
+=== entry fc18e66f1474
+kind: translation
+rules: model-role
+intent: The default table comes from wstack's `interrogate reviewers` role. The placeholder expands to a list, so one row covers all reviewers in order. Preserve the table form.
+--- upstream
+| Subagent | Default model |
+|----------|---------------|
+| Reviewer A | `claude-opus-5-5-xhigh` |
+| Reviewer B | `grok-4.7-xhigh-fast` |
+--- patched
+| Subagent | Default model |
+|----------|---------------|
+| Reviewer A, B, ... in order | {{model:interrogate reviewers}} |
+
+=== entry 2df50e629aaa
+kind: translation
+rules: general-purpose, read-only, model-role
+intent: Each reviewer is a read-only child sharing the checkout, with `target` from its entry per the model-entry snippet (inherit-parent omits target). Preserve configured-entry-else-default.
+--- upstream
+Each reviewer gets `subagent_type: generalPurpose`, `readonly: true`, and `model` set to its configured entry, or its table default when there is no configured line. Omit `model` for an `auto` or `inherit-parent` entry, so that reviewer runs on the parent model.
+--- patched
+Each reviewer gets no `isolation`, a brief that says "Do not edit, create, commit, or push files.", and `target` set from its configured entry, or its table default when there is no configured line. You run `git status` afterward. {{snippet:model-entry}}
+
+=== entry 6f513b774653
+kind: translation
+rules: model-role
+intent: Deleted: the whole block is the rejected-slug and family-prefix fallback, which model-role drops (orchestrator_capabilities lists what exists). If upstream adds non-fallback guidance here, keep that part.
+--- upstream
+If the Task tool rejects a configured entry, run that reviewer on its family's table default and say so. Families go by prefix: `claude-*`, and `grok-*` with `cursor-grok-*` and `composer-*`. A refused `composer-*` entry runs on Reviewer B's default. With no family match, use Reviewer A's default. If it rejects a table default, spawn with the closest equivalent from the valid slugs in its error message (prefer the same family and reasoning tier), and open a separate PR to update the default table. Do not block the review on the slug issue. Never treat an alias entry as a rejected slug or apply either fallback to it.
+--- patched

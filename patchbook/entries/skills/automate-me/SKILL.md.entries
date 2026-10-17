@@ -1,0 +1,61 @@
+=== entry 8dc44e3dcf99
+kind: translation
+rules: paths
+intent: Names the agent's built-in skill-authoring skill without the Cursor attribution; Codex and Claude Code call it skill-creator, so both names are given and later `create-skill` references still resolve. No rule covers built-in skills; closest faithful version. Preserve the three orchestrated pieces and that this skill only sequences them.
+--- upstream
+This skill orchestrates three others: an inline mining pass (see step 1), Cursor's built-in `create-skill` (authoring), and the **unslop** skill (prose discipline). It sequences them. It doesn't replace them.
+--- patched
+This skill orchestrates three others: an inline mining pass (see step 1), the built-in skill-authoring skill (`create-skill` or `skill-creator`, whichever is installed; authoring), and the **unslop** skill (prose discipline). It sequences them. It doesn't replace them.
+
+=== entry 8e2f76b3c3f4
+kind: translation
+rules: paths, ask
+intent: Searches T3's project and personal skill folders for an existing mode skill and confirms intent with a plain-text question that ends the turn. The personal folders (~/.agents/skills for Codex, ~/.claude/skills for Claude Code) go beyond the paths rule, which only names project skills. Preserve the recursive search, the category directory, and the skip when the user already said update.
+--- upstream
+Look recursively for `.cursor/skills/**/*-mode/SKILL.md` and `~/.cursor/skills/*-mode/SKILL.md` matching the user's handle. Mode skills can live in a personal category directory (`.cursor/skills/<handle>/`), not only at the top level. If one exists, confirm intent with `AskQuestion` (unless they already said "update my skill" or similar):
+--- patched
+Look recursively for `.agents/skills/**/*-mode/SKILL.md` in the project, and for `~/.agents/skills/*-mode/SKILL.md` and `~/.claude/skills/*-mode/SKILL.md`, matching the user's handle. Mode skills can live in a personal category directory (`.agents/skills/<handle>/`), not only at the top level. If one exists, confirm intent by asking in plain text, then end the turn (unless they already said "update my skill" or similar):
+
+=== entry 7894edcb0aa8
+kind: translation
+rules: transcripts
+intent: Scopes history mining to this project's T3 threads via t3_thread_list / t3_thread_search without a projectId, and forbids reaching into other projects. Preserve the scope-first instruction and the privacy reason.
+--- upstream
+Locate the active workspace's transcripts before fanning out. The system prompt names the workspace's `agent-transcripts/` directory. Use only that path. Don't glob across `~/.cursor/projects/*/`. That crosses workspace boundaries and reads private chats from unrelated projects.
+--- patched
+Locate the active workspace's history before fanning out. `t3_thread_list` without a `projectId` lists this project's threads, newest first, and `t3_thread_search` without a `projectId` searches them. Give each mining subagent thread IDs from that list only, to read with `t3_thread_read`. Don't pass another project's `projectId`. That crosses workspace boundaries and reads private chats from unrelated projects.
+
+=== entry e1cf8cb19f47
+kind: translation
+rules: ask
+intent: Asks the structured multi-choice questions in plain text with numbered options, then ends the turn. Preserve that options spare the user typing from scratch.
+--- upstream
+Mining misses intent that hasn't come up yet. Use the `AskQuestion` tool (structured multi-choice) rather than asking the user to type from scratch.
+--- patched
+Mining misses intent that hasn't come up yet. Ask in plain text with numbered options the user can pick by number (structured multi-choice) rather than asking the user to type from scratch, then end the turn.
+
+=== entry a2893ca2e4cd
+kind: translation
+rules: paths
+intent: Drops the Cursor attribution from the skill-authoring skill, naming both create-skill and skill-creator. No rule covers built-in skills; closest faithful version. Preserve that it introduces the placement list.
+--- upstream
+Use Cursor's built-in `create-skill` skill to author the skill. Placement:
+--- patched
+Use the built-in skill-authoring skill (`create-skill` or `skill-creator`) to author the skill. Placement:
+
+=== entry 196abf668f47
+kind: translation
+rules: paths
+intent: Places the mode skill in T3's project skills folder, or the agent's personal skills folder (~/.agents/skills for Codex, ~/.claude/skills for Claude Code); the personal folders go beyond the paths rule. Preserve the category rule, handle, description triggers, YAML formatting, and disable-model-invocation default.
+--- upstream
+- Path: preserve an existing mode skill's category. For a new mode, use `.cursor/skills/<handle>/<handle>-mode/SKILL.md` when the repo has an established personal category for that handle. Otherwise default to `.cursor/skills/<handle>-mode/SKILL.md` in the project (or `~/.cursor/skills/<handle>-mode/` if the user prefers a personal skill).
+- Handle: the user's first name or chosen identifier.
+- Frontmatter `description`: trigger on their name + `/<handle>-mode` + "work in their style", not on generic keywords like "write code" or "review PR".
+- Frontmatter formatting: follow `create-skill`'s YAML rules. Keep `description` as one YAML scalar. Quote it or use `description: >-` with indented continuation lines when punctuation or wrapping requires it.
+- Frontmatter `disable-model-invocation: true` by default. Opt out only if the user explicitly wants their mode to apply on every turn.
+--- patched
+- Path: preserve an existing mode skill's category. For a new mode, use `.agents/skills/<handle>/<handle>-mode/SKILL.md` when the repo has an established personal category for that handle. Otherwise default to `.agents/skills/<handle>-mode/SKILL.md` in the project (or `~/.agents/skills/<handle>-mode/` for Codex and `~/.claude/skills/<handle>-mode/` for Claude Code if the user prefers a personal skill).
+- Handle: the user's first name or chosen identifier.
+- Frontmatter `description`: trigger on their name + `/<handle>-mode` + "work in their style", not on generic keywords like "write code" or "review PR".
+- Frontmatter formatting: follow `create-skill`'s YAML rules. Keep `description` as one YAML scalar. Quote it or use `description: >-` with indented continuation lines when punctuation or wrapping requires it.
+- Frontmatter `disable-model-invocation: true` by default. Opt out only if the user explicitly wants their mode to apply on every turn.
