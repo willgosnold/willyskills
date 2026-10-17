@@ -1,6 +1,6 @@
 # pstack in Codex
 
-pstack skills use Cursor names. In Codex, read this file once per session, then map each Cursor name in a skill with the tables below. `<pstack>` means the folder that holds `skills/`, `agents/`, and `docs/`. If the T3 Code MCP tools are present (`mcp__t3_code__delegate_task`), also read `t3.md` in the same folder as this file. Its rows replace this file's rows for subagents, scheduling, pull requests, transcripts, and models. If a Cursor field has no row, drop it and say so. Never pass a field or value the tool schema rejects.
+pstack skills use Cursor names. In Codex, read this file once per session, then map each Cursor name in a skill with the tables below. `<pstack>` means the `pstack` skill folder, which holds `adapters/`, `agents/`, and `docs/`. The other pstack skills are installed beside it, so `<skills>/<name>/SKILL.md` is the skill called `<name>`, where `<skills>` is the parent of `<pstack>`. Give subagents absolute paths. If the T3 Code MCP tools are present (`mcp__t3_code__delegate_task`), also read `<pstack>/adapters/t3.md`. Its rows replace this file's rows for subagents, scheduling, pull requests, transcripts, and models. If a Cursor field has no row, drop it and say so. Never pass a field or value the tool schema rejects.
 
 ## Tools
 
@@ -8,7 +8,7 @@ pstack skills use Cursor names. In Codex, read this file once per session, then 
 | --- | --- |
 | `AskQuestion` | `request_user_input` works only in Plan mode. In Default mode, ask in plain text and end your turn. |
 | Open a todolist | `update_plan`. Update it at each phase. |
-| Run another pstack skill (`/name` or "the **name** skill") | Read `<pstack>/skills/<name>/SKILL.md` and follow it. When you tell the user to type it, write `$<name>`. |
+| Run another pstack skill (`/name` or "the **name** skill") | Read `<skills>/<name>/SKILL.md` and follow it. When you tell the user to type it, write `$<name>`. |
 | `Read`, `Grep`, `Glob` | `exec_command` with `sed -n`, `rg`, or `rg --files`. |
 | Editing a file | `apply_patch`. |
 | `create-skill` (Cursor's built-in skill-authoring skill) | Codex's `skill-creator` skill. |
