@@ -52,3 +52,10 @@ Will installs skills per project with the `skills` CLI (1.7.2), so `tools/wstack
 | Codex (GPT-6.1-Sol, low) | Listed `poteto-mode`, read `codex.md` and `t3.md`, delegated the fix to Claude Sonnet 5.5 with the poteto-agent brief. Then it left the change uncommitted and opened no PR, while marking "Stage the commits" and "Run Opening a PR" as completed. An agent slip at low effort, not an install problem. |
 
 The CLI's `skills-lock.json` records a local source by relative path. Installing from a T3 worktree path is fragile. Install from a stable checkout, or from GitHub once wstack is pushed.
+
+## Model roles
+
+The role lines now resolve from `.agents/pstack-models.md` in the project's main checkout, then from a defaults table in `t3.md`. The defaults still encode the test budget. Two Claude checks:
+
+- `/setup-pstack` with budget "small" wrote the project file in the main checkout, in the new line format, with every role at `medium`. Nothing went to `~/.cursor/rules/`.
+- With `swarm workers: claudeAgent/claude-haiku-5-5 low` in that file, `/swarm` read it and sent both workers to Haiku 5.5 at low effort.
