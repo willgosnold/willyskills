@@ -3,7 +3,7 @@ name: setup-pstack
 description: Configure which models pstack uses per role and at what reasoning budget. Detects your available models and writes an always-applied rule that overrides the skill defaults. Use for /setup-pstack, "configure pstack models", "pstack budget", or changing pstack's model choices.
 ---
 
-> **pstack install note.** `<pstack>` is `{{PSTACK_ROOT}}`. Once per session, before following this skill, read `{{PSTACK_ROOT}}/adapters/codex.md`. It maps the Cursor names below to this agent.
+> **pstack install note.** `<pstack>` is `{{PSTACK_ROOT}}`. Once per session, before following this skill, read `{{PSTACK_ROOT}}/adapters/codex.md`. It maps the Cursor names below to this agent. If the T3 Code tools are present (`delegate_task`), also read `{{PSTACK_ROOT}}/adapters/t3.md`. Its rows win for subagents, models, schedules, pull requests, and transcripts.
 
 # Setup pstack
 
