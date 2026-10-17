@@ -20,7 +20,7 @@ ${rule}
 ### PR mechanics
 ### Verdict and merge
 ### Boot recipe
-\`git show origin/main:\` /loop 1h status message
+\`git show origin/main:\` \`everyMs: 3600000\` status message
 
 ## PR 1
 **Depends on.** None.

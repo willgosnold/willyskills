@@ -61,9 +61,19 @@ elif raw=$(gh pr list --author "@me" --state all --limit 1000 \
 fi
 [ -s "$prs" ] || echo "[]" > "$prs"
 
-# Transcripts dir: ~/.cursor/projects/<slugified-repo-path>/agent-transcripts.
-slug=$(printf '%s' "$main_wt" | sed 's#^/##; s#/#-#g')
-transcripts="$HOME/.cursor/projects/$slug/agent-transcripts"
+# Chat transcripts. Claude Code keeps one folder per working directory under
+# ~/.claude/projects, named after the path with every other character as "-".
+# Codex records each session's cwd in its rollout files. T3 sets CODEX_HOME for
+# its own Codex, so look in every ~/.codex* home as well.
+mtime() { stat -c %Y "$1" 2>/dev/null || stat -f %m "$1" 2>/dev/null; }
+day() { date -d "@$1" '+%Y-%m-%d' 2>/dev/null || date -r "$1" '+%Y-%m-%d' 2>/dev/null; }
+claude_projects="${CLAUDE_CONFIG_DIR:-$HOME/.claude}/projects"
+codex_rollouts=$(mktemp)
+for home in "${CODEX_HOME:-}" "$HOME"/.codex "$HOME"/.codex-*; do
+	[ -n "$home" ] && [ -d "$home/sessions" ] && (cd "$home/sessions" && pwd -P)
+done | sort -u | while read -r sessions; do
+	find "$sessions" -name 'rollout-*.jsonl' -mtime -30 2>/dev/null
+done > "$codex_rollouts"
 now=$(date +%s)
 
 echo "# base: $base"
@@ -100,15 +110,16 @@ git worktree list --porcelain | awk '/^worktree /{print $2}' | while read -r wt;
 		'.[] | select(.head==$b) | "#\(.number)/\(.state)"' "$prs" 2>/dev/null | head -1)
 	[ -z "$pr" ] && pr="-"
 
-	# Most recent chat whose transcript operated in this worktree. Match path
-	# followed by "/" or a quote so glint-482 does not match glint-482-r37.
+	# Most recent agent chat that ran in this worktree or below it.
 	last="-"; last_ts=0
-	if [ -d "$transcripts" ]; then
-		f=$(rg -l -e "${wt}/" -e "${wt}\"" "$transcripts" 2>/dev/null \
-			| xargs stat -f '%m %N' 2>/dev/null | sort -rn | head -1)
-		if [ -n "$f" ]; then last_ts=$(echo "$f" | awk '{print $1}')
-			last=$(date -r "$last_ts" '+%Y-%m-%d' 2>/dev/null); fi
-	fi
+	slug=$(printf '%s' "$wt" | sed 's#[^A-Za-z0-9]#-#g')
+	for f in "$claude_projects/$slug"/*.jsonl \
+		$([ -s "$codex_rollouts" ] && xargs grep -l -F -e "\"cwd\":\"${wt}\"" -e "\"cwd\":\"${wt}/" < "$codex_rollouts" 2>/dev/null); do
+		[ -f "$f" ] || continue
+		ts=$(mtime "$f")
+		[ "${ts:-0}" -gt "$last_ts" ] && last_ts=$ts
+	done
+	[ "$last_ts" -gt 0 ] && last=$(day "$last_ts")
 	recent=$([ "$last_ts" -gt 0 ] 2>/dev/null && [ $(( (now - last_ts) / 86400 )) -le 4 ] && echo yes || echo no)
 
 	case "$dirty" in wip:*) bucket=hold-wip ;; *)
@@ -123,4 +134,4 @@ git worktree list --porcelain | awk '/^worktree /{print $2}' | while read -r wt;
 		"$size" "$age" "$merged" "$dirty" "$remote" "$pr" "$last" "$bucket" "$wt"
 done | sort -t$'\t' -k1,1 -rh
 
-rm -f "$prs"
+rm -f "$prs" "$codex_rollouts"
