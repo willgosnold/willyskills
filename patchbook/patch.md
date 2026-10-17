@@ -2,14 +2,15 @@
 
 Every change wstack makes to upstream pstack is recorded here. Upstream is written for Cursor. wstack ships it for agents running in T3 Code (Claude Code or Codex), so the build replaces each upstream block that needs a change with a patched version. Agents see only the result: never Cursor's names, an adapter, or a lookup table.
 
-There are two kinds of patch:
+Each entry has a kind:
 
 - **translation**: says in T3's terms what upstream says in Cursor's. The rules below define these.
 - **policy**: changes what pstack does. Its intent says why, and how to tell whether it still applies.
+- **keep**: a block that matches a Cursor term but needs no change (such as the word "Task" in a heading). Its intent says why.
 
 ## Entries
 
-`entries/<upstream path>` holds the patches for one upstream file, such as `entries/skills/poteto-mode/SKILL.md`. A block is a run of lines between blank lines, a whole fenced code block, or a file's frontmatter. Each entry:
+`entries/<upstream path>.entries` holds the entries for one upstream file, such as `entries/skills/poteto-mode/SKILL.md.entries`. (The suffix keeps the `skills` CLI from mistaking them for skills.) A block is a run of lines between blank lines, a whole fenced code block, or a file's frontmatter. Each entry:
 
 ```
 === entry <hash>
@@ -22,13 +23,13 @@ intent: <what this change does, in a sentence or two>
 <the replacement; empty deletes the block>
 ```
 
-`<hash>` is the first 12 hex digits of the SHA-256 of the upstream block. `rules` names the rules applied (policy entries may leave it empty). The build replaces each block whose hash has an entry, and fails when:
+`<hash>` is the first 12 hex digits of the SHA-256 of the upstream block. `rules` names the rules applied; policy and keep entries may leave it empty. The build replaces each block whose hash has an entry, and fails when:
 
 - an upstream block still contains a Cursor term and has no entry (**missing**),
 - an entry's upstream block no longer exists (**orphan**),
 - the output contains a Cursor term, or a `{{model:…}}` or `{{snippet:…}}` placeholder it cannot fill.
 
-When upstream changes, `tools/wstack.py status` lists missing and orphaned entries. A missing block is rewritten from these rules. An orphan's intent decides its fate: if the change still applies to the new upstream text, rewrite it there, otherwise move it to `retired.md` with the reason.
+`tools/wstack.py status` lists every problem (`--json` adds the block text, for agents), and `tools/wstack.py scaffold` appends a skeleton entry for each missing block. When upstream changes, status shows what moved. A missing block is rewritten from these rules. An orphan's intent decides its fate: if the change still applies to the new upstream text, rewrite it there, otherwise move it to `retired.md` with the reason.
 
 ## How to rewrite
 

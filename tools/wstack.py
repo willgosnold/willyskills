@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
-"""Sync upstream pstack into vendor/ and build dist/skills/ for the `skills` CLI."""
+"""Sync upstream pstack into vendor/, patch it from patchbook/, and build dist/skills/ for the `skills` CLI."""
 
 import argparse
+import difflib
+import hashlib
 import json
 import os
 import re
@@ -14,16 +16,18 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 VENDOR = REPO / "vendor" / "pstack"
 UPSTREAM_JSON = REPO / "upstream.json"
-PATCHES = REPO / "patches"
+PATCHBOOK = REPO / "patchbook"
+ENTRIES = PATCHBOOK / "entries"
+MODELS_JSON = REPO / "models.json"
 DIST = REPO / "dist"
 CACHE = Path(os.environ.get("XDG_CACHE_HOME", Path.home() / ".cache")) / "wstack" / "upstream"
 
-# docs/guide is the human guide (2.4 MB of images). No skill reads it.
-SHIPPED = ("skills/", "agents/", "docs/harness/", "LICENSE", "README.md")
+# docs/ and automations/ are for Cursor users. No T3 skill reads them.
+SHIPPED = ("skills/", "agents/", "LICENSE")
 SUPPORT_SKILL = "pstack"
 SUPPORT_SKILL_MD = """---
 name: pstack
-description: Support files the other pstack skills read (agent and T3 adapters, subagent briefs). Not a task skill.
+description: Subagent briefs the other pstack skills hand to their subagents. Not a task skill.
 disable-model-invocation: true
 ---
 
@@ -31,16 +35,18 @@ disable-model-invocation: true
 
 The other pstack skills point here. Nothing to run.
 """
-PATCH_HEADER_FIELDS = ["Kind", "Why", "Source", "Upstream"]
 CONFLICT_MARKER = re.compile(r"^(<{7}|>{7}) ", re.MULTILINE)
-PREAMBLE = (
-    "> **pstack install note.** Once per session, before following this skill, read your agent's "
-    "adapter. It maps the Cursor names below to your agent. Paths are relative to this file's folder. "
-    "In Claude Code, read `../pstack/docs/harness/claude-code.md`, then `../pstack/adapters/claude-code.md`. "
-    "In Codex, read `../pstack/adapters/codex.md`. If the T3 Code tools are present (`delegate_task`), "
-    "also read `../pstack/adapters/t3.md`. Its rows win for subagents, models, schedules, pull "
-    "requests, and transcripts.\n\n"
-)
+
+# A block of shipped Markdown that matches one of these needs a patchbook entry.
+CURSOR_TERMS = re.compile("|".join([
+    r"\bCursor\b", r"\.cursor\b", r"cursor-(?:team-kit|grok)", r"\bTask\b", r"subagent_type",
+    r"\breadonly\b", r"run_in_background", r"is_background", r"cloud_base_branch",
+    r'environment: ?"', r"AskQuestion", r"\.mdc\b", r"\b[Gg]rok\b", r"\bcomposer-", r"\bComposer\b",
+    r"claude-opus-\d+-\d+-", r"agent-transcripts", r"/loop\b", r"[Cc]loud agent",
+    r"control-(?:ui|cli)", r"mcps/", r"[Tt]odo ?list", r"generalPurpose",
+]))
+PLACEHOLDER = re.compile(r"\{\{(model|snippet):([^}]+)\}\}")
+ENTRY_KINDS = ("translation", "policy", "keep")
 
 
 class Fail(Exception):
@@ -118,55 +124,223 @@ def cmd_sync(args):
     print(f"vendor/ now at {commit[:7]} (v{pin['version']}). Review with: git diff --stat -- vendor")
 
 
+# patchbook
+
+FENCE = re.compile(r"^\s*(`{3,}|~{3,})")
+ENTRY_HEAD = re.compile(r"^=== entry ([0-9a-f]{12})$")
+ENTRY_FIELDS = ("kind", "rules", "intent")
+
+
+def block_hash(block):
+    return hashlib.sha256(block.encode()).hexdigest()[:12]
+
+
+def block_spans(lines):
+    """Line ranges of a Markdown file's blocks: the frontmatter, then each run of non-blank lines.
+
+    Blank lines inside a code fence don't end a block.
+    """
+    spans, first = [], 0
+    if lines and lines[0] == "---" and "---" in lines[1:]:
+        first = lines.index("---", 1) + 1
+        spans.append((0, first))
+    start, fence = None, None
+    for i in range(first, len(lines)):
+        stripped = lines[i].strip()
+        m = FENCE.match(lines[i])
+        if fence is None and m:
+            fence = m.group(1)
+        elif fence and set(stripped) == {fence[0]} and len(stripped) >= len(fence):
+            fence = None
+        if stripped or fence:
+            start = i if start is None else start
+        elif start is not None:
+            spans.append((start, i))
+            start = None
+    if start is not None:
+        spans.append((start, len(lines)))
+    return spans
+
+
+def entries_path(rel):
+    return ENTRIES / f"{rel}.entries"
+
+
+def read_entries(path):
+    """Parse an entries file into {hash: entry}. Field problems are left for check_entry."""
+    entries, entry, section, last_field = {}, None, None, None
+    for n, line in enumerate(path.read_text().split("\n"), 1):
+        m = ENTRY_HEAD.match(line)
+        if m:
+            if m.group(1) in entries:
+                raise Fail(f"{path.relative_to(REPO)}:{n}: duplicate entry {m.group(1)}")
+            entry = entries[m.group(1)] = {"hash": m.group(1), "line": n, "upstream": [], "patched": []}
+            entry.update((f, "") for f in ENTRY_FIELDS)
+            section, last_field = "fields", None
+        elif entry is None:
+            if line.strip():
+                raise Fail(f"{path.relative_to(REPO)}:{n}: text before the first entry")
+        elif line in ("--- upstream", "--- patched"):
+            section = line[4:]
+        elif section == "fields":
+            field, sep, value = line.partition(": ")
+            if field in ENTRY_FIELDS and sep:
+                entry[field] = value.strip()
+                last_field = field
+            elif line.strip() and last_field == "intent":
+                entry["intent"] += " " + line.strip()
+            elif line.strip():
+                raise Fail(f"{path.relative_to(REPO)}:{n}: expected one of {', '.join(ENTRY_FIELDS)}")
+        else:
+            entry[section].append(line)
+    for entry in entries.values():
+        for section in ("upstream", "patched"):
+            entry[section] = "\n".join(entry[section]).strip("\n")
+    return entries
+
+
+def format_entry(entry):
+    return (
+        f"=== entry {entry['hash']}\n"
+        + "".join(f"{f}: {entry[f]}\n" for f in ENTRY_FIELDS)
+        + f"--- upstream\n{entry['upstream']}\n--- patched\n{entry['patched']}\n"
+    )
+
+
+def check_entry(entry):
+    """What is wrong with an entry's fields, if anything."""
+    if block_hash(entry["upstream"]) != entry["hash"]:
+        return "its upstream text does not match its hash"
+    if entry["kind"] not in ENTRY_KINDS:
+        return f"kind must be one of {', '.join(ENTRY_KINDS)}"
+    if not entry["intent"]:
+        return "it has no intent"
+    if entry["kind"] == "translation" and not entry["rules"]:
+        return "a translation must name its rules"
+    if entry["kind"] == "keep" and entry["patched"] != entry["upstream"]:
+        return "a keep entry must leave the block unchanged"
+    return None
+
+
+def read_snippets():
+    snippets, name = {}, None
+    for line in (PATCHBOOK / "snippets.md").read_text().split("\n"):
+        if line.startswith("## "):
+            name = line[3:].strip()
+            snippets[name] = []
+        elif name:
+            snippets[name].append(line)
+    return {k: "\n".join(v).strip() for k, v in snippets.items()}
+
+
+def read_models():
+    models = json.loads(MODELS_JSON.read_text())
+    return {k: v for k, v in models.items() if not k.startswith("_")}
+
+
+def expand(text, models, snippets, problems, where):
+    def fill(m):
+        kind, name = m.group(1), m.group(2)
+        if kind == "model" and name in models:
+            return ", ".join(f"`{e}`" for e in models[name])
+        if kind == "snippet" and name in snippets:
+            return snippets[name]
+        problems.append({"problem": "placeholder", **where, "detail": f"unknown {kind} {name!r}"})
+        return m.group(0)
+    return PLACEHOLDER.sub(fill, text)
+
+
+def nearest(block, candidates, limit=2):
+    scored = sorted(
+        ((difflib.SequenceMatcher(None, block, c["upstream"]).ratio(), c) for c in candidates),
+        key=lambda pair: -pair[0],
+    )
+    return [{"line": c["line"], "hash": c["hash"], "similarity": round(r, 2)} for r, c in scored[:limit] if r >= 0.4]
+
+
+def patch_tree(staged):
+    """Apply the patchbook to every shipped Markdown file in staged/, in place.
+
+    Returns the problems found, each a dict with a "problem" key: missing, orphan, invalid,
+    placeholder, or leak (a Cursor term left in the output).
+    """
+    models, snippets = read_models(), read_snippets()
+    problems, applied = [], 0
+    unread = {p.relative_to(ENTRIES).as_posix()[: -len(".entries")]: p for p in ENTRIES.rglob("*.entries")}
+    for path in sorted(staged.rglob("*.md")):
+        rel = path.relative_to(staged).as_posix()
+        entries = read_entries(unread.pop(rel)) if rel in unread else {}
+        lines = path.read_text().split("\n")
+        spans = block_spans(lines)
+        out, prev, used, unmatched = [], 0, set(), []
+        for i, (start, end) in enumerate(spans):
+            block = "\n".join(lines[start:end])
+            h = block_hash(block)
+            where = {"file": rel, "line": start + 1, "hash": h}
+            out.extend(lines[prev:start])
+            prev = end
+            entry = entries.get(h)
+            if entry is None:
+                unmatched.append({"line": start + 1, "hash": h, "upstream": block})
+                terms = sorted({m.group(0) for m in CURSOR_TERMS.finditer(block)})
+                if terms:
+                    problems.append({"problem": "missing", **where, "terms": terms, "upstream": block})
+                out.extend(lines[start:end])
+                continue
+            used.add(h)
+            error = check_entry(entry)
+            if error:
+                problems.append({"problem": "invalid", **where, "detail": error})
+            applied += 1
+            patched = expand(entry["patched"], models, snippets, problems, where)
+            if entry["kind"] != "keep":
+                terms = sorted({m.group(0) for m in CURSOR_TERMS.finditer(patched)})
+                if terms:
+                    problems.append({"problem": "leak", **where, "terms": terms})
+            if patched:
+                out.extend(patched.split("\n"))
+            elif i + 1 < len(spans):
+                prev = spans[i + 1][0]  # drop the blank lines after a deleted block
+        out.extend(lines[prev:])
+        path.write_text("\n".join(out))
+        for h, entry in entries.items():
+            if h not in used:
+                problems.append(orphan(rel, entry, unmatched))
+    for rel, entries_file in unread.items():
+        for entry in read_entries(entries_file).values():
+            problems.append(orphan(rel, entry, []))
+    return problems, applied
+
+
+def orphan(rel, entry, candidates):
+    return {
+        "problem": "orphan", "file": rel, "hash": entry["hash"], "kind": entry["kind"],
+        "rules": entry["rules"], "intent": entry["intent"], "upstream": entry["upstream"],
+        "patched": entry["patched"], "nearest": nearest(entry["upstream"], candidates),
+    }
+
+
+def describe(problem):
+    p = problem
+    at = f"{p['file']}:{p.get('line', '?')} [{p['hash']}]"
+    if p["problem"] == "missing":
+        return f"missing  {at} needs an entry ({', '.join(p['terms'])})"
+    if p["problem"] == "leak":
+        return f"leak     {at} still says {', '.join(p['terms'])}"
+    if p["problem"] == "orphan":
+        near = ", ".join(f"line {n['line']} [{n['hash']}] {n['similarity']}" for n in p["nearest"]) or "none"
+        return f"orphan   {p['file']} [{p['hash']}] intent: {p['intent']}\n         nearest new blocks: {near}"
+    return f"{p['problem']:<8} {at}: {p['detail']}"
+
+
 # build
 
 
-def read_series():
-    series = PATCHES / "series"
-    if not series.exists():
-        return []
-    names = [l.strip() for l in series.read_text().splitlines()]
-    return [PATCHES / n for n in names if n and not n.startswith("#")]
-
-
-def check_patch_header(patch):
-    text = patch.read_text()
-    if "\ndiff --git " not in text:
-        raise Fail(f"{patch.name} changes nothing")
-    head = text.split("\ndiff --git ", 1)[0]
-    missing = [f for f in PATCH_HEADER_FIELDS if not re.search(rf"^{f}: \S", head, re.MULTILINE)]
-    if missing:
-        raise Fail(f"{patch.name} is missing header fields: {', '.join(missing)}")
-
-
-def stage_patched_tree(files, dest):
-    """Copy the shipped part of vendor/ to dest and apply the patch series there."""
-    shipped = [f for f in files if str(f).startswith(SHIPPED)]
-    for f in shipped:
-        (dest / f).parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(VENDOR / f, dest / f)
-    patches = read_series()
-    if not patches:
-        return
-    for p in patches:
-        check_patch_header(p)
-    git("init", "--quiet", cwd=dest)
-    git("add", "-A", cwd=dest)
-    git("-c", "user.name=wstack", "-c", "user.email=wstack@localhost",
-        "commit", "--quiet", "-m", "vendor", cwd=dest)
-    for p in patches:
-        result = subprocess.run(
-            ["git", "apply", "--3way", "--index", str(p)], cwd=dest, capture_output=True, text=True
-        )
-        if result.returncode != 0:
-            raise Fail(f"{p.name} does not apply cleanly:\n{result.stderr.strip()}")
-    shutil.rmtree(dest / ".git")
-
-
-ADAPTER_FILES = {
-    "claude-code": ["docs/harness/claude-code.md", "adapters/claude-code.md"],
-    "codex": ["adapters/codex.md"],
-}
+def stage_shipped(files, dest):
+    for f in files:
+        if str(f).startswith(SHIPPED):
+            (dest / f).parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(VENDOR / f, dest / f)
 
 
 def build_tree(staged):
@@ -180,12 +354,8 @@ def build_tree(staged):
         raise Fail(f"upstream now has a skill called {SUPPORT_SKILL}; rename the support skill")
     support.mkdir()
     (support / "SKILL.md").write_text(SUPPORT_SKILL_MD)
-    for name in ("agents", "docs", "LICENSE", "README.md"):
-        src = staged / name
-        (shutil.copytree if src.is_dir() else shutil.copy2)(src, support / name)
-    (support / "adapters").mkdir()
-    for adapter in [*(REPO / "adapters" / "agents").glob("*.md"), REPO / "adapters" / "hosts" / "t3.md"]:
-        shutil.copy2(adapter, support / "adapters" / adapter.name)
+    shutil.copytree(staged / "agents", support / "agents")
+    shutil.copy2(staged / "LICENSE", support / "LICENSE")
 
     for skill_md in sorted(out.glob("*/SKILL.md")):
         if skill_md.parent == support:
@@ -193,7 +363,7 @@ def build_tree(staged):
         front, body = frontmatter_split(skill_md.read_text())
         # The skills CLI names each install folder after `name`, and Codex matches `$name` against it.
         front = re.sub(r"^name: .*$", f"name: {skill_md.parent.name}", front, count=1, flags=re.MULTILINE)
-        skill_md.write_text(front + "\n" + PREAMBLE + body.lstrip("\n"))
+        skill_md.write_text(front + body)
 
     # Bun installs packages next to these, inside the user's project.
     for package_json in out.glob("*/scripts/package.json"):
@@ -205,19 +375,73 @@ def build_tree(staged):
                 raise Fail(f"conflict marker in {path.relative_to(REPO)}")
 
 
-def cmd_build(args):
+def checked_vendor():
     files, tree = vendor_files_and_tree()
     pin = read_upstream()
     if tree != pin["tree"]:
         raise Fail(
             f"vendor/ (tree {tree[:7]}) differs from upstream.json (tree {pin['tree'][:7]}). "
-            "Never edit vendor/ by hand. Put the change in patches/, or run sync."
+            "Never edit vendor/ by hand. Record the change in patchbook/, or run sync."
         )
+    return files, pin
+
+
+def cmd_build(args):
+    files, pin = checked_vendor()
     with tempfile.TemporaryDirectory() as tmp:
         staged = Path(tmp)
-        stage_patched_tree(files, staged)
+        stage_shipped(files, staged)
+        problems, applied = patch_tree(staged)
+        if problems:
+            for p in problems:
+                print(describe(p), file=sys.stderr)
+            raise Fail(f"{len(problems)} problems; nothing built. See patchbook/patch.md.")
         build_tree(staged)
-    print(f"built dist/skills/ from {pin['commit'][:7]} with {len(read_series())} patches")
+    print(f"built dist/skills/ from {pin['commit'][:7]} with {applied} patchbook entries")
+
+
+def cmd_status(args):
+    files, pin = checked_vendor()
+    with tempfile.TemporaryDirectory() as tmp:
+        staged = Path(tmp)
+        stage_shipped(files, staged)
+        problems, applied = patch_tree(staged)
+    if args.json:
+        print(json.dumps({"upstream": pin["commit"], "applied": applied, "problems": problems}, indent=2))
+    else:
+        for p in problems:
+            print(describe(p))
+        counts = {}
+        for p in problems:
+            counts[p["problem"]] = counts.get(p["problem"], 0) + 1
+        summary = ", ".join(f"{n} {k}" for k, n in sorted(counts.items())) or "no problems"
+        print(f"{applied} entries apply at {pin['commit'][:7]}; {summary}")
+    return 1 if problems else 0
+
+
+def cmd_scaffold(args):
+    """Append a skeleton entry for each missing block, to be filled in by hand or by an agent."""
+    files, _ = checked_vendor()
+    with tempfile.TemporaryDirectory() as tmp:
+        staged = Path(tmp)
+        stage_shipped(files, staged)
+        problems, _ = patch_tree(staged)
+    missing = [p for p in problems if p["problem"] == "missing" and (not args.file or p["file"] in args.file)]
+    by_file = {}
+    for p in missing:
+        by_file.setdefault(p["file"], []).append(p)
+    for rel, blocks in by_file.items():
+        path = entries_path(rel)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        existing = path.read_text().rstrip("\n") + "\n\n" if path.exists() else ""
+        skeletons = [
+            format_entry({"hash": p["hash"], "kind": "translation", "rules": "", "intent": "",
+                          "upstream": p["upstream"], "patched": p["upstream"]})
+            for p in blocks
+        ]
+        path.write_text(existing + "\n".join(skeletons))
+    print(f"scaffolded {len(missing)} entries in {len(by_file)} files")
+    return 0
 
 
 def main():
@@ -226,11 +450,17 @@ def main():
     s = sub.add_parser("sync", help="replace vendor/ with an upstream commit")
     s.add_argument("ref", nargs="?", default="main")
     s.set_defaults(func=cmd_sync)
-    b = sub.add_parser("build", help="build dist/skills/ from vendor/, patches/ and adapters/")
+    b = sub.add_parser("build", help="build dist/skills/ from vendor/ and patchbook/")
     b.set_defaults(func=cmd_build)
+    st = sub.add_parser("status", help="list missing, orphaned, and invalid patchbook entries")
+    st.add_argument("--json", action="store_true", help="machine-readable output, with block text")
+    st.set_defaults(func=cmd_status)
+    sc = sub.add_parser("scaffold", help="append skeleton entries for missing blocks")
+    sc.add_argument("file", nargs="*", help="only these upstream files, such as skills/arena/SKILL.md")
+    sc.set_defaults(func=cmd_scaffold)
     args = parser.parse_args()
     try:
-        args.func(args)
+        sys.exit(args.func(args) or 0)
     except Fail as e:
         print(f"wstack: {e}", file=sys.stderr)
         sys.exit(1)
