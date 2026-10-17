@@ -15,22 +15,25 @@ Created in [T3 Code](https://t3.codes).
 | `adapters/agents/` | Agent adapters: `claude-code.md` (on top of upstream's own) and `codex.md`. |
 | `adapters/hosts/t3.md` | The T3 Code adapter: subagents, models, schedules, pull requests. |
 | `patches/` | Policy changes to upstream, applied in `series` order. Empty so far. |
-| `dist/<agent>/` | Build output. Never edit it. |
-| `tools/wstack.py` | Sync, build and install. |
+| `dist/skills/` | Build output, one folder per skill, plus a `pstack` folder holding the adapters and agent briefs. Never edit it. |
+| `tools/wstack.py` | Sync and build. |
 
 ## Use
 
-Needs Python 3.9+ and git. pstack's own scripts need [Bun](https://bun.sh).
+Install into a project with the [`skills` CLI](https://github.com/vercel-labs/skills). Take every skill: they read each other, and the `pstack` folder.
 
 ```sh
-tools/wstack.py sync [ref]        # replace vendor/ with upstream <ref> (default main)
-tools/wstack.py build             # vendor/ + patches/ + adapters/ -> dist/
-tools/wstack.py install codex --skills-dir <repo>/.agents/skills
-tools/wstack.py install claude-code --skills-dir <repo>/.claude/skills
+cd <project>
+npx skills add <path-to-wstack>/dist --skill '*' -a claude-code -a codex
 ```
 
-`install` copies `dist/<agent>/` to `~/.local/share/wstack/<agent>/` and links each skill into the skills folder. Without `--skills-dir` it uses the agent's user folder (`~/.claude/skills` or `~/.agents/skills`). It never replaces a skill it didn't install.
+This puts one copy of each skill in `.agents/skills/`, which Codex reads, and symlinks `.claude/skills/` to it. Invoke `/poteto-mode` in Claude Code and `$poteto-mode` in Codex. pstack's own scripts need [Bun](https://bun.sh).
 
-Invoke skills with `/poteto-mode` in Claude Code and `$poteto-mode` in Codex.
+Maintaining the build needs Python 3.9+ and git:
+
+```sh
+tools/wstack.py sync [ref]   # replace vendor/ with upstream <ref> (default main)
+tools/wstack.py build        # vendor/ + patches/ + adapters/ -> dist/skills/
+```
 
 `build` fails if `vendor/` differs from `upstream.json`, if a patch lacks its header or doesn't apply, or if a conflict marker reaches `dist/`. A build at an unchanged pin leaves `git status` clean.
