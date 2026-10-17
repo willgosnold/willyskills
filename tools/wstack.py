@@ -47,6 +47,9 @@ CURSOR_TERMS = re.compile("|".join([
     r"\bcreate-skill\b", r"fast or standard", r"\bVMs?\b", r"allow_multiple", r"workspace-scoped",
     r"docs/guide/", r"\.\./README\.md",
 ]))
+# `/name` for an installed skill, but not a path such as `docs/how` or `/tmp/how`.
+SLASH_SKILL = r"(?<![\w/.~-])/({names})\b(?![\w/.-])"
+CODEX_SLASH_NOTE = "start with `$`"
 PLACEHOLDER = re.compile(r"\{\{(model|snippet):([^}]+)\}\}")
 ENTRY_KINDS = ("translation", "policy", "keep")
 
@@ -260,6 +263,19 @@ def nearest(block, candidates, limit=2):
     return [{"line": c["line"], "hash": c["hash"], "similarity": round(r, 2)} for r, c in scored[:limit] if r >= 0.4]
 
 
+def term_finder(staged):
+    """Return a function listing the Cursor terms in a Markdown block."""
+    names = sorted((p.name for p in (staged / "skills").iterdir() if p.is_dir()), key=len, reverse=True)
+    slash = re.compile(SLASH_SKILL.format(names="|".join(map(re.escape, names))))
+
+    def terms(block):
+        found = {m.group(0) for m in CURSOR_TERMS.finditer(block)}
+        if CODEX_SLASH_NOTE not in block:
+            found |= {m.group(0) for m in slash.finditer(block) if f"${m.group(1)}" not in block}
+        return sorted(found)
+    return terms
+
+
 def patch_tree(staged):
     """Apply the patchbook to staged/, in place: every shipped Markdown file, plus any other
     shipped file that has an entries file (scripts). Only Markdown is checked for Cursor terms.
@@ -268,6 +284,7 @@ def patch_tree(staged):
     placeholder, or leak (a Cursor term left in the output).
     """
     models, snippets = read_models(), read_snippets()
+    terms_in = term_finder(staged)
     problems, applied = [], 0
     unread = {p.relative_to(ENTRIES).as_posix()[: -len(".entries")]: p for p in ENTRIES.rglob("*.entries")}
     patched_files = set(staged.rglob("*.md")) | {staged / rel for rel in unread if (staged / rel).is_file()}
@@ -287,7 +304,7 @@ def patch_tree(staged):
             entry = entries.get(h)
             if entry is None:
                 unmatched.append({"line": start + 1, "hash": h, "upstream": block})
-                terms = sorted({m.group(0) for m in CURSOR_TERMS.finditer(block)}) if markdown else []
+                terms = terms_in(block) if markdown else []
                 if terms:
                     problems.append({"problem": "missing", **where, "terms": terms, "upstream": block})
                 out.extend(lines[start:end])
@@ -299,7 +316,7 @@ def patch_tree(staged):
             applied += 1
             patched = expand(entry["patched"], models, snippets, problems, where)
             if markdown and entry["kind"] != "keep":
-                terms = sorted({m.group(0) for m in CURSOR_TERMS.finditer(patched)})
+                terms = terms_in(patched)
                 if terms:
                     problems.append({"problem": "leak", **where, "terms": terms})
             if patched:
@@ -424,6 +441,15 @@ def cmd_status(args):
     return 1 if problems else 0
 
 
+def cmd_blocks(args):
+    """Print an upstream file's blocks with their line and hash, for writing entries by hand."""
+    lines = (VENDOR / args.file).read_text().split("\n")
+    for start, end in block_spans(lines):
+        block = "\n".join(lines[start:end])
+        print(f"=== line {start + 1} [{block_hash(block)}]\n{block}\n")
+    return 0
+
+
 def cmd_scaffold(args):
     """Append a skeleton entry for each missing block, to be filled in by hand or by an agent."""
     files, _ = checked_vendor()
@@ -460,6 +486,9 @@ def main():
     st = sub.add_parser("status", help="list missing, orphaned, and invalid patchbook entries")
     st.add_argument("--json", action="store_true", help="machine-readable output, with block text")
     st.set_defaults(func=cmd_status)
+    bl = sub.add_parser("blocks", help="print an upstream file's blocks with their hashes")
+    bl.add_argument("file", help="upstream path, such as skills/arena/SKILL.md")
+    bl.set_defaults(func=cmd_blocks)
     sc = sub.add_parser("scaffold", help="append skeleton entries for missing blocks")
     sc.add_argument("file", nargs="*", help="only these upstream files, such as skills/arena/SKILL.md")
     sc.set_defaults(func=cmd_scaffold)

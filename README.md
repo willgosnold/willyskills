@@ -34,6 +34,7 @@ Maintaining the build needs Python 3.9+ and git:
 tools/wstack.py sync [ref]   # replace vendor/ with upstream <ref> (default main)
 tools/wstack.py status       # list blocks missing an entry, orphaned entries, and leftover Cursor terms (--json for agents)
 tools/wstack.py scaffold     # append a skeleton entry for each missing block
+tools/wstack.py blocks <f>   # print an upstream file's blocks and hashes, for policy entries
 tools/wstack.py build        # vendor/ + patchbook/ + models.json -> dist/skills/
 ```
 
