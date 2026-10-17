@@ -20,7 +20,7 @@ Created in [T3 Code](https://t3.codes).
 
 ## Use
 
-Needs Python 3.11+ and git. pstack's own scripts need [Bun](https://bun.sh).
+Needs Python 3.9+ and git. pstack's own scripts need [Bun](https://bun.sh).
 
 ```sh
 tools/wstack.py sync [ref]        # replace vendor/ with upstream <ref> (default main)
