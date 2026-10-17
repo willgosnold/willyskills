@@ -1,0 +1,20 @@
+{
+  "_comment": "Default model per pstack role. A project's .agents/pstack-models.md overrides any line. Entry: <providerInstanceId>/<model> <effort>, or inherit-parent. Panel roles list one entry per subagent.",
+  "feature, refactoring": ["claudeAgent/claude-sonnet-5-5 medium"],
+  "bug-fix": ["claudeAgent/claude-sonnet-5-5 medium"],
+  "perf-issue": ["claudeAgent/claude-sonnet-5-5 medium"],
+  "hillclimb": ["claudeAgent/claude-sonnet-5-5 medium"],
+  "judgment and prose": ["claudeAgent/claude-opus-5-5 medium"],
+  "hardest tasks": ["claudeAgent/claude-opus-5-5 medium"],
+  "how explorer": ["claudeAgent/claude-sonnet-5-5 low"],
+  "how explainer": ["claudeAgent/claude-opus-5-5 medium"],
+  "why investigators": ["claudeAgent/claude-sonnet-5-5 low"],
+  "why synthesizer": ["claudeAgent/claude-opus-5-5 medium"],
+  "reflect tooling": ["claudeAgent/claude-sonnet-5-5 medium"],
+  "reflect judgment, divergent, synthesizer": ["claudeAgent/claude-opus-5-5 medium"],
+  "arena runners": ["claudeAgent/claude-opus-5-5 medium", "claudeAgent/claude-sonnet-5-5 medium"],
+  "arena cross-judge pool": ["claudeAgent/claude-opus-5-5 medium"],
+  "swarm workers": ["claudeAgent/claude-sonnet-5-5 medium"],
+  "architect runners": ["claudeAgent/claude-opus-5-5 medium", "claudeAgent/claude-sonnet-5-5 medium"],
+  "interrogate reviewers": ["claudeAgent/claude-opus-5-5 medium", "claudeAgent/claude-sonnet-5-5 medium"]
+}
