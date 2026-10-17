@@ -150,11 +150,20 @@ def stage_patched_tree(files, dest):
     shutil.rmtree(dest / ".git")
 
 
+ADAPTER_FILES = {
+    "claude-code": ["docs/harness/claude-code.md", "adapters/claude-code.md"],
+    "codex": ["adapters/codex.md"],
+}
+
+
 def preamble(agent):
+    files = ", then ".join(f"`{ROOT_PLACEHOLDER}/{f}`" for f in ADAPTER_FILES[agent])
+    maps = "They map" if len(ADAPTER_FILES[agent]) > 1 else "It maps"
     return (
-        f"> **pstack install note.** `<pstack>` is `{ROOT_PLACEHOLDER}`. Once per session, "
-        f"before following this skill, read `{ROOT_PLACEHOLDER}/adapters/{agent}.md`. "
-        f"It maps the Cursor names below to this agent.\n\n"
+        f"> **pstack install note.** `<pstack>` is `{ROOT_PLACEHOLDER}`. Once per session, before "
+        f"following this skill, read {files}. {maps} the Cursor names below to this agent. If the "
+        f"T3 Code tools are present (`delegate_task`), also read `{ROOT_PLACEHOLDER}/adapters/t3.md`. "
+        f"Its rows win for subagents, models, schedules, pull requests, and transcripts.\n\n"
     )
 
 
@@ -169,13 +178,11 @@ def build_agent(agent, staged):
 
     for skill_md in sorted((out / "skills").glob("*/SKILL.md")):
         front, body = frontmatter_split(skill_md.read_text())
+        if agent == "codex":
+            # T3 sends `$name` to Codex as plain text, so Codex finds a skill only in the list
+            # it is given. Keep every skill listed, and match each name to its folder.
+            front = re.sub(r"^name: .*$", f"name: {skill_md.parent.name}", front, count=1, flags=re.MULTILINE)
         skill_md.write_text(front + "\n" + preamble(agent) + body.lstrip("\n"))
-        if agent == "codex" and re.search(r"^disable-model-invocation: true$", front, re.MULTILINE):
-            yaml = skill_md.parent / "agents" / "openai.yaml"
-            if yaml.exists():
-                raise Fail(f"{yaml.relative_to(out)} already exists upstream; merge it instead")
-            yaml.parent.mkdir()
-            yaml.write_text("policy:\n  allow_implicit_invocation: false\n")
 
     for path in out.rglob("*"):
         if path.is_file() and path.suffix in {".md", ".ts", ".mjs", ".sh", ".json"}:
