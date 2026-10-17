@@ -10,7 +10,6 @@ Created in [T3 Code](https://t3.codes).
 
 | Path | What it is |
 | --- | --- |
-| `vendor/pstack/` | Upstream, byte for byte. Never edit it. |
 | `.patchbook/` | Every change to upstream, for the [patchbook](https://github.com/willgosnold/patchbook) CLI: `config.toml` (the upstreams and their mounts), `upstream.lock` (the pins), `blocks/` (paragraph edits, one file per upstream file), `changes/` (file edits and moves), `patch.md` (the rules for writing them), `hooks.py`, `testing.md`. |
 | `models.json` | The default model for each pstack role. A project's `.agents/pstack-models.md` overrides it line by line (`/setup-pstack` writes that file). |
 | `skills/` | Build output, one folder per skill, plus a `pstack` folder holding the subagent briefs. Never edit it. |
@@ -31,13 +30,14 @@ Maintaining the build needs the [patchbook](https://github.com/willgosnold/patch
 
 ```sh
 patchbook check              # has upstream pstack moved? exits 10 if so
-patchbook sync [ref]         # replace vendor/ with upstream <ref> and carry the changes forward
+patchbook sync [pstack ref]  # move the pin to upstream (or <ref>) and carry the changes forward
 patchbook status             # list what broke (--json for agents)
 patchbook scaffold           # append a skeleton entry for each missing block
 patchbook blocks <f>         # print an upstream file's blocks and hashes
-patchbook build              # vendor/ + .patchbook/ + models.json -> skills/
+patchbook upstream pstack    # read pstack at the pin: a file, --diff of the last sync, or --export <dir>
+patchbook build              # pinned pstack + .patchbook/ + models.json -> skills/
 ```
 
-`build` fails if `vendor/` differs from the pin, if `status` reports any problem, or if a conflict marker reaches `skills/`. A build at an unchanged pin leaves `git status` clean. After a sync, resolve what `status` lists as `.patchbook/patch.md` describes.
+`build` fails if `status` reports any problem, or if a conflict marker reaches `skills/`. A build at an unchanged pin leaves `git status` clean. After a sync, resolve what `status` lists as `.patchbook/patch.md` describes.
 
 A daily T3 scheduled task does this on its own with the `patchbook-update` skill: it syncs, repairs, builds, tests (`.patchbook/testing.md`), reviews, merges, and runs `tools/update-projects.sh`. It asks you only when it can't decide.
