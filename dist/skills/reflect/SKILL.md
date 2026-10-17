@@ -24,15 +24,15 @@ Each reviewer and the synthesizer name a role line and a default. Take each one'
 
 | Lens | Role line | Default | Prompt template |
 |---|---|---|---|
-| Judgment | `reflect judgment, divergent, synthesizer` | `claudeAgent/claude-opus-5-5 medium` | `references/judgment-reviewer.md` |
-| Tooling | `reflect tooling` | `claudeAgent/claude-sonnet-5-5 medium` | `references/tooling-reviewer.md` |
-| Divergent | `reflect judgment, divergent, synthesizer` | `claudeAgent/claude-opus-5-5 medium` | `references/divergent-reviewer.md` |
+| Judgment | `reflect judgment, divergent, synthesizer` | `claudeAgent/claude-opus-5-5 high` | `references/judgment-reviewer.md` |
+| Tooling | `reflect tooling` | `claudeAgent/claude-haiku-5-5 xhigh` | `references/tooling-reviewer.md` |
+| Divergent | `reflect judgment, divergent, synthesizer` | `claudeAgent/claude-opus-5-5 high` | `references/divergent-reviewer.md` |
 
 Pass each template verbatim as the `task`, substituting the transcript or digest where marked. For the transcript path, write "T3 thread `<parentThreadId>` (read it with `t3_thread_read`, paging with `afterPosition`; `view: "activity"` shows tool calls)". Reviewers return findings as their task result. Each completion wakes this thread, so end the turn until all three have returned.
 
 ## 3. Synthesize
 
-One `delegate_task` call, with its own `clientRequestId` and its model from the `reflect judgment, divergent, synthesizer` line (default `claudeAgent/claude-opus-5-5 medium`). Never set `runtimeMode`. It spot-verifies citations through MCP. Pass `references/synthesizer.md` verbatim as the `task`, with each reviewer's full output inlined where marked. It returns an Accepted / Rejected / Backlog list.
+One `delegate_task` call, with its own `clientRequestId` and its model from the `reflect judgment, divergent, synthesizer` line (default `claudeAgent/claude-opus-5-5 high`). Never set `runtimeMode`. It spot-verifies citations through MCP. Pass `references/synthesizer.md` verbatim as the `task`, with each reviewer's full output inlined where marked. It returns an Accepted / Rejected / Backlog list.
 
 ## 4. Structural enforcement check
 

@@ -47,23 +47,23 @@ Write that file with a `# budget:` line holding the chosen label and its target 
 
 The roles, in this order, with their defaults:
 
-- `feature, refactoring`: `claudeAgent/claude-sonnet-5-5 medium`
-- `bug-fix`: `claudeAgent/claude-sonnet-5-5 medium`
-- `perf-issue`: `claudeAgent/claude-sonnet-5-5 medium`
-- `hillclimb`: `claudeAgent/claude-sonnet-5-5 medium`
-- `judgment and prose`: `claudeAgent/claude-opus-5-5 medium`
-- `hardest tasks`: `claudeAgent/claude-opus-5-5 medium`
-- `how explorer`: `claudeAgent/claude-sonnet-5-5 low`
-- `how explainer`: `claudeAgent/claude-opus-5-5 medium`
-- `why investigators`: `claudeAgent/claude-sonnet-5-5 low`
-- `why synthesizer`: `claudeAgent/claude-opus-5-5 medium`
-- `reflect tooling`: `claudeAgent/claude-sonnet-5-5 medium`
-- `reflect judgment, divergent, synthesizer`: `claudeAgent/claude-opus-5-5 medium`
-- `arena runners`: `claudeAgent/claude-opus-5-5 medium`, `claudeAgent/claude-sonnet-5-5 medium`
-- `arena cross-judge pool`: `claudeAgent/claude-opus-5-5 medium`
-- `swarm workers`: `claudeAgent/claude-sonnet-5-5 medium`
-- `architect runners`: `claudeAgent/claude-opus-5-5 medium`, `claudeAgent/claude-sonnet-5-5 medium`
-- `interrogate reviewers`: `claudeAgent/claude-opus-5-5 medium`, `claudeAgent/claude-sonnet-5-5 medium`
+- `feature, refactoring`: `claudeAgent/claude-sonnet-5-5 high`
+- `bug-fix`: `claudeAgent/claude-sonnet-5-5 high`
+- `perf-issue`: `claudeAgent/claude-haiku-5-5 xhigh`
+- `hillclimb`: `claudeAgent/claude-sonnet-5-5 high`
+- `judgment and prose`: `claudeAgent/claude-opus-5-5 high`
+- `hardest tasks`: `claudeAgent/claude-opus-5-5 high`
+- `how explorer`: `claudeAgent/claude-haiku-5-5 xhigh`
+- `how explainer`: `claudeAgent/claude-opus-5-5 high`
+- `why investigators`: `claudeAgent/claude-haiku-5-5 xhigh`
+- `why synthesizer`: `claudeAgent/claude-opus-5-5 high`
+- `reflect tooling`: `claudeAgent/claude-haiku-5-5 xhigh`
+- `reflect judgment, divergent, synthesizer`: `claudeAgent/claude-opus-5-5 high`
+- `arena runners`: `claudeAgent/claude-opus-5-5 high`, `codex/gpt-6.1-sol xhigh`
+- `arena cross-judge pool`: `claudeAgent/claude-opus-5-5 high`, `codex/gpt-6.1-sol xhigh`
+- `swarm workers`: `claudeAgent/claude-haiku-5-5 xhigh`
+- `architect runners`: `claudeAgent/claude-opus-5-5 high`, `codex/gpt-6.1-sol xhigh`
+- `interrogate reviewers`: `claudeAgent/claude-opus-5-5 high`, `codex/gpt-6.1-sol xhigh`
 
 ### 6. Confirm
 

@@ -28,7 +28,7 @@ Launch all reviewers in a single message, one `delegate_task` call per entry on 
 
 | Subagent | Default model |
 |----------|---------------|
-| Reviewer A, B, ... in order | `claudeAgent/claude-opus-5-5 medium`, `claudeAgent/claude-sonnet-5-5 medium` |
+| Reviewer A, B, ... in order | `claudeAgent/claude-opus-5-5 high`, `codex/gpt-6.1-sol xhigh` |
 
 Each reviewer gets no `isolation`, a brief that says "Do not edit, create, commit, or push files.", and `target` set from its configured entry, or its table default when there is no configured line. You run `git status` afterward. A role line is `<role>: <entry>, <entry>, ...`, and a panel role runs one subagent per entry. An entry `<provider>/<model> <effort>` becomes `target: {providerInstanceId: <provider>, model: <model>, options: {effort: <effort>}}`, with `reasoningEffort` instead of `effort` for `codex`. `inherit-parent` means omit `target`. The effort is a ceiling: lower it for routine work, never raise it, and never set `fastMode`.
 
