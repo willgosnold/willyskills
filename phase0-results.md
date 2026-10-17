@@ -52,7 +52,7 @@ Orchestrate is left out. It is built for multi-day programs with sub-coordinator
 | --- | --- | --- | --- | --- | --- |
 | 1 | Bug fix | Claude Code | `d00e113` | `mcp:464dbd91-1fd4-4bb2-be8f-a4ed38c424f3` | Pass in 2 minutes. Failing test before fix, one child, PR [#1](https://github.com/willgosnold/pstack-phase0-sandbox/pull/1) linked. |
 | 2 | Feature | Claude Code | `4d03959` | `mcp:04058359-5983-484d-b1ce-703ea55c611d` | Pass in 3 minutes over two turns. Async child woke the parent. Parent caught a regression the child missed. PR [#2](https://github.com/willgosnold/pstack-phase0-sandbox/pull/2) linked. |
-| 3 | Swarm | Claude Code | | | not run |
+| 3 | Swarm | Claude Code | `6d1362f` | `mcp:3995690b-f17b-42fd-8090-dea5104156e8` | Pass in 2 minutes over three turns. 3 parallel read-only workers, all ISSUES with evidence. Found the planted bug independently. |
 | 4 | Autonomous run | Claude Code | | | not run |
 
 ## Failures
@@ -79,4 +79,11 @@ One row per call that went wrong: playbook, agent, what the skill asked for, wha
 - `comment-sicko` ran from the brief line with "Do not edit, create, commit, or push files", and reported without editing.
 - The parent reviewed the child's diff, found a blank-line regression on empty months, fixed it, and checked table output against the old code.
 - It listed the playbook steps mid-run this time.
+| Swarm | Claude Code | `environment: "cloud"` workers | Read-only workers with no `isolation`, sharing the checkout and mutating copies in `/tmp` | Yes, a clarification. The `cloud` row said worktree for every worker. It now says read-only workers share the checkout, matching the `local` row. Fixed after run 3. |
+
+### What worked in run 3
+
+- Three `delegate_task` calls in one message, each with its own `clientRequestId`, on Sonnet 5.5 at `medium`.
+- T3 woke the parent once for the first result and once for the other two, batched into one notification.
+- The parent checked each result named the commit and method its brief asked for, then ran `git status` to confirm the read-only workers left the tree clean.
 
