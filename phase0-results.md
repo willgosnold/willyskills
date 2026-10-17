@@ -53,7 +53,7 @@ Orchestrate is left out. It is built for multi-day programs with sub-coordinator
 | 1 | Bug fix | Claude Code | `d00e113` | `mcp:464dbd91-1fd4-4bb2-be8f-a4ed38c424f3` | Pass in 2 minutes. Failing test before fix, one child, PR [#1](https://github.com/willgosnold/pstack-phase0-sandbox/pull/1) linked. |
 | 2 | Feature | Claude Code | `4d03959` | `mcp:04058359-5983-484d-b1ce-703ea55c611d` | Pass in 3 minutes over two turns. Async child woke the parent. Parent caught a regression the child missed. PR [#2](https://github.com/willgosnold/pstack-phase0-sandbox/pull/2) linked. |
 | 3 | Swarm | Claude Code | `6d1362f` | `mcp:3995690b-f17b-42fd-8090-dea5104156e8` | Pass in 2 minutes over three turns. 3 parallel read-only workers, all ISSUES with evidence. Found the planted bug independently. |
-| 4 | Autonomous run | Claude Code | | | not run |
+| 4 | Autonomous run | Claude Code | `07144e0` | `mcp:b45f5a4c-2916-4b77-8300-372e2181cc34` | Task passed in 2 minutes, PR [#3](https://github.com/willgosnold/pstack-phase0-sandbox/pull/3) linked. Wake rows untested: one iteration met the predicate, so it never needed `/loop`. |
 
 ## Failures
 
@@ -86,4 +86,15 @@ One row per call that went wrong: playbook, agent, what the skill asked for, wha
 - Three `delegate_task` calls in one message, each with its own `clientRequestId`, on Sonnet 5.5 at `medium`.
 - T3 woke the parent once for the first result and once for the other two, batched into one notification.
 - The parent checked each result named the commit and method its brief asked for, then ran `git status` to confirm the read-only workers left the tree clean.
+| Autonomous run | Claude Code | Pick a wake mechanism with `/loop` (step 2) | Never reached it. One iteration met the predicate. | Untested. Needs a task whose predicate depends on something outside the agent, such as CI or a merge. |
+| Autonomous run | Claude Code | Delegate code to subagents | Wrote the change itself, used 0 of 3 subagents | No. The change was a few lines, and Autonomous run does not require delegation. |
+| Autonomous run | Claude Code | (Prompt flaw, mine) "what the fixed code prints today" | `main` still has the year bug, because PR #1 is unmerged. The agent saw the ambiguity, kept today's buggy output, and flagged the bug. | No. Fix the prompt if this run is repeated. |
+
+## Round 1 summary (Claude Code)
+
+All four tasks finished and verified their own work. Rows exercised and working: the adapter pointers in `CLAUDE.md`, `orchestrator_capabilities`, `delegate_task` with the agent-file brief, `isolation: "worktree"` for writers, shared checkout for readers, `mode: "async"` with T3 waking the parent, parallel fan-out, `task_status`, the read-only brief plus `git status`, the Claude-only model budget, `gh pr create`, and `link_pull_request`.
+
+One adapter row changed (`environment: "cloud"` for read-only workers). No upstream text edits were needed.
+
+Untested so far: `schedule_task` for `/loop`, `watch_pull_request`, `task_cancel`, `t3_thread_send` for resume, the transcript rows, the agent store path, `preview_*`, and everything on Codex.
 
