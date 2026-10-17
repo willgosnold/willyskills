@@ -171,6 +171,11 @@ Intent: drive the real app to prove a change.
 Cursor: `control-ui`, `control-cli` (from cursor-team-kit), Cursor's `mcps/` folder.
 T3: the project's own verification skill if it has one. Otherwise, for a UI, T3's `preview_*` tools (`preview_open`, `preview_navigate`, `preview_snapshot`, `preview_click`, `preview_type`, `preview_evaluate`; `preview_snapshot` with `save: true` for a screenshot the user can see). For a CLI, drive it from the shell. MCP servers are whatever is in your tool list.
 
+### team-kit
+Intent: some steps use skills from Cursor's separate `cursor-team-kit` plugin. They may not be installed.
+Cursor: "the `deslop` skill from the `cursor-team-kit` plugin", "`control-ui` from `cursor-team-kit`".
+T3: drop the plugin name. `deslop` becomes "`/deslop`, if it is installed". `control-ui` and `control-cli` follow rule `verify-surface`.
+
 ## Cursor-only
 
 ### cursor-only
