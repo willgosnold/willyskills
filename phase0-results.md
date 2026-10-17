@@ -9,6 +9,7 @@ The question: how much of the port can an adapter handle with no text edits to u
 - Adapters: upstream `docs/harness/claude-code.md` unchanged, `adapters/agents/codex.md`, and `adapters/hosts/t3.md`.
 - Fixture: `~/Projects/pstack-phase0-sandbox`, a small Python ledger CLI with one planted bug. `--month 2026-03` includes March 2025 rows, because `in_month` ignores the year.
 - Install: skills are symlinked into the fixture's `.claude/skills/` and `.agents/skills/`. `CLAUDE.md` and `AGENTS.md` there name the adapters to read. No global agent config changed.
+- Remote: private GitHub repo `willgosnold/pstack-phase0-sandbox`, so PR steps run for real.
 
 ## Findings before any playbook run
 
@@ -21,10 +22,10 @@ These came from building the adapters and from two probe children that listed th
 | 3 | Codex | `AskQuestion` | `request_user_input` works only in Plan mode. | Yes. `codex.md` says to ask in plain text in Default mode. |
 | 4 | Codex | Transcripts under `~/.codex/sessions` | T3 runs Codex with `CODEX_HOME=~/.codex-vibeproxy`. | Yes. `t3.md` routes transcripts to `t3_thread_read`. |
 | 5 | Both | An agent store path named in the system prompt (orchestrate, autopilot-full, multi-phase-plan) | T3 names none. | Yes. `t3.md` row added: `~/.local/state/pstack/<repo>/`. |
-| 6 | Both | `bun` for `scripts/orch` and `scripts/watch-pr` (they call `Bun.spawnSync`) | Bun is not installed. | No. It is a prerequisite. Orchestrate and Babysit need it. |
+| 6 | Both | `bun` for `scripts/orch` and `scripts/watch-pr` | Bun is not installed. Bun-only code is confined to `bootstrap.ts` (`Bun.spawnSync`, `import.meta.dir`, which installs `commander` from `bun.lock`). Under Node 26, `watch-pr` runs once `commander` is installed. `orch` fails because it imports `bootstrap.ts` and `store.ts` uses a parameter property that Node's type stripping rejects. `tsx` gets past the syntax but not `import.meta.dir`. | No. Running without Bun needs a patch to `bootstrap.ts` and `store.ts`. Installing Bun keeps `vendor/` untouched. |
 | 7 | Both | `bootstrap.ts` runs a package install inside the skill folder | With symlinks into `vendor/`, `node_modules/` would land in `vendor/`. | No. Phase 1 must build into `dist/` and run installs there, or gitignore it. |
 | 8 | Both | `name: Poteto Mode` and `name: Make Bot UI` in frontmatter | The folder names are `poteto-mode` and `make-bot-ui`. | Unknown. The runs will show whether `/poteto-mode` and `$poteto-mode` resolve. Phase 1's frontmatter rewrite can fix it either way. |
-| 9 | Both | `deslop`, `control-ui`, `control-cli` from `cursor-team-kit`, and `/loop`, `/create-skill` from Cursor | Not installed. | Partly. `t3.md` maps `control-ui` to `preview_*` and `/loop` to `schedule_task`. `codex.md` maps `create-skill` to `skill-creator`. `deslop` has no row, so it is skipped. |
+| 9 | Both | `deslop`, `control-ui`, `control-cli` from `cursor-team-kit`, and `/loop`, `/create-skill` from Cursor | Not installed. | Partly. `t3.md` maps `control-ui` to `preview_*` and `/loop` to `schedule_task`. `codex.md` maps `create-skill` to `skill-creator`. `deslop` has no row, so it is skipped. It is a code cleanup pass over the branch diff (needless comments, abnormal try/catch, `any` casts, deep nesting), not commit message rules. |
 | 10 | Both | Each child can delegate further (orchestrate's sub-coordinators) | Both agents' children get the full T3 tool set and `canRunChildTask` for both providers. | Yes, no row needed. |
 
 ## Runs
