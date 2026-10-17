@@ -24,7 +24,7 @@ These came from building the adapters and from two probe children that listed th
 | 5 | Both | An agent store path named in the system prompt (orchestrate, autopilot-full, multi-phase-plan) | T3 names none. | Yes. `t3.md` row added: `~/.local/state/pstack/<repo>/`. |
 | 6 | Both | `bun` for `scripts/orch` and `scripts/watch-pr` | Bun is not installed. Bun-only code is confined to `bootstrap.ts` (`Bun.spawnSync`, `import.meta.dir`, which installs `commander` from `bun.lock`). Under Node 26, `watch-pr` runs once `commander` is installed. `orch` fails because it imports `bootstrap.ts` and `store.ts` uses a parameter property that Node's type stripping rejects. `tsx` gets past the syntax but not `import.meta.dir`. | No. Running without Bun needs a patch to `bootstrap.ts` and `store.ts`. Installing Bun keeps `vendor/` untouched. |
 | 7 | Both | `bootstrap.ts` runs a package install inside the skill folder | With symlinks into `vendor/`, `node_modules/` would land in `vendor/`. | Mostly. Upstream's `vendor/pstack/.gitignore` already ignores it, so git stays clean. Phase 1 still builds into `dist/`, so installs land there. |
-| 8 | Both | `name: Poteto Mode` and `name: Make Bot UI` in frontmatter | The folder names are `poteto-mode` and `make-bot-ui`. | Unknown. The runs will show whether `/poteto-mode` and `$poteto-mode` resolve. Phase 1's frontmatter rewrite can fix it either way. |
+| 8 | Both | `name: Poteto Mode` and `name: Make Bot UI` in frontmatter | The folder names are `poteto-mode` and `make-bot-ui`. | Claude Code: no issue. Run 1's `/poteto-mode` loaded the skill. Codex untested. |
 | 9 | Both | `deslop`, `control-ui`, `control-cli` from `cursor-team-kit`, and `/loop`, `/create-skill` from Cursor | Not installed. | Partly. `t3.md` maps `control-ui` to `preview_*` and `/loop` to `schedule_task`. `codex.md` maps `create-skill` to `skill-creator`. `deslop` has no row, so it is skipped. It is a code cleanup pass over the branch diff (needless comments, abnormal try/catch, `any` casts, deep nesting), not commit message rules. |
 | 10 | Both | Each child can delegate further (orchestrate's sub-coordinators) | Both agents' children get the full T3 tool set and `canRunChildTask` for both providers. | Yes, no row needed. |
 
@@ -44,16 +44,16 @@ Budget for the first round:
 | 1 | Bug fix | ``/poteto-mode `python -m ledger summary data/sample.csv --month 2026-03` reports rent as 1925.00. March 2026 rent was 975.00. Fix it. Use at most 3 subagents.`` |
 | 2 | Feature | ``/poteto-mode Add `--format json` to `ledger summary`. It prints the category totals as one JSON object. Use at most 3 subagents.`` |
 | 3 | Swarm | `/swarm Check that each of the 3 modules in ledger/ (parse.py, summary.py, __main__.py) has a unit test that would fail if its public behaviour broke. One worker per module, 3 workers total. Report PASS or ISSUES per module. Do not change any files.` |
-| 4 | Orchestrate | `/poteto-mode Use the Orchestrate playbook, scaled down. Move ledger from float amounts to integer pence as exactly 2 stacked PRs: first parse.py, then summary.py and the CLI. No sub-coordinators. Use at most 4 subagents in total. Do not merge.` |
+| 4 | Autonomous run | ``/poteto-mode Move ledger from float amounts to integer pence so totals are exact. Done means `python -m unittest` passes, a new test shows summing 0.10 three times gives exactly 0.30, and `python -m ledger summary data/sample.csv --month 2026-03` prints what the fixed code prints today. Run until done, then open one PR. Use at most 3 subagents.`` |
 
-Orchestrate names its playbook because the router sends work this small to Autonomous run, which would not test Orchestrate.
+Orchestrate is left out. It is built for multi-day programs with sub-coordinators, and a three-file fixture cannot exercise it. Autonomous run replaces it because its wake step tests the `/loop` rows in `t3.md`.
 
 | # | Playbook | Agent | wstack commit | Thread | Result |
 | --- | --- | --- | --- | --- | --- |
-| 1 | Bug fix | Claude Code | | | not run |
+| 1 | Bug fix | Claude Code | `d00e113` | `mcp:464dbd91-1fd4-4bb2-be8f-a4ed38c424f3` | Pass in 2 minutes. Failing test before fix, one child, PR [#1](https://github.com/willgosnold/pstack-phase0-sandbox/pull/1) linked. |
 | 2 | Feature | Claude Code | | | not run |
 | 3 | Swarm | Claude Code | | | not run |
-| 4 | Orchestrate | Claude Code | | | not run |
+| 4 | Autonomous run | Claude Code | | | not run |
 
 ## Failures
 
@@ -61,3 +61,14 @@ One row per call that went wrong: playbook, agent, what the skill asked for, wha
 
 | Playbook | Agent | Skill asked for | Agent did | New adapter row? |
 | --- | --- | --- | --- | --- |
+| Bug fix | Claude Code | `run_in_background: true` on every Task | `delegate_task` with `mode: "wait"` | No. The row maps it to `async`. The agent chose to block because its next step needed the result. Harmless here. |
+| Bug fix | Claude Code | Open a todolist of the playbook steps first | No list at the start. The steps appear only in the final reply. | No. `claude-code.md` already gives the fallback. The agent skipped it. |
+| Bug fix | Claude Code | `deslop` before commit | Skipped and said so | No. Not installed, as expected. |
+
+### What worked in run 1
+
+- `CLAUDE.md` pointed the agent at both adapters, and it read them before starting.
+- `orchestrator_capabilities` came first, then `delegate_task` with the `poteto-agent` brief line, `isolation: "worktree"`, and Claude Sonnet 5.5 at `low` in place of `grok-4.7-xhigh-fast`.
+- The child committed on its own worktree branch. The parent cherry-picked the commit and verified it itself.
+- `gh pr create` opened a ready PR, then `link_pull_request` linked it.
+
