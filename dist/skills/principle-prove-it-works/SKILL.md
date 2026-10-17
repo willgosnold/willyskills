@@ -4,8 +4,6 @@ description: "Apply after completing a task, before declaring done. Verify again
 disable-model-invocation: true
 ---
 
-> **pstack install note.** Once per session, before following this skill, read your agent's adapter. It maps the Cursor names below to your agent. Paths are relative to this file's folder. In Claude Code, read `../pstack/docs/harness/claude-code.md`, then `../pstack/adapters/claude-code.md`. In Codex, read `../pstack/adapters/codex.md`. If the T3 Code tools are present (`delegate_task`), also read `../pstack/adapters/t3.md`. Its rows win for subagents, models, schedules, pull requests, and transcripts.
-
 # Prove It Works
 
 Verify every task output by checking the real thing directly. Do not infer from proxies, self-reports, or "it compiles."

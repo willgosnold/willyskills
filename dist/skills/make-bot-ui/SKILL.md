@@ -1,14 +1,11 @@
 ---
 name: make-bot-ui
 description: >-
-  Use when building a custom UI (page, dashboard, buttons) that should wake a
-  Grok Bot over a webhook, when the user must provide a webhook sender key, or
-  when exposing that UI on Tailscale.
+  Use when building a custom UI (page, dashboard, buttons) that should wake
+  this agent over a webhook, when the user must provide a webhook sender key,
+  or when exposing that UI on Tailscale.
 disable-model-invocation: true
 ---
-
-> **pstack install note.** Once per session, before following this skill, read your agent's adapter. It maps the Cursor names below to your agent. Paths are relative to this file's folder. In Claude Code, read `../pstack/docs/harness/claude-code.md`, then `../pstack/adapters/claude-code.md`. In Codex, read `../pstack/adapters/codex.md`. If the T3 Code tools are present (`delegate_task`), also read `../pstack/adapters/t3.md`. Its rows win for subagents, models, schedules, pull requests, and transcripts.
-
 # How to make a bot UI
 
 Build a page the user clicks. A server on this computer POSTs JSON to a webhook routine. The bot wakes with that JSON. Keep the sender key on the server. Do not put the sender key in the browser, in chat, or in this skill.
@@ -37,7 +34,7 @@ Tell the user to do this:
 4. Copy the webhook URL. The user may paste the URL in chat.
 5. Copy the sender key. The user must not paste the sender key in chat.
 
-The URL looks like `https://api2.cursor.sh/automations/webhook/<id>` with no query string. Copy the URL from the routine. Do not guess the id.
+The URL has no query string. Copy the URL from the routine. Do not guess the id.
 
 ## Request the sender key
 
@@ -55,7 +52,7 @@ After the user submits the secret, you do not see the value. The value is in tha
 
 ## Host the page on this computer
 
-Store `{url, key}` in that UI's own directory. Buttons POST to this local server. The local server, not the browser, POSTs to the Grok Bot webhook.
+Store `{url, key}` in that UI's own directory. Buttons POST to this local server. The local server, not the browser, POSTs to the routine's webhook.
 
 Bind the server to `0.0.0.0:<port>`, not `127.0.0.1`. Tailscale peers cannot reach a localhost-only bind.
 
