@@ -1,7 +1,7 @@
 === entry 4361cd5210cd
 kind: translation
 rules: webhook, cursor-only
-intent: The UI wakes this T3 thread over a webhook, and the user provides the webhook's signing secret instead of a sender key. Drops Cursor's "Grok Bot" product name. Preserve the three triggers (custom UI, the secret the user must provide, Tailscale) and the frontmatter keys.
+intent: The UI wakes this T3 thread over a webhook, and the user provides the webhook's signing secret instead of a sender key. Drops Cursor's "Grok Bot" product name. Preserve the three triggers (custom UI, the secret the user must provide, Tailscale) and the frontmatter keys. The name is the folder name: the skills CLI names the install folder after it, and Codex matches $name against it.
 --- upstream
 ---
 name: Make Bot UI
@@ -13,7 +13,7 @@ disable-model-invocation: true
 ---
 --- patched
 ---
-name: Make Bot UI
+name: make-bot-ui
 description: >-
   Use when building a custom UI (page, dashboard, buttons) that should wake
   this T3 thread over a webhook, when the user must provide the webhook's

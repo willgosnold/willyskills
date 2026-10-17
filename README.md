@@ -11,11 +11,10 @@ Created in [T3 Code](https://t3.codes).
 | Path | What it is |
 | --- | --- |
 | `vendor/pstack/` | Upstream, byte for byte. Never edit it. |
-| `upstream.json` | The pinned upstream commit and its tree hash. |
-| `patchbook/` | Every change to upstream: `patch.md` (the rules and the entry format), `snippets.md`, `entries/` (one file per upstream file), `retired.md`. |
+| `.patchbook/` | Every change to upstream, for the [patchbook](https://github.com/willgosnold/patchbook) CLI: `config.toml`, `upstream.lock` (the pin), `blocks/` (paragraph edits, one file per upstream file), `changes/` (file edits and moves), `patch.md` (the rules for writing them), `hooks.py`, `testing.md`. |
 | `models.json` | The default model for each pstack role. A project's `.agents/pstack-models.md` overrides it line by line (`/setup-pstack` writes that file). |
 | `skills/` | Build output, one folder per skill, plus a `pstack` folder holding the subagent briefs. Never edit it. |
-| `tools/wstack.py` | Sync, status, scaffold, and build. |
+| `tools/update-projects.sh` | Runs `npx skills update` in every project under `~/Projects` that installed wstack, then commits and pushes the result. |
 
 ## Use
 
@@ -28,14 +27,17 @@ npx skills add willgosnold/wstack --skill '*' -a claude-code -a codex   # or a l
 
 This puts one copy of each skill in `.agents/skills/`, which Codex reads, and symlinks `.claude/skills/` to it. Invoke `/poteto-mode` in Claude Code and `$poteto-mode` in Codex. pstack's own scripts need [Bun](https://bun.sh).
 
-Maintaining the build needs Python 3.9+ and git:
+Maintaining the build needs the [patchbook](https://github.com/willgosnold/patchbook) CLI:
 
 ```sh
-tools/wstack.py sync [ref]   # replace vendor/ with upstream <ref> (default main)
-tools/wstack.py status       # list blocks missing an entry, orphaned entries, and leftover Cursor terms (--json for agents)
-tools/wstack.py scaffold     # append a skeleton entry for each missing block
-tools/wstack.py blocks <f>   # print an upstream file's blocks and hashes, for policy entries
-tools/wstack.py build        # vendor/ + patchbook/ + models.json -> skills/
+patchbook check              # has upstream pstack moved? exits 10 if so
+patchbook sync [ref]         # replace vendor/ with upstream <ref> and carry the changes forward
+patchbook status             # list what broke (--json for agents)
+patchbook scaffold           # append a skeleton entry for each missing block
+patchbook blocks <f>         # print an upstream file's blocks and hashes
+patchbook build              # vendor/ + .patchbook/ + models.json -> skills/
 ```
 
-`build` fails if `vendor/` differs from `upstream.json`, if `status` reports any problem, or if a conflict marker reaches `skills/`. A build at an unchanged pin leaves `git status` clean. After a sync, run `status` and resolve what it lists as `patchbook/patch.md` describes.
+`build` fails if `vendor/` differs from the pin, if `status` reports any problem, or if a conflict marker reaches `skills/`. A build at an unchanged pin leaves `git status` clean. After a sync, resolve what `status` lists as `.patchbook/patch.md` describes.
+
+A daily T3 scheduled task does this on its own with the `patchbook-update` skill: it syncs, repairs, builds, tests (`.patchbook/testing.md`), reviews, merges, and runs `tools/update-projects.sh`. It asks you only when it can't decide.

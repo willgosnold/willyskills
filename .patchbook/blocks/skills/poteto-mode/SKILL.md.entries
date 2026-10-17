@@ -133,7 +133,7 @@ intent: Drops the cloud-agent URL from Session pickup's sources and the Cursor r
 === entry d86f2f568076
 kind: translation
 rules: invoke
-intent: The description names both invocations, /poteto-mode for Claude Code and $poteto-mode for Codex. Everything else stays verbatim, including the icon and color keys.
+intent: The description names both invocations, /poteto-mode for Claude Code and $poteto-mode for Codex. Everything else stays verbatim, including the icon and color keys. The name is the folder name: the skills CLI names the install folder after it, and Codex matches $name against it.
 --- upstream
 ---
 name: Poteto Mode
@@ -144,7 +144,7 @@ color: yellow
 ---
 --- patched
 ---
-name: Poteto Mode
+name: poteto-mode
 description: poteto's agent style for concise, detailed responses, deliberate subagents, unslopped prose, simple code, and verified work. Use for poteto, /poteto-mode or $poteto-mode, or requests to work in this style.
 disable-model-invocation: true
 icon: crown

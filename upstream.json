@@ -1,7 +1,0 @@
-{
-  "remote": "https://github.com/cursor/plugins.git",
-  "path": "pstack",
-  "commit": "101b274dd991f694e1f7024be2157e5f3adf07de",
-  "tree": "54ac5265638c4455ec3d04d496a379b5afc6aac2",
-  "version": "0.15.25"
-}

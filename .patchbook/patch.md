@@ -1,8 +1,8 @@
 # Patchbook
 
-Every change wstack makes to upstream pstack is recorded here. Upstream is written for Cursor. wstack ships it for agents running in T3 Code (Claude Code or Codex), so the build replaces each upstream block that needs a change with a patched version. Agents see only the result: never Cursor's names, an adapter, or a lookup table.
+Every change wstack makes to upstream pstack is recorded in `.patchbook/`, and the [patchbook](https://github.com/willgosnold/patchbook) CLI builds `skills/` from it. This file is the guide for writing and repairing those changes. Upstream is written for Cursor. wstack ships it for agents running in T3 Code (Claude Code or Codex), so the build replaces each upstream block that needs a change with a patched version. Agents see only the result: never Cursor's names, an adapter, or a lookup table.
 
-Each entry has a kind:
+Most changes are block entries, one per upstream paragraph. Each entry has a kind:
 
 - **translation**: says in T3's terms what upstream says in Cursor's. The rules below define these.
 - **policy**: changes what pstack does. Its intent says why, and how to tell whether it still applies.
@@ -10,7 +10,7 @@ Each entry has a kind:
 
 ## Entries
 
-`entries/<upstream path>.entries` holds the entries for one upstream file, such as `entries/skills/poteto-mode/SKILL.md.entries`. (The suffix keeps the `skills` CLI from mistaking them for skills.) A block is a run of lines between blank lines, a whole fenced code block, or a file's frontmatter. Any shipped file with an entries file is patched, scripts included; only Markdown is checked for Cursor terms. Each entry:
+`blocks/<upstream path>.entries` holds the entries for one upstream file, such as `blocks/skills/poteto-mode/SKILL.md.entries`. (The suffix keeps the `skills` CLI from mistaking them for skills.) A block is a run of lines between blank lines, a whole fenced code block, or a file's frontmatter. Only Markdown is checked for Cursor terms. Code is changed with whole-file edits instead (see Changes, below). Each entry:
 
 ```
 === entry <hash>
@@ -29,7 +29,7 @@ intent: <what this change does, in a sentence or two>
 - an entry's upstream block no longer exists (**orphan**),
 - the output contains a Cursor term, or a `{{model:…}}` or `{{snippet:…}}` placeholder it cannot fill.
 
-`tools/wstack.py status` lists every problem (`--json` adds the block text, for agents), and `tools/wstack.py scaffold` appends a skeleton entry for each missing block. When upstream changes, status shows what moved. A missing block is rewritten from these rules. An orphan's intent decides its fate: if the change still applies to the new upstream text, rewrite it there, otherwise move it to `retired.md` with the reason.
+`patchbook status` lists every problem (`--json` adds the block text, for agents), and `patchbook scaffold` appends a skeleton entry for each missing block. When upstream changes, status shows what moved. A missing block is rewritten from these rules. An orphan's intent decides its fate: if the change still applies to the new upstream text, rewrite it there, otherwise move it to `retired.md` with the reason.
 
 ## How to rewrite
 
@@ -210,11 +210,12 @@ Intent: remove steps that cannot happen here, so they don't distract.
 Cursor: automations, cloud agents and their VMs, the agents dashboard, Ask mode and `allow_multiple` question options, workspace-scoped transcript paths, a Cursor restart, Cursor's pull request tool, skill frontmatter keys only Cursor reads.
 T3: delete the step or clause. Bugbot is a GitHub app, so its PR comments can still appear: keep Bugbot triage, but call it Bugbot, not Cursor Bugbot.
 
-## Changes the build makes in code
+## Changes
 
-These apply to every build, not to one block, so `tools/wstack.py` makes them. Each still records its intent here.
+Anything that isn't one paragraph is a change in `changes/<name>/CHANGE.md`, applied in the order `series` lists. Each has an intent, and `patchbook show <name>` prints it with its diffs.
 
-- **Ship only what T3 agents read.** `skills/`, `agents/`, and `LICENSE`. Upstream's `docs/`, `automations/`, `README.md`, and `plugin.json` are for Cursor users. Intent: nothing in the install points at Cursor.
-- **The `pstack` support skill.** Holds `agents/` (the subagent briefs) and `LICENSE`, beside the other skills. Intent: the `skills` CLI installs skill folders only, and briefs need a stable sibling path.
-- **Each skill's `name` is its folder name.** Intent: the `skills` CLI names the install folder after `name`, and Codex matches `$name` against it.
-- **`node_modules/` is gitignored beside each `scripts/package.json`.** Intent: Bun installs packages inside the user's project.
+- **pstack-support-skill**: the subagent briefs and the LICENSE ship in a `pstack` support skill, since the `skills` CLI installs skill folders only.
+- **bun-gitignore**: `node_modules/` is gitignored beside `scripts/package.json`.
+- **check-plan-hourly-tick** and **worktree-audit-t3-chats**: whole-file edits to upstream's scripts. When upstream changes a script, sync merges it with ours; a conflict is resolved from the change's intent.
+
+Only `skills/` ships (`[output]` in `config.toml`). Upstream's `docs/`, `automations/`, `README.md`, and `plugin.json` are for Cursor users. `hooks.py` holds the checks a pattern can't express: each skill's `name` must be its folder name, because the `skills` CLI names the install folder after it and Codex matches `$name` against it, and `node_modules/` must be gitignored beside each `scripts/package.json`.
