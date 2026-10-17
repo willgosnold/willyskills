@@ -51,7 +51,7 @@ Orchestrate is left out. It is built for multi-day programs with sub-coordinator
 | # | Playbook | Agent | wstack commit | Thread | Result |
 | --- | --- | --- | --- | --- | --- |
 | 1 | Bug fix | Claude Code | `d00e113` | `mcp:464dbd91-1fd4-4bb2-be8f-a4ed38c424f3` | Pass in 2 minutes. Failing test before fix, one child, PR [#1](https://github.com/willgosnold/pstack-phase0-sandbox/pull/1) linked. |
-| 2 | Feature | Claude Code | | | not run |
+| 2 | Feature | Claude Code | `4d03959` | `mcp:04058359-5983-484d-b1ce-703ea55c611d` | Pass in 3 minutes over two turns. Async child woke the parent. Parent caught a regression the child missed. PR [#2](https://github.com/willgosnold/pstack-phase0-sandbox/pull/2) linked. |
 | 3 | Swarm | Claude Code | | | not run |
 | 4 | Autonomous run | Claude Code | | | not run |
 
@@ -71,4 +71,12 @@ One row per call that went wrong: playbook, agent, what the skill asked for, wha
 - `orchestrator_capabilities` came first, then `delegate_task` with the `poteto-agent` brief line, `isolation: "worktree"`, and Claude Sonnet 5.5 at `low` in place of `grok-4.7-xhigh-fast`.
 - The child committed on its own worktree branch. The parent cherry-picked the commit and verified it itself.
 - `gh pr create` opened a ready PR, then `link_pull_request` linked it.
+| Feature | Claude Code | `how` explainer and `architect` runners as subagents | Did both inline and said so | No. The prompt's 3-subagent cap caused it. |
+
+### What worked in run 2
+
+- The implementer ran with `mode: "async"`. The parent ended its turn, T3 woke it with "Delegated task finished", and it read the result with `task_status`. This is the `run_in_background` row working end to end.
+- `comment-sicko` ran from the brief line with "Do not edit, create, commit, or push files", and reported without editing.
+- The parent reviewed the child's diff, found a blank-line regression on empty months, fixed it, and checked table output against the old code.
+- It listed the playbook steps mid-run this time.
 
