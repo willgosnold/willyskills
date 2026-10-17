@@ -44,6 +44,8 @@ CURSOR_TERMS = re.compile("|".join([
     r'environment: ?"', r"AskQuestion", r"\.mdc\b", r"\b[Gg]rok\b", r"\bcomposer-", r"\bComposer\b",
     r"claude-opus-\d+-\d+-", r"agent-transcripts", r"/loop\b", r"[Cc]loud agent",
     r"control-(?:ui|cli)", r"mcps/", r"[Tt]odo ?list", r"generalPurpose",
+    r"\bcreate-skill\b", r"fast or standard", r"\bVMs?\b", r"allow_multiple", r"workspace-scoped",
+    r"docs/guide/", r"\.\./README\.md",
 ]))
 PLACEHOLDER = re.compile(r"\{\{(model|snippet):([^}]+)\}\}")
 ENTRY_KINDS = ("translation", "policy", "keep")

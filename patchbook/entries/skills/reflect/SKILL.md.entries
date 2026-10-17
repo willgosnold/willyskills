@@ -81,8 +81,8 @@ One `delegate_task` call, with its own `clientRequestId` and its model from the 
 
 === entry ff502e4a2467
 kind: translation
-rules: team-kit
-intent: No rule names this skill; team-kit (a Cursor-shipped skill that may be absent) is the closest. Cursor's built-in `create-skill` becomes the `skill-creator` skill, if it is installed (the skill-creator plugin in Claude Code, the built-in `skill-creator` in Codex), which has the same draft / test / iterate and description-optimization loops. The routing label `new skill via create-skill:` stays, since the synthesizer template emits it.
+rules: create-skill
+intent: The skill-authoring handoffs go to the `skill-creator` skill, if it is installed, which has the same draft / test / iterate and description-optimization loops. The routing label becomes `new skill via skill-creator:`, matching what the synthesizer template emits. Keep the four routes and the trivial-edit-done-directly rule.
 --- upstream
 - Trivial existing-skill edit (a one-line bullet, a tightened sentence, a stale fact corrected): the parent does it directly.
 - Substantive existing-skill edit (a new section, a new pattern table, more than ~10 lines): hand to Cursor's built-in `create-skill` skill and run its draft / test / iterate loop.
@@ -92,4 +92,4 @@ intent: No rule names this skill; team-kit (a Cursor-shipped skill that may be a
 - Trivial existing-skill edit (a one-line bullet, a tightened sentence, a stale fact corrected): the parent does it directly.
 - Substantive existing-skill edit (a new section, a new pattern table, more than ~10 lines): hand to the `skill-creator` skill, if it is installed, and run its draft / test / iterate loop.
 - `tune description: <skill path>` (the skill exists but didn't trigger when it should have): hand to `skill-creator` and run its description-optimization loop.
-- `new skill via create-skill: <kebab-name>`: hand creation to `skill-creator`. Do not invent the shape ad hoc.
+- `new skill via skill-creator: <kebab-name>`: hand creation to `skill-creator`. Do not invent the shape ad hoc.

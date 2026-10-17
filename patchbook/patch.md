@@ -98,7 +98,7 @@ T3: "the `<role>` line in {{snippet:models-file}}, else {{model:<role>}}". Where
 ### model-effort
 Intent: the user's line sets the budget.
 Cursor: "pick the reasoning level and fast or standard speed", raise for hard work, lower for routine, fast only when urgent.
-T3: the line's effort is a ceiling. Lower it for routine work, never raise it. Never set `fastMode`.
+T3: the line's effort is a ceiling. Lower it for routine work, never raise it. Never set `fastMode`. Where upstream says "Pick each subagent's reasoning level and fast or standard speed for the job", write "Set each subagent's effort for the job, lowering its line's effort for routine work and never raising it.".
 
 ### model-unnamed
 Intent: spawns that name no role still get a deliberate model.
@@ -176,9 +176,19 @@ Intent: some steps use skills from Cursor's separate `cursor-team-kit` plugin. T
 Cursor: "the `deslop` skill from the `cursor-team-kit` plugin", "`control-ui` from `cursor-team-kit`".
 T3: drop the plugin name. `deslop` becomes "`/deslop`, if it is installed". `control-ui` and `control-cli` follow rule `verify-surface`.
 
+### create-skill
+Intent: authoring a skill uses the skill-writing skill the agent has.
+Cursor: `create-skill` (Cursor's built-in skill-authoring skill), `/create-skill`.
+T3: "the `skill-creator` skill, if it is installed". Codex bundles it, and Claude Code gets it as a plugin. Labels and templates that name `create-skill` name `skill-creator`.
+
+### unshipped-link
+Intent: don't point agents or users at files that aren't installed.
+Cursor: relative links to `docs/guide/` pages or pstack's `README.md`.
+T3: drop the link and keep the sentence if it still says something on its own; otherwise drop the sentence.
+
 ## Cursor-only
 
 ### cursor-only
 Intent: remove steps that cannot happen here, so they don't distract.
-Cursor: automations, cloud agents, the agents dashboard, a Cursor restart, Cursor's pull request tool, skill frontmatter keys only Cursor reads.
+Cursor: automations, cloud agents and their VMs, the agents dashboard, Ask mode and `allow_multiple` question options, workspace-scoped transcript paths, a Cursor restart, Cursor's pull request tool, skill frontmatter keys only Cursor reads.
 T3: delete the step or clause. Bugbot is a GitHub app, so its PR comments can still appear: keep Bugbot triage, but call it Bugbot, not Cursor Bugbot.
