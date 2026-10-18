@@ -8,6 +8,7 @@ e901d1fdbc9ffce53e94d6514be7d9a22e771a1a benchmark-checklist/SKILL.md
 b296cce0d746260a53c16e3671cb05bacfe82daf blast-radius/SKILL.md
 b1701b778639c08bfc306291d70170c525c66a68 bro/SKILL.md
 c45e06f48a0982ae19f92c6e83a8cd05988097a3 correct/SKILL.md
+fa7f62aed3117212e13066bee9ebf9451e59da7d create-formal-verification-skill/SKILL.md
 4100648cc226eb46bfb4551e5046bdf1e5b62b8b create-verification-skill/SKILL.md
 fb64570cfab3bbe672fe80925651933ebd57aa33 create-verification-skill/references/feature-map-example/README.md
 21357566b69223a503d6780a04fb90ce540eae22 create-verification-skill/references/feature-map-example/create-note.md
@@ -22,11 +23,11 @@ c9ce99bcbfaa4a2fd5945d159f99243ed56a860b how/SKILL.md
 3b41346c9c3f5c35453d34f1c77374b7e9346aa9 interrogate/references/lead-judgment.md
 ef7bff3d77c35a0af2a9947187ccee15465657f4 interrogate/references/reviewer-prompt.md
 8dab195ab840554bfe5e74e9b5ca0d9edbe9b496 interrogate/references/rubric.md
-d214e0efcedd12fffd037f29c256e79db09baa38 ketchup/SKILL.md
+6ae116ef2eee81b23ec77663d065bbe2a5227bb4 ketchup/SKILL.md
 a9257bfd97ea94db4fcf8a490e8f9fd5b716c6c0 maintain-verification-skill/SKILL.md
 cb5934e0b224c725eef6f35645285d72cbbb0d2f make-bot-ui/SKILL.md
 e4e53545c25eece723922b1a22625867309dcdc7 no-comments/SKILL.md
-38c86d89784b9262dba132c33dc3bc664fe16a7b poteto-help/SKILL.md
+70417e861e3bfb7f6742d714168c7173892c0721 poteto-help/SKILL.md
 28e541a9abcb9e0c772cc3cc8fdcfcefaa4ac7f0 poteto-help/references/prompting.md
 d20f92a3fc512b3c76776df97f29a7a3c9f78f74 poteto-help/references/recipes.md
 7f03a14d08a7210790873fb98c413d1421a5b07c poteto-mode/SKILL.md
@@ -119,8 +120,8 @@ db220376ecb8c582a6a4f6575a8f26469603a38d show-me-your-work/references/decision-l
 ca6f24c963001d9d518db2936dfe3d12f29b4e94 tdd/SKILL.md
 25369f3f554ed6b5826340ae3eee688fac0bda80 teach/SKILL.md
 ef1b713b32bdb5a40218f9b4ee4e220e32386c00 technical-writing/SKILL.md
-2c0279d9a5f800192605e47b55cae4e75a17ec27 typescript-best-practices/SKILL.md
-c21d876b71b9c7afa897f2f6d982ead07db8f104 typescript-best-practices/references/patterns.md
+e1e5aa7c97ed39c425d60d933a96424a3f14539e typescript-best-practices/SKILL.md
+f8dd99b63ecb469a090b8fa0a7e235d3239cb9ec typescript-best-practices/references/patterns.md
 97f5b6412148fa5b2a2fe478836fe8923ffa5cbb unslop/SKILL.md
 681bd66e6a128379e5c6b65124ea1f8b509ab582 why/SKILL.md
 b18abf41dfa245ee55e94f1b3a80c0b750eb10cf why/references/epistemics.md
