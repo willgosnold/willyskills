@@ -1,4 +1,6 @@
-=== entry 9594984f79fd
+
+
+=== entry fb407ded25ad
 kind: keep
 rules: 
 intent: `readonly` here is the TypeScript modifier in a branded type, not Cursor's subagent setting.
@@ -6,9 +8,13 @@ intent: `readonly` here is the TypeScript modifier in a branded type, not Cursor
 ```ts
 type AgentId = string & { readonly __brand: "AgentId" };
 
+function isAgentId(input: string): input is AgentId {
+  return isUUID(input);
+}
+
 function parseAgentId(input: string): AgentId {
-  if (!isUUID(input)) throw new Error(`Invalid agent id: ${input}`);
-  return input as AgentId;
+  if (!isAgentId(input)) throw new Error(`Invalid agent id: ${input}`);
+  return input;
 }
 
 function focusAgent(id: AgentId): void {
@@ -19,9 +25,13 @@ function focusAgent(id: AgentId): void {
 ```ts
 type AgentId = string & { readonly __brand: "AgentId" };
 
+function isAgentId(input: string): input is AgentId {
+  return isUUID(input);
+}
+
 function parseAgentId(input: string): AgentId {
-  if (!isUUID(input)) throw new Error(`Invalid agent id: ${input}`);
-  return input as AgentId;
+  if (!isAgentId(input)) throw new Error(`Invalid agent id: ${input}`);
+  return input;
 }
 
 function focusAgent(id: AgentId): void {
