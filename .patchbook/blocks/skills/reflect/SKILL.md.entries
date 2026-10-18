@@ -47,7 +47,7 @@ Each reviewer and the synthesizer name a role line and a default. Take each one'
 === entry ef9be67a1261
 kind: translation
 rules: model-role
-intent: The default column holds each role's wstack default from models.json instead of a hard-coded model. Keeps the lens, role line, and template columns as they are.
+intent: The default column holds each role's willystack default from models.json instead of a hard-coded model. Keeps the lens, role line, and template columns as they are.
 --- upstream
 | Lens | Role line | Default `model` | Prompt template |
 |---|---|---|---|

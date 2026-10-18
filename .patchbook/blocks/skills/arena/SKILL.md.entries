@@ -10,7 +10,7 @@ Open a step list with one entry per phase (Frame, Fan out, Cross-judge, Pick, Gr
 === entry 770da2ab6869
 kind: translation
 rules: model-role, model-effort
-intent: Runners come from the `arena runners` line in the project models file, else wstack's default, applied with the model-entry snippet; the rejected-slug and family-prefix fallbacks and the speed/reasoning sentence are dropped. Preserve the frame steps, the more-runners and same-model-N-times guidance, and the per-candidate output location.
+intent: Runners come from the `arena runners` line in the project models file, else willystack's default, applied with the model-entry snippet; the rejected-slug and family-prefix fallbacks and the speed/reasoning sentence are dropped. Preserve the frame steps, the more-runners and same-model-N-times guidance, and the per-candidate output location.
 --- upstream
 1. State the artifact each candidate is producing.
 2. Derive the rubric, 3-6 concrete gradeable criteria for what success looks like on *this* task. It is the picker's tool in Phase D. Candidates only see the task.
@@ -34,7 +34,7 @@ Spawn all N subagents in one message: N `delegate_task` calls with `mode: "async
 === entry 3beef0b00105
 kind: translation
 rules: model-role, delegate, read-only, background
-intent: The cross-judge model comes from the `arena cross-judge pool` line in the project models file, else wstack's default, and the judge is a read-only async delegate_task child. Preserve the different-family preference, what the judge sees and returns, that it runs alongside Phase D, and that it waits for all candidates.
+intent: The cross-judge model comes from the `arena cross-judge pool` line in the project models file, else willystack's default, and the judge is a read-only async delegate_task child. Preserve the different-family preference, what the judge sees and returns, that it runs alongside Phase D, and that it waits for all candidates.
 --- upstream
 After all Phase B candidates complete, choose one model from the `arena cross-judge pool` line in `~/.cursor/rules/pstack-models.mdc`. If the rule or that line is missing, choose from `claude-opus-5-5-xhigh` and `grok-4.7-xhigh-fast`. Prefer a different model family from the parent's. Spawn one readonly judge subagent on that model. It sees the rubric and the candidates by path label, scores each criterion, and recommends a base with rationale. It runs in parallel with your reading in Phase D. Don't spawn it while candidates are still writing.
 --- patched
