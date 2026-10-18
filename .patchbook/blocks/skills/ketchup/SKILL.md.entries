@@ -1,11 +1,13 @@
-=== entry b9ab39eaa52e
+
+
+=== entry 791b44ee6782
 kind: translation
 rules: invoke
-intent: The cutoff is the message before the user typed the invocation, so it gives both forms. Preserve that notifications and subagent results are not the user's messages.
+intent: The cutoff is the message before the user typed the invocation, so it gives both forms. Preserve that notifications and subagent results are not the user's messages. Preserve the new sentence about laying out every call waiting on the user.
 --- upstream
-Catch the user up on what changed in this chat since the last message they wrote before `/ketchup`, and help them understand each change, not only where it stands. Notifications and subagent results are not their messages. Assume the user remembers their last message and nothing after it.
+Catch the user up on what changed in this chat since the last message they wrote before `/ketchup`, and help them understand each change, not only where it stands. Then lay out every call waiting on them so they can make it from your reply alone. Notifications and subagent results are not their messages. Assume the user remembers their last message and nothing after it.
 --- patched
-Catch the user up on what changed in this chat since the last message they wrote before `/ketchup` (`$ketchup` in Codex), and help them understand each change, not only where it stands. Notifications and subagent results are not their messages. Assume the user remembers their last message and nothing after it.
+Catch the user up on what changed in this chat since the last message they wrote before `/ketchup` (`$ketchup` in Codex), and help them understand each change, not only where it stands. Then lay out every call waiting on them so they can make it from your reply alone. Notifications and subagent results are not their messages. Assume the user remembers their last message and nothing after it.
 
 === entry 3c84b43f4af8
 kind: translation
