@@ -1,3 +1,5 @@
+
+
 === entry a4d52f22a6d9
 kind: translation
 rules: model-role, invoke
@@ -48,7 +50,7 @@ Link [Cursor's skills docs](https://cursor.com/docs/skills) when this comes up. 
 --- patched
 Mid-chat, "new task" makes the mode match a fresh playbook. The **poteto-mode** skill already uses `poteto-agent` for the subagents its playbook steps spawn. To get the same style from a subagent of your own, start its brief with "Read `<abs>/pstack/agents/poteto-agent.md` and act as that agent. The poteto-mode skill is at `<abs>/poteto-mode/SKILL.md`.", where `<abs>` is the absolute path of the folder that holds the pstack skills (resolve `..` from this skill's folder).
 
-=== entry 0a83c84ffefa
+=== entry eb596ee1cfcd
 kind: translation
 rules: cursor-only, invoke
 intent: Drops "as cloud agents" from the swarm row, and describes make-bot-ui as waking an agent thread rather than a Grok Bot (no rule covers the bot name; closest faithful). Keep every row and link. The table routes the user to commands, so rows keep `/name` and one Codex `$` sentence sits just above the table inside this entry (status reads each entry alone, so it can't live in the lead-in entry).
@@ -62,7 +64,7 @@ intent: Drops "as cloud agents" from the swarm row, and describes make-bot-ui as
 | Know why code is shaped this way, or where a number came from | [`/why`](../why/SKILL.md) |
 | Understand a change or subsystem, explained plainly | [`/teach`](../teach/SKILL.md) |
 | Catch up on their own recent work on a topic | [`/recall`](../recall/SKILL.md) |
-| Catch up on what changed in this chat since their last message, in a few plain sentences and small visuals, with enough context to decide each action item | [`/ketchup`](../ketchup/SKILL.md) |
+| Catch up on what changed in this chat since their last message, in plain words and small visuals, with every item waiting on them listed and decidable from the reply alone | [`/ketchup`](../ketchup/SKILL.md) |
 | Know what a small diff could break outside itself | [`/blast-radius`](../blast-radius/SKILL.md) |
 | Settle types and module shape before code that crosses a function boundary | [`/architect`](../architect/SKILL.md) |
 | Get several attempts at one brief, merged into the best one | [`/arena`](../arena/SKILL.md) |
@@ -76,6 +78,7 @@ intent: Drops "as cloud agents" from the swarm row, and describes make-bot-ui as
 | Hear the last reply again in plain words | [`/bro`](../bro/SKILL.md) |
 | Give agents a scripted way to drive the app and prove behavior | [`/create-verification-skill`](../create-verification-skill/SKILL.md) |
 | Bring a verification skill and its feature map back in line with the app | [`/maintain-verification-skill`](../maintain-verification-skill/SKILL.md) |
+| Formally verify a race, invariant, or other property that tests rarely reach | [`/create-formal-verification-skill`](../create-formal-verification-skill/SKILL.md) |
 | Vet a performance number before reporting or acting on it | [`/benchmark-checklist`](../benchmark-checklist/SKILL.md) |
 | Run a large or cross-cutting change, or one to review after stepping away | [`/figure-it-out`](../figure-it-out/SKILL.md) |
 | Keep a decision log during a run, and review it afterward | [`/show-me-your-work`](../show-me-your-work/SKILL.md) |
@@ -97,7 +100,7 @@ In Codex, start with `$` instead of `/`.
 | Know why code is shaped this way, or where a number came from | [`/why`](../why/SKILL.md) |
 | Understand a change or subsystem, explained plainly | [`/teach`](../teach/SKILL.md) |
 | Catch up on their own recent work on a topic | [`/recall`](../recall/SKILL.md) |
-| Catch up on what changed in this chat since their last message, in a few plain sentences and small visuals, with enough context to decide each action item | [`/ketchup`](../ketchup/SKILL.md) |
+| Catch up on what changed in this chat since their last message, in plain words and small visuals, with every item waiting on them listed and decidable from the reply alone | [`/ketchup`](../ketchup/SKILL.md) |
 | Know what a small diff could break outside itself | [`/blast-radius`](../blast-radius/SKILL.md) |
 | Settle types and module shape before code that crosses a function boundary | [`/architect`](../architect/SKILL.md) |
 | Get several attempts at one brief, merged into the best one | [`/arena`](../arena/SKILL.md) |
@@ -111,6 +114,7 @@ In Codex, start with `$` instead of `/`.
 | Hear the last reply again in plain words | [`/bro`](../bro/SKILL.md) |
 | Give agents a scripted way to drive the app and prove behavior | [`/create-verification-skill`](../create-verification-skill/SKILL.md) |
 | Bring a verification skill and its feature map back in line with the app | [`/maintain-verification-skill`](../maintain-verification-skill/SKILL.md) |
+| Formally verify a race, invariant, or other property that tests rarely reach | [`/create-formal-verification-skill`](../create-formal-verification-skill/SKILL.md) |
 | Vet a performance number before reporting or acting on it | [`/benchmark-checklist`](../benchmark-checklist/SKILL.md) |
 | Run a large or cross-cutting change, or one to review after stepping away | [`/figure-it-out`](../figure-it-out/SKILL.md) |
 | Keep a decision log during a run, and review it afterward | [`/show-me-your-work`](../show-me-your-work/SKILL.md) |
