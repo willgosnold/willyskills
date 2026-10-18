@@ -1,0 +1,16 @@
+=== entry 998a2806fa96
+kind: translation
+rules: invoke
+intent: The description names both invocations, /in-your-own-words for Claude Code and $in-your-own-words for Codex. Everything else stays verbatim.
+--- upstream
+---
+name: in-your-own-words
+description: "Restate in your own words what you think the user's goals are and what problem they're trying to solve. Use for /in-your-own-words."
+disable-model-invocation: true
+---
+--- patched
+---
+name: in-your-own-words
+description: "Restate in your own words what you think the user's goals are and what problem they're trying to solve. Use for /in-your-own-words or $in-your-own-words."
+disable-model-invocation: true
+---

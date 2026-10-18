@@ -7,7 +7,7 @@ cc4ca5581bb061e36e9c532c78c4471bfc25d2f8 automate-me/SKILL.md
 e901d1fdbc9ffce53e94d6514be7d9a22e771a1a benchmark-checklist/SKILL.md
 b296cce0d746260a53c16e3671cb05bacfe82daf blast-radius/SKILL.md
 b1701b778639c08bfc306291d70170c525c66a68 bro/SKILL.md
-c45e06f48a0982ae19f92c6e83a8cd05988097a3 correct/SKILL.md
+7551a49c129c57d9f919b9200ec424a46ab275e0 correct/SKILL.md
 fa7f62aed3117212e13066bee9ebf9451e59da7d create-formal-verification-skill/SKILL.md
 4100648cc226eb46bfb4551e5046bdf1e5b62b8b create-verification-skill/SKILL.md
 fb64570cfab3bbe672fe80925651933ebd57aa33 create-verification-skill/references/feature-map-example/README.md
@@ -17,13 +17,13 @@ fb64570cfab3bbe672fe80925651933ebd57aa33 create-verification-skill/references/fe
 c9ce99bcbfaa4a2fd5945d159f99243ed56a860b how/SKILL.md
 3a36fb6736c5b74ac2774350841e332a019dec94 how/references/explainer-prompt.md
 724bacfc7df759865c0c29705bfee641e4c1aeca how/references/explorer-prompt.md
-4b2a476a9017863032c8dba9d12f0a2026943292 in-your-own-words/SKILL.md
+eec84607e25d1c3395685fa6a7ee5a3b953a9c8b in-your-own-words/SKILL.md
 0be7eb89498958ad997de0306a239dff45c20f2f interrogate/SKILL.md
 16581250d81044c7e80fe234c4970a3f7b7fc98a interrogate/references/code-quality-review.md
 3b41346c9c3f5c35453d34f1c77374b7e9346aa9 interrogate/references/lead-judgment.md
 ef7bff3d77c35a0af2a9947187ccee15465657f4 interrogate/references/reviewer-prompt.md
 8dab195ab840554bfe5e74e9b5ca0d9edbe9b496 interrogate/references/rubric.md
-6ae116ef2eee81b23ec77663d065bbe2a5227bb4 ketchup/SKILL.md
+184ddc145086f10ae4eefd48f79524af2fcc0701 ketchup/SKILL.md
 a9257bfd97ea94db4fcf8a490e8f9fd5b716c6c0 maintain-verification-skill/SKILL.md
 cb5934e0b224c725eef6f35645285d72cbbb0d2f make-bot-ui/SKILL.md
 e4e53545c25eece723922b1a22625867309dcdc7 no-comments/SKILL.md
@@ -112,7 +112,7 @@ ff91daad1ca4ca71eef12976099c884daca22540 reflect/references/judgment-reviewer.md
 6d1dfef0fad391979398c17eff402da0b0b46b64 reflect/references/synthesizer.md
 2e9774bc1c4486e38b44ee35693d2ddc9937d86a reflect/references/tooling-reviewer.md
 9ef8919a39f6b62b9f0f4096118d0828b9786cfc setup-pstack/SKILL.md
-4f9bb4ab50fd760285dd6c4cbbfa7fe20e2d2466 sharpen/SKILL.md
+95e631fa478c20a2addae8aa90615da42c88ac93 sharpen/SKILL.md
 2e58e0525a21873241e6f3b5c8f1d9ce73cf59be show-me-your-work/SKILL.md
 db220376ecb8c582a6a4f6575a8f26469603a38d show-me-your-work/references/decision-log-template.tsv
 052e53b7e1090579eaec1d3d59f7a1cd2f2e452a show-me-your-work/scripts/log.sh

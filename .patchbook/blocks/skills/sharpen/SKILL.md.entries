@@ -1,0 +1,16 @@
+=== entry b144075ab1e5
+kind: translation
+rules: invoke
+intent: The description names both invocations, /sharpen for Claude Code and $sharpen for Codex. Everything else stays verbatim.
+--- upstream
+---
+name: sharpen
+description: "Sharpen a task before starting: the expert approach, what the user is really after, and the right level of specification. Use for /sharpen."
+disable-model-invocation: true
+---
+--- patched
+---
+name: sharpen
+description: "Sharpen a task before starting: the expert approach, what the user is really after, and the right level of specification. Use for /sharpen or $sharpen."
+disable-model-invocation: true
+---

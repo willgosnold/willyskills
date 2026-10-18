@@ -17,3 +17,20 @@ intent: Borrowing bro's voice names the bro skill, with no slash, and keeps the 
 Use [`/bro`](../bro/SKILL.md)'s voice, not its task: plain words, short sentences, no jargon, like one person catching up another. Say what changed for the user, not how you did it. Say "the tests pass", not "CI is green". Leave out hashes, file paths, commands, build numbers, and test counts unless the user needs one to act. Call each PR, branch, or agent by a name the user would know, not by a label you invented. If a fact needs context to make sense, give the context or leave the fact out.
 --- patched
 Use the [**bro**](../bro/SKILL.md) skill's voice, not its task: plain words, short sentences, no jargon, like one person catching up another. Say what changed for the user, not how you did it. Say "the tests pass", not "CI is green". Leave out hashes, file paths, commands, build numbers, and test counts unless the user needs one to act. Call each PR, branch, or agent by a name the user would know, not by a label you invented. If a fact needs context to make sense, give the context or leave the fact out.
+
+=== entry 12382490e4d7
+kind: translation
+rules: invoke
+intent: The description names both invocations, /ketchup for Claude Code and $ketchup for Codex. Everything else stays verbatim.
+--- upstream
+---
+name: ketchup
+description: "Catch the user up on what changed in this chat since their last message, in plain words and small visuals. List every item waiting on them with what they need to decide it from the reply alone. Use for /ketchup."
+disable-model-invocation: true
+---
+--- patched
+---
+name: ketchup
+description: "Catch the user up on what changed in this chat since their last message, in plain words and small visuals. List every item waiting on them with what they need to decide it from the reply alone. Use for /ketchup or $ketchup."
+disable-model-invocation: true
+---

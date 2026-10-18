@@ -7,9 +7,10 @@ type Problem = { problem: "check"; file: string; detail: string };
 const ROOT = join(import.meta.dirname, "..");
 // Python's \w is Unicode-aware; JS's \w is ASCII even with the u flag.
 const W = String.raw`\p{L}\p{N}_`;
-// `/name` for an installed skill, but not a path such as `docs/how` or `/tmp/how`.
+// `/name` for an installed skill, but not a path such as `docs/how`, `/tmp/how`, or `/how.md`.
+// A `.` that ends a sentence still counts.
 const slashSkill = (names: string) =>
-  new RegExp(String.raw`(?<![${W}/.~-])/(${names})(?![${W}/.-])`, "gu");
+  new RegExp(String.raw`(?<![${W}/.~-])/(${names})(?![${W}/-]|\.[${W}])`, "gu");
 const CODEX_SLASH_NOTE = "start with `$`";
 
 // Not re.escape: under the u flag, `\-` outside a class is a SyntaxError.
