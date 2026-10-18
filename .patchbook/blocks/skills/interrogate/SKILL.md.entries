@@ -10,7 +10,7 @@ Launch all reviewers in a single message, one `delegate_task` call per entry on 
 === entry fc18e66f1474
 kind: translation
 rules: model-role
-intent: The default table comes from wstack's `interrogate reviewers` role. The placeholder expands to a list, so one row covers all reviewers in order. Preserve the table form.
+intent: The default table comes from willystack's `interrogate reviewers` role. The placeholder expands to a list, so one row covers all reviewers in order. Preserve the table form.
 --- upstream
 | Subagent | Default model |
 |----------|---------------|

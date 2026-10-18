@@ -1,6 +1,6 @@
 # Patchbook
 
-Every change wstack makes to upstream pstack is recorded in `.patchbook/`, and the [patchbook](https://github.com/willgosnold/patchbook) CLI builds `skills/` from it. This file is the guide for writing and repairing those changes. Upstream is written for Cursor. wstack ships it for agents running in T3 Code (Claude Code or Codex), so the build replaces each upstream block that needs a change with a patched version. Agents see only the result: never Cursor's names, an adapter, or a lookup table.
+Every change willystack makes to upstream pstack is recorded in `.patchbook/`, and the [patchbook](https://github.com/willgosnold/patchbook) CLI builds `skills/` from it. This file is the guide for writing and repairing those changes. Upstream is written for Cursor. willystack ships it for agents running in T3 Code (Claude Code or Codex), so the build replaces each upstream block that needs a change with a patched version. Agents see only the result: never Cursor's names, an adapter, or a lookup table.
 
 Most changes are block entries, one per upstream paragraph. Each entry has a kind:
 
@@ -91,7 +91,7 @@ T3: `t3_pending_request_read` and `t3_pending_request_respond` with `threadId: <
 ## Models
 
 ### model-role
-Intent: every spawn's model comes from one place the user controls: per-project lines first, then wstack's defaults. Skills never hard-code a model.
+Intent: every spawn's model comes from one place the user controls: per-project lines first, then willystack's defaults. Skills never hard-code a model.
 Cursor: a slug such as `grok-4.7-xhigh-fast` or `claude-opus-5-5-xhigh`; "the `<role>` line in `~/.cursor/rules/pstack-models.mdc`"; "default X if the rule or line is missing"; `auto` / `inherit-parent`; Task `model`.
 T3: "the `<role>` line in {{snippet:models-file}}, else {{model:<role>}}". Where a skill explains how to apply a line, use {{snippet:model-entry}}. Roles are the names in `models.json`. Drop fallbacks for a rejected slug and the family-prefix rules (`claude-*`, `grok-*`, `composer-*`); `orchestrator_capabilities` lists what exists.
 

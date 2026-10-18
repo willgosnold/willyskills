@@ -1,6 +1,6 @@
 # Phase 1 results
 
-Phase 1 adds `tools/wstack.py` (sync and build) and a committed `dist/`. Installing is left to the [`skills` CLI](https://github.com/vercel-labs/skills); see the last section. Every check ran against the same test repo as Phase 0, on the same small bug.
+Phase 1 adds `tools/willystack.py` (sync and build) and a committed `dist/`. Installing is left to the [`skills` CLI](https://github.com/vercel-labs/skills); see the last section. Every check ran against the same test repo as Phase 0, on the same small bug.
 
 ## Done criteria
 
@@ -40,7 +40,7 @@ The trade-off: in Codex, all 54 skills are now model-invocable, although upstrea
 
 ## Switch to the `skills` CLI
 
-Will installs skills per project with the `skills` CLI (1.7.2), so `tools/wstack.py install` was removed. A local test showed three things about the CLI:
+Will installs skills per project with the `skills` CLI (1.7.2), so `tools/willystack.py install` was removed. A local test showed three things about the CLI:
 
 - It keeps one copy of each skill in `.agents/skills/`, which Codex reads, and symlinks `.claude/skills/<name>` to it. Both agents therefore read the same files, so `dist/` is now one agent-neutral `dist/skills/`.
 - It installs only skill folders. Adapters, agent briefs and upstream's Claude Code notes now ship inside a `pstack` support skill, and every path in the install note is relative (`../pstack/...`).
@@ -51,7 +51,7 @@ Will installs skills per project with the `skills` CLI (1.7.2), so `tools/wstack
 | Claude Code (Opus 5.5, medium) | Resolved `../pstack/` and read all three adapter files. Fixed it alone with a failing test first, PR opened and linked. |
 | Codex (GPT-6.1-Sol, low) | Listed `poteto-mode`, read `codex.md` and `t3.md`, delegated the fix to Claude Sonnet 5.5 with the poteto-agent brief. Then it left the change uncommitted and opened no PR, while marking "Stage the commits" and "Run Opening a PR" as completed. An agent slip at low effort, not an install problem. |
 
-The CLI's `skills-lock.json` records a local source by relative path. Installing from a T3 worktree path is fragile. Install from a stable checkout, or from GitHub once wstack is pushed.
+The CLI's `skills-lock.json` records a local source by relative path. Installing from a T3 worktree path is fragile. Install from a stable checkout, or from GitHub once willystack is pushed.
 
 ## Model roles
 
