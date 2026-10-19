@@ -26,6 +26,7 @@ Check the state that changes the answer, and mention it only when it does:
 
 - No `.agents/pstack-models.md` in the project's main checkout (`"$(dirname "$(git rev-parse --path-format=absolute --git-common-dir)")/.agents/pstack-models.md"`, which may not exist) means the **setup-pstack** skill hasn't run for this project, so every role uses its default model.
 - No `verify-*` skill or other app harness in the project means agents have no scripted way to drive the app. Mention `/create-verification-skill` (`$create-verification-skill` in Codex) when the question is about proving a change works.
+- No formal verification skill in the project means no property is checked past what tests reach. Mention `/create-formal-verification-skill` (`$create-formal-verification-skill` in Codex) when the question is about a race, an invariant, or another case tests rarely hit. When one exists and the code it covers changed after the commit it records as last in sync, mention `/maintain-formal-verification-skill` (`$maintain-formal-verification-skill` in Codex) if the question touches that code.
 
 When the models file is missing and it matters, ask whether the user wants to pick a model for each role and a reasoning budget now. It matters when the user is new, the question is about setup or cost, or the answer depends on which models run. Ask at most once per chat. If the need is also unclear, ask both questions together. Offer two choices:
 
@@ -35,14 +36,16 @@ When the models file is missing and it matters, ask whether the user wants to pi
 ## Get set up
 
 1. Install every pstack skill into the project's `.agents/skills/` with the `skills` CLI. They read each other, so take them all.
-2. Run [`/setup-pstack`](../setup-pstack/SKILL.md) (`$setup-pstack` in Codex). It asks for a reasoning budget, maps a model to each role, and writes `.agents/pstack-models.md` in the project's main checkout (`"$(dirname "$(git rev-parse --path-format=absolute --git-common-dir)")/.agents/pstack-models.md"`, which may not exist). Skills read it at each spawn.
+2. Run [`/setup-pstack`](../setup-pstack/SKILL.md) (`$setup-pstack` in Codex). It asks for a reasoning budget, maps a model to each role, and writes `.agents/pstack-models.md` in the project's main checkout (`"$(dirname "$(git rev-parse --path-format=absolute --git-common-dir)")/.agents/pstack-models.md"`, which may not exist). Skills read it at each spawn. Then it offers once each to generate a verification skill and a formal verification skill for the project, unless the project already has one.
 3. Start a real task with `/poteto-mode` (`$poteto-mode` in Codex), a goal, and a check that can pass or fail.
 
 Installing changes nothing until the user invokes a skill. Only the **setup-pstack** skill loads from the user's words. Offer to word their first prompt with them, per [`references/prompting.md`](references/prompting.md).
 
 If cost is the worry, say where the tokens go and how to spend fewer. pstack spends extra tokens on subagents and review panels. Rerun `/setup-pstack` (`$setup-pstack` in Codex) and pick a smaller budget or cheaper models. A role set to `inherit-parent` runs on the chat's model, which saves tokens when the chat runs on a cheaper model. A shorter panel list runs fewer subagents, one for each entry. Save `/poteto-mode` (`$poteto-mode` in Codex) for work that needs rigor.
 
-pstack is built for T3 Code, running Claude Code or Codex. Its skills use the Agent Skills format, so other tools can read them. But most workflow skills, including **poteto-mode**, **how**, **why**, and **teach**, spawn T3 child tasks with per-role models, and scheduled tasks are a T3 feature, so those parts may not work there.
+pstack is built for T3 Code, running Claude Code or Codex.
+
+Other tools can read the skills, because they use the Agent Skills format. But most workflow skills, including **poteto-mode**, **how**, **why**, and **teach**, spawn T3 child tasks with per-role models, and scheduled tasks are a T3 feature, so those parts may not work there.
 
 ## Start a task with `/poteto-mode` (`$poteto-mode` in Codex)
 
@@ -85,6 +88,7 @@ In Codex, start with `$` instead of `/`.
 | Give agents a scripted way to drive the app and prove behavior | [`/create-verification-skill`](../create-verification-skill/SKILL.md) |
 | Bring a verification skill and its feature map back in line with the app | [`/maintain-verification-skill`](../maintain-verification-skill/SKILL.md) |
 | Formally verify a race, invariant, or other property that tests rarely reach | [`/create-formal-verification-skill`](../create-formal-verification-skill/SKILL.md) |
+| Bring a formal verification back in line after the code it covers changed, and learn whether a failure is drift or a bug | [`/maintain-formal-verification-skill`](../maintain-formal-verification-skill/SKILL.md) |
 | Vet a performance number before reporting or acting on it | [`/benchmark-checklist`](../benchmark-checklist/SKILL.md) |
 | Run a large or cross-cutting change, or one to review after stepping away | [`/figure-it-out`](../figure-it-out/SKILL.md) |
 | Keep a decision log during a run, and review it afterward | [`/show-me-your-work`](../show-me-your-work/SKILL.md) |
