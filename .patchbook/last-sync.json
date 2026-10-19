@@ -1,30 +1,25 @@
 {
   "upstreams": {
     "pstack": {
-      "from": "101b274dd991f694e1f7024be2157e5f3adf07de",
-      "to": "0b8e952052d482ee6de06deebf14d590d77b1b34",
+      "from": "0b8e952052d482ee6de06deebf14d590d77b1b34",
+      "to": "d457567332aa6989e753ea289f30ea2bfbc80bc0",
       "upstream": [
         "changed .cursor-plugin/plugin.json",
         "changed README.md",
         "changed docs/guide/01-setup.md",
         "changed docs/guide/02-poteto-mode.md",
-        "changed docs/guide/03-understand.md",
-        "changed docs/guide/04-design.md",
-        "changed docs/guide/05-build-and-clean.md",
         "changed docs/guide/06-verify-and-ship.md",
         "changed docs/guide/07-overnight.md",
-        "changed docs/guide/08-principles.md",
         "changed docs/guide/09-make-it-yours.md",
         "changed docs/guide/10-recipes-and-pitfalls.md",
-        "changed docs/harness/claude-code.md",
+        "changed docs/guide/README.md",
         "changed plugin.json",
-        "added skills/create-formal-verification-skill/SKILL.md",
-        "changed skills/ketchup/SKILL.md",
-        "changed skills/make-bot-ui/SKILL.md",
+        "changed skills/create-formal-verification-skill/SKILL.md",
+        "added skills/maintain-formal-verification-skill/SKILL.md",
         "changed skills/poteto-help/SKILL.md",
-        "changed skills/poteto-mode/SKILL.md",
-        "changed skills/typescript-best-practices/SKILL.md",
-        "changed skills/typescript-best-practices/references/patterns.md"
+        "changed skills/poteto-help/references/recipes.md",
+        "changed skills/setup-pstack/SKILL.md",
+        "changed skills/sharpen/SKILL.md"
       ],
       "merged": [],
       "conflicts": [],
