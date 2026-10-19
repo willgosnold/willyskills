@@ -1,23 +1,3 @@
-=== entry a4d52f22a6d9
-kind: translation
-rules: model-role, invoke
-intent: Points the missing-setup check at the project models file, which is per project rather than per user. Keep the verify-skill bullet unchanged. The state check names the setup-pstack skill; the skill to mention to the user gets its Codex form.
---- upstream
-- No `~/.cursor/rules/pstack-models.mdc` means `/setup-pstack` hasn't run for this user, so every role uses its default model.
-- No `verify-*` skill or other app harness in the project means agents have no scripted way to drive the app. Mention `/create-verification-skill` when the question is about proving a change works.
---- patched
-- No {{snippet:models-file}} means the **setup-pstack** skill hasn't run for this project, so every role uses its default model.
-- No `verify-*` skill or other app harness in the project means agents have no scripted way to drive the app. Mention `/create-verification-skill` (`$create-verification-skill` in Codex) when the question is about proving a change works.
-
-=== entry 9438e5e84262
-kind: translation
-rules: delegate, loop, cursor-only, invoke
-intent: Says pstack is built for T3 Code and that its subagents and scheduled tasks are T3 features; Custom Modes are dropped. No rule covers the host statement itself, so this is the closest faithful version. Keep the point that other tools can read the skills but the subagent parts may not work there. The example skills are named, not typed.
---- upstream
-pstack is built for Cursor. Its skills use the Agent Skills format, so other tools can read them. But most workflow skills, including `/poteto-mode`, `/how`, `/why`, and `/teach`, spawn Cursor subagents with per-role models, and Custom Modes and `/loop` are Cursor features, so those parts may not work there.
---- patched
-pstack is built for T3 Code, running Claude Code or Codex. Its skills use the Agent Skills format, so other tools can read them. But most workflow skills, including **poteto-mode**, **how**, **why**, and **teach**, spawn T3 child tasks with per-role models, and scheduled tasks are a T3 feature, so those parts may not work there.
-
 === entry 6bdd7aadac18
 kind: translation
 rules: todolist, unshipped-link, invoke
@@ -47,81 +27,6 @@ intent: Drops the link to Cursor's skills docs, and says a poteto-agent subagent
 Link [Cursor's skills docs](https://cursor.com/docs/skills) when this comes up. Mid-chat, "new task" makes the mode match a fresh playbook. `/poteto-mode` already uses `poteto-agent` for the subagents its playbook steps spawn. To get the same style from a subagent of your own, spawn it with `subagent_type: "poteto-agent"`.
 --- patched
 Mid-chat, "new task" makes the mode match a fresh playbook. The **poteto-mode** skill already uses `poteto-agent` for the subagents its playbook steps spawn. To get the same style from a subagent of your own, start its brief with "Read `<abs>/pstack/agents/poteto-agent.md` and act as that agent. The poteto-mode skill is at `<abs>/poteto-mode/SKILL.md`.", where `<abs>` is the absolute path of the folder that holds the pstack skills (resolve `..` from this skill's folder).
-
-=== entry eb596ee1cfcd
-kind: translation
-rules: cursor-only, invoke
-intent: Drops "as cloud agents" from the swarm row, and describes make-bot-ui as waking an agent thread rather than a Grok Bot (no rule covers the bot name; closest faithful). Keep every row and link. The table routes the user to commands, so rows keep `/name` and one Codex `$` sentence sits just above the table inside this entry (status reads each entry alone, so it can't live in the lead-in entry).
---- upstream
-| The user wants to | Skill |
-|---|---|
-| Do any non-trivial task with rigor | [`/poteto-mode`](../poteto-mode/SKILL.md) |
-| Check that the agent understood their goal and the problem before it starts | [`/in-your-own-words`](../in-your-own-words/SKILL.md) |
-| Aim a task higher before starting: more expert, more outcome-focused, not overspecified | [`/sharpen`](../sharpen/SKILL.md) |
-| Know how code works now, or where new code should live | [`/how`](../how/SKILL.md) |
-| Know why code is shaped this way, or where a number came from | [`/why`](../why/SKILL.md) |
-| Understand a change or subsystem, explained plainly | [`/teach`](../teach/SKILL.md) |
-| Catch up on their own recent work on a topic | [`/recall`](../recall/SKILL.md) |
-| Catch up on what changed in this chat since their last message, in plain words and small visuals, with every item waiting on them listed and decidable from the reply alone | [`/ketchup`](../ketchup/SKILL.md) |
-| Know what a small diff could break outside itself | [`/blast-radius`](../blast-radius/SKILL.md) |
-| Settle types and module shape before code that crosses a function boundary | [`/architect`](../architect/SKILL.md) |
-| Get several attempts at one brief, merged into the best one | [`/arena`](../arena/SKILL.md) |
-| Run parallel checks over slices, or race workers, as cloud agents | [`/swarm`](../swarm/SKILL.md) |
-| Have different models review a diff and try to break it | [`/interrogate`](../interrogate/SKILL.md) |
-| Fix a bug test-first when a cheap local test exists | [`/tdd`](../tdd/SKILL.md) |
-| Apply TypeScript rules to `.ts` or `.tsx` work | [`/typescript-best-practices`](../typescript-best-practices/SKILL.md) |
-| Strip comments before review, using a reviewer that didn't write them | [`/no-comments`](../no-comments/SKILL.md) |
-| Clean AI tells out of prose | [`/unslop`](../unslop/SKILL.md) |
-| Write docs, an RFC, a README, a PR description, or a commit message to a standard | [`/technical-writing`](../technical-writing/SKILL.md) |
-| Hear the last reply again in plain words | [`/bro`](../bro/SKILL.md) |
-| Give agents a scripted way to drive the app and prove behavior | [`/create-verification-skill`](../create-verification-skill/SKILL.md) |
-| Bring a verification skill and its feature map back in line with the app | [`/maintain-verification-skill`](../maintain-verification-skill/SKILL.md) |
-| Formally verify a race, invariant, or other property that tests rarely reach | [`/create-formal-verification-skill`](../create-formal-verification-skill/SKILL.md) |
-| Vet a performance number before reporting or acting on it | [`/benchmark-checklist`](../benchmark-checklist/SKILL.md) |
-| Run a large or cross-cutting change, or one to review after stepping away | [`/figure-it-out`](../figure-it-out/SKILL.md) |
-| Keep a decision log during a run, and review it afterward | [`/show-me-your-work`](../show-me-your-work/SKILL.md) |
-| Pick a model for each role and a reasoning budget | [`/setup-pstack`](../setup-pstack/SKILL.md) |
-| Turn their own working habits into a personal mode skill | [`/automate-me`](../automate-me/SKILL.md) |
-| Turn what a finished task taught into skill edits | [`/reflect`](../reflect/SKILL.md) |
-| Stop agents from repeating the same mistakes in this repo | [`/correct`](../correct/SKILL.md) |
-| Build a page whose buttons wake a Grok Bot over a webhook | [`/make-bot-ui`](../make-bot-ui/SKILL.md) |
-| Find their way around pstack | `/poteto-help` |
---- patched
-In Codex, start with `$` instead of `/`.
-
-| The user wants to | Skill |
-|---|---|
-| Do any non-trivial task with rigor | [`/poteto-mode`](../poteto-mode/SKILL.md) |
-| Check that the agent understood their goal and the problem before it starts | [`/in-your-own-words`](../in-your-own-words/SKILL.md) |
-| Aim a task higher before starting: more expert, more outcome-focused, not overspecified | [`/sharpen`](../sharpen/SKILL.md) |
-| Know how code works now, or where new code should live | [`/how`](../how/SKILL.md) |
-| Know why code is shaped this way, or where a number came from | [`/why`](../why/SKILL.md) |
-| Understand a change or subsystem, explained plainly | [`/teach`](../teach/SKILL.md) |
-| Catch up on their own recent work on a topic | [`/recall`](../recall/SKILL.md) |
-| Catch up on what changed in this chat since their last message, in plain words and small visuals, with every item waiting on them listed and decidable from the reply alone | [`/ketchup`](../ketchup/SKILL.md) |
-| Know what a small diff could break outside itself | [`/blast-radius`](../blast-radius/SKILL.md) |
-| Settle types and module shape before code that crosses a function boundary | [`/architect`](../architect/SKILL.md) |
-| Get several attempts at one brief, merged into the best one | [`/arena`](../arena/SKILL.md) |
-| Run parallel checks over slices, or race workers | [`/swarm`](../swarm/SKILL.md) |
-| Have different models review a diff and try to break it | [`/interrogate`](../interrogate/SKILL.md) |
-| Fix a bug test-first when a cheap local test exists | [`/tdd`](../tdd/SKILL.md) |
-| Apply TypeScript rules to `.ts` or `.tsx` work | [`/typescript-best-practices`](../typescript-best-practices/SKILL.md) |
-| Strip comments before review, using a reviewer that didn't write them | [`/no-comments`](../no-comments/SKILL.md) |
-| Clean AI tells out of prose | [`/unslop`](../unslop/SKILL.md) |
-| Write docs, an RFC, a README, a PR description, or a commit message to a standard | [`/technical-writing`](../technical-writing/SKILL.md) |
-| Hear the last reply again in plain words | [`/bro`](../bro/SKILL.md) |
-| Give agents a scripted way to drive the app and prove behavior | [`/create-verification-skill`](../create-verification-skill/SKILL.md) |
-| Bring a verification skill and its feature map back in line with the app | [`/maintain-verification-skill`](../maintain-verification-skill/SKILL.md) |
-| Formally verify a race, invariant, or other property that tests rarely reach | [`/create-formal-verification-skill`](../create-formal-verification-skill/SKILL.md) |
-| Vet a performance number before reporting or acting on it | [`/benchmark-checklist`](../benchmark-checklist/SKILL.md) |
-| Run a large or cross-cutting change, or one to review after stepping away | [`/figure-it-out`](../figure-it-out/SKILL.md) |
-| Keep a decision log during a run, and review it afterward | [`/show-me-your-work`](../show-me-your-work/SKILL.md) |
-| Pick a model for each role and a reasoning budget | [`/setup-pstack`](../setup-pstack/SKILL.md) |
-| Turn their own working habits into a personal mode skill | [`/automate-me`](../automate-me/SKILL.md) |
-| Turn what a finished task taught into skill edits | [`/reflect`](../reflect/SKILL.md) |
-| Stop agents from repeating the same mistakes in this repo | [`/correct`](../correct/SKILL.md) |
-| Build a page whose buttons wake an agent thread over a webhook | [`/make-bot-ui`](../make-bot-ui/SKILL.md) |
-| Find their way around pstack | `/poteto-help` |
 
 === entry 48e90b82cf46
 kind: translation
@@ -198,19 +103,6 @@ intent: Calls the setup output the models file, not a rule. Keep the ask-once lo
 When the model rule is missing and it matters, ask whether the user wants to pick a model for each role and a reasoning budget now. It matters when the user is new, the question is about setup or cost, or the answer depends on which models run. Ask at most once per chat. If the need is also unclear, ask both questions together. Offer two choices:
 --- patched
 When the models file is missing and it matters, ask whether the user wants to pick a model for each role and a reasoning budget now. It matters when the user is new, the question is about setup or cost, or the answer depends on which models run. Ask at most once per chat. If the need is also unclear, ask both questions together. Offer two choices:
-
-=== entry 56fa3df3e949
-kind: translation
-rules: paths, setup-pstack, invoke
-intent: Install step says the skills go into the project's `.agents/skills/` with the `skills` CLI, and setup writes the project models file that skills read at each spawn. Keep the three steps and their order. The steps tell the user what to type, so each skill gets its Codex form.
---- upstream
-1. Install with `/add-plugin pstack` in chat, or from Customize in the sidebar.
-2. Run [`/setup-pstack`](../setup-pstack/SKILL.md). It asks for a reasoning budget, maps a model to each role, and writes a rule. The rule applies to new chats.
-3. Start a real task with `/poteto-mode`, a goal, and a check that can pass or fail.
---- patched
-1. Install every pstack skill into the project's `.agents/skills/` with the `skills` CLI. They read each other, so take them all.
-2. Run [`/setup-pstack`](../setup-pstack/SKILL.md) (`$setup-pstack` in Codex). It asks for a reasoning budget, maps a model to each role, and writes {{snippet:models-file}}. Skills read it at each spawn.
-3. Start a real task with `/poteto-mode` (`$poteto-mode` in Codex), a goal, and a check that can pass or fail.
 
 === entry 6073a15e97f2
 kind: translation
@@ -370,3 +262,124 @@ intent: The list tells the user what to run and gives one example prompt, and it
 - [`/reflect`](../reflect/SKILL.md) (`$reflect` in Codex) after a session turns its lessons into skill edits the user approves.
 - `/poteto-mode write a skill for <workflow>` runs the authoring playbook. The eval playbook tests a skill change blind.
 - Fix a misbehaving skill in its own PR, not inside the feature work where it went wrong.
+
+=== entry e36245186d53
+kind: translation
+rules: model-role, invoke
+intent: Points the missing-setup check at the project models file, which is per project rather than per user. Keep the verify-skill and formal-verification bullets unchanged. The state check names the setup-pstack skill; each skill to mention to the user gets its Codex form.
+--- upstream
+- No `~/.cursor/rules/pstack-models.mdc` means `/setup-pstack` hasn't run for this user, so every role uses its default model.
+- No `verify-*` skill or other app harness in the project means agents have no scripted way to drive the app. Mention `/create-verification-skill` when the question is about proving a change works.
+- No formal verification skill in the project means no property is checked past what tests reach. Mention `/create-formal-verification-skill` when the question is about a race, an invariant, or another case tests rarely hit. When one exists and the code it covers changed after the commit it records as last in sync, mention `/maintain-formal-verification-skill` if the question touches that code.
+--- patched
+- No {{snippet:models-file}} means the **setup-pstack** skill hasn't run for this project, so every role uses its default model.
+- No `verify-*` skill or other app harness in the project means agents have no scripted way to drive the app. Mention `/create-verification-skill` (`$create-verification-skill` in Codex) when the question is about proving a change works.
+- No formal verification skill in the project means no property is checked past what tests reach. Mention `/create-formal-verification-skill` (`$create-formal-verification-skill` in Codex) when the question is about a race, an invariant, or another case tests rarely hit. When one exists and the code it covers changed after the commit it records as last in sync, mention `/maintain-formal-verification-skill` (`$maintain-formal-verification-skill` in Codex) if the question touches that code.
+
+=== entry c14781759ded
+kind: translation
+rules: paths, setup-pstack, invoke
+intent: Install step says the skills go into the project's `.agents/skills/` with the `skills` CLI, and setup writes the project models file that skills read at each spawn. Keep the three steps and their order, and setup's offers of a verification skill and a formal verification skill. The steps tell the user what to type, so each skill gets its Codex form.
+--- upstream
+1. Install with `/add-plugin pstack` in chat, or from Customize in the sidebar.
+2. Run [`/setup-pstack`](../setup-pstack/SKILL.md). It asks for a reasoning budget, maps a model to each role, and writes a rule. The rule applies to new chats. Then it offers once each to generate a verification skill and a formal verification skill for the project, unless the project already has one.
+3. Start a real task with `/poteto-mode`, a goal, and a check that can pass or fail.
+--- patched
+1. Install every pstack skill into the project's `.agents/skills/` with the `skills` CLI. They read each other, so take them all.
+2. Run [`/setup-pstack`](../setup-pstack/SKILL.md) (`$setup-pstack` in Codex). It asks for a reasoning budget, maps a model to each role, and writes {{snippet:models-file}}. Skills read it at each spawn. Then it offers once each to generate a verification skill and a formal verification skill for the project, unless the project already has one.
+3. Start a real task with `/poteto-mode` (`$poteto-mode` in Codex), a goal, and a check that can pass or fail.
+
+=== entry 43fbf0431204
+kind: translation
+rules: cursor-only, unshipped-link
+intent: Says pstack is built for T3 Code, running Claude Code or Codex. Drops the Claude Code plugin install, the `pstack:` command prefix, and the link to the unshipped Claude Code adapter page: here the skills install with the `skills` CLI (see Get set up), so commands take no prefix, and Cursor-only steps are already removed rather than skipped. No rule covers the host statement itself, so this is the closest faithful version.
+--- upstream
+pstack is built for Cursor, and it also installs in Claude Code with `/plugin marketplace add cursor/plugins`, then `/plugin install pstack@cursor-plugins`. There, each command takes a `pstack:` prefix, such as `/pstack:poteto-mode`. The [Claude Code adapter](../../docs/harness/claude-code.md) maps the Cursor names, and a step that needs a Cursor-only feature, such as Bugbot or Automations, is skipped with a one-line note.
+--- patched
+pstack is built for T3 Code, running Claude Code or Codex.
+
+=== entry 1367a76a7f4e
+kind: translation
+rules: delegate, loop, cursor-only, invoke
+intent: Says pstack's subagents and scheduled tasks are T3 features; Custom Modes are dropped. Keep the point that other tools can read the skills but the subagent parts may not work there. The example skills are named, not typed.
+--- upstream
+Other tools can read the skills, because they use the Agent Skills format. But most workflow skills, including `/poteto-mode`, `/how`, `/why`, and `/teach`, spawn Cursor subagents with per-role models, and Custom Modes and `/loop` are Cursor features, so those parts may not work there.
+--- patched
+Other tools can read the skills, because they use the Agent Skills format. But most workflow skills, including **poteto-mode**, **how**, **why**, and **teach**, spawn T3 child tasks with per-role models, and scheduled tasks are a T3 feature, so those parts may not work there.
+
+=== entry e226544a5808
+kind: translation
+rules: cursor-only, invoke
+intent: Drops "as cloud agents" from the swarm row, and describes make-bot-ui as waking an agent thread rather than a Grok Bot (no rule covers the bot name; closest faithful). Keep every row and link. The table routes the user to commands, so rows keep `/name` and one Codex `$` sentence sits just above the table inside this entry (status reads each entry alone, so it can't live in the lead-in entry).
+--- upstream
+| The user wants to | Skill |
+|---|---|
+| Do any non-trivial task with rigor | [`/poteto-mode`](../poteto-mode/SKILL.md) |
+| Check that the agent understood their goal and the problem before it starts | [`/in-your-own-words`](../in-your-own-words/SKILL.md) |
+| Aim a task higher before starting: more expert, more outcome-focused, not overspecified | [`/sharpen`](../sharpen/SKILL.md) |
+| Know how code works now, or where new code should live | [`/how`](../how/SKILL.md) |
+| Know why code is shaped this way, or where a number came from | [`/why`](../why/SKILL.md) |
+| Understand a change or subsystem, explained plainly | [`/teach`](../teach/SKILL.md) |
+| Catch up on their own recent work on a topic | [`/recall`](../recall/SKILL.md) |
+| Catch up on what changed in this chat since their last message, in plain words and small visuals, with every item waiting on them listed and decidable from the reply alone | [`/ketchup`](../ketchup/SKILL.md) |
+| Know what a small diff could break outside itself | [`/blast-radius`](../blast-radius/SKILL.md) |
+| Settle types and module shape before code that crosses a function boundary | [`/architect`](../architect/SKILL.md) |
+| Get several attempts at one brief, merged into the best one | [`/arena`](../arena/SKILL.md) |
+| Run parallel checks over slices, or race workers, as cloud agents | [`/swarm`](../swarm/SKILL.md) |
+| Have different models review a diff and try to break it | [`/interrogate`](../interrogate/SKILL.md) |
+| Fix a bug test-first when a cheap local test exists | [`/tdd`](../tdd/SKILL.md) |
+| Apply TypeScript rules to `.ts` or `.tsx` work | [`/typescript-best-practices`](../typescript-best-practices/SKILL.md) |
+| Strip comments before review, using a reviewer that didn't write them | [`/no-comments`](../no-comments/SKILL.md) |
+| Clean AI tells out of prose | [`/unslop`](../unslop/SKILL.md) |
+| Write docs, an RFC, a README, a PR description, or a commit message to a standard | [`/technical-writing`](../technical-writing/SKILL.md) |
+| Hear the last reply again in plain words | [`/bro`](../bro/SKILL.md) |
+| Give agents a scripted way to drive the app and prove behavior | [`/create-verification-skill`](../create-verification-skill/SKILL.md) |
+| Bring a verification skill and its feature map back in line with the app | [`/maintain-verification-skill`](../maintain-verification-skill/SKILL.md) |
+| Formally verify a race, invariant, or other property that tests rarely reach | [`/create-formal-verification-skill`](../create-formal-verification-skill/SKILL.md) |
+| Bring a formal verification back in line after the code it covers changed, and learn whether a failure is drift or a bug | [`/maintain-formal-verification-skill`](../maintain-formal-verification-skill/SKILL.md) |
+| Vet a performance number before reporting or acting on it | [`/benchmark-checklist`](../benchmark-checklist/SKILL.md) |
+| Run a large or cross-cutting change, or one to review after stepping away | [`/figure-it-out`](../figure-it-out/SKILL.md) |
+| Keep a decision log during a run, and review it afterward | [`/show-me-your-work`](../show-me-your-work/SKILL.md) |
+| Pick a model for each role and a reasoning budget | [`/setup-pstack`](../setup-pstack/SKILL.md) |
+| Turn their own working habits into a personal mode skill | [`/automate-me`](../automate-me/SKILL.md) |
+| Turn what a finished task taught into skill edits | [`/reflect`](../reflect/SKILL.md) |
+| Stop agents from repeating the same mistakes in this repo | [`/correct`](../correct/SKILL.md) |
+| Build a page whose buttons wake a Grok Bot over a webhook | [`/make-bot-ui`](../make-bot-ui/SKILL.md) |
+| Find their way around pstack | `/poteto-help` |
+--- patched
+In Codex, start with `$` instead of `/`.
+
+| The user wants to | Skill |
+|---|---|
+| Do any non-trivial task with rigor | [`/poteto-mode`](../poteto-mode/SKILL.md) |
+| Check that the agent understood their goal and the problem before it starts | [`/in-your-own-words`](../in-your-own-words/SKILL.md) |
+| Aim a task higher before starting: more expert, more outcome-focused, not overspecified | [`/sharpen`](../sharpen/SKILL.md) |
+| Know how code works now, or where new code should live | [`/how`](../how/SKILL.md) |
+| Know why code is shaped this way, or where a number came from | [`/why`](../why/SKILL.md) |
+| Understand a change or subsystem, explained plainly | [`/teach`](../teach/SKILL.md) |
+| Catch up on their own recent work on a topic | [`/recall`](../recall/SKILL.md) |
+| Catch up on what changed in this chat since their last message, in plain words and small visuals, with every item waiting on them listed and decidable from the reply alone | [`/ketchup`](../ketchup/SKILL.md) |
+| Know what a small diff could break outside itself | [`/blast-radius`](../blast-radius/SKILL.md) |
+| Settle types and module shape before code that crosses a function boundary | [`/architect`](../architect/SKILL.md) |
+| Get several attempts at one brief, merged into the best one | [`/arena`](../arena/SKILL.md) |
+| Run parallel checks over slices, or race workers | [`/swarm`](../swarm/SKILL.md) |
+| Have different models review a diff and try to break it | [`/interrogate`](../interrogate/SKILL.md) |
+| Fix a bug test-first when a cheap local test exists | [`/tdd`](../tdd/SKILL.md) |
+| Apply TypeScript rules to `.ts` or `.tsx` work | [`/typescript-best-practices`](../typescript-best-practices/SKILL.md) |
+| Strip comments before review, using a reviewer that didn't write them | [`/no-comments`](../no-comments/SKILL.md) |
+| Clean AI tells out of prose | [`/unslop`](../unslop/SKILL.md) |
+| Write docs, an RFC, a README, a PR description, or a commit message to a standard | [`/technical-writing`](../technical-writing/SKILL.md) |
+| Hear the last reply again in plain words | [`/bro`](../bro/SKILL.md) |
+| Give agents a scripted way to drive the app and prove behavior | [`/create-verification-skill`](../create-verification-skill/SKILL.md) |
+| Bring a verification skill and its feature map back in line with the app | [`/maintain-verification-skill`](../maintain-verification-skill/SKILL.md) |
+| Formally verify a race, invariant, or other property that tests rarely reach | [`/create-formal-verification-skill`](../create-formal-verification-skill/SKILL.md) |
+| Bring a formal verification back in line after the code it covers changed, and learn whether a failure is drift or a bug | [`/maintain-formal-verification-skill`](../maintain-formal-verification-skill/SKILL.md) |
+| Vet a performance number before reporting or acting on it | [`/benchmark-checklist`](../benchmark-checklist/SKILL.md) |
+| Run a large or cross-cutting change, or one to review after stepping away | [`/figure-it-out`](../figure-it-out/SKILL.md) |
+| Keep a decision log during a run, and review it afterward | [`/show-me-your-work`](../show-me-your-work/SKILL.md) |
+| Pick a model for each role and a reasoning budget | [`/setup-pstack`](../setup-pstack/SKILL.md) |
+| Turn their own working habits into a personal mode skill | [`/automate-me`](../automate-me/SKILL.md) |
+| Turn what a finished task taught into skill edits | [`/reflect`](../reflect/SKILL.md) |
+| Stop agents from repeating the same mistakes in this repo | [`/correct`](../correct/SKILL.md) |
+| Build a page whose buttons wake an agent thread over a webhook | [`/make-bot-ui`](../make-bot-ui/SKILL.md) |
+| Find their way around pstack | `/poteto-help` |
