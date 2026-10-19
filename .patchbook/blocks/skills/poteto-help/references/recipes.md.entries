@@ -1,23 +1,3 @@
-=== entry 8aa17f8a5273
-kind: translation
-rules: loop, invoke
-intent: Turns "/loop until done" in the overnight recipe into looping until done on a 30-minute scheduled heartbeat. Keep the rest of the recipe and the other recipes. The section has no lead-in sentence, so the Codex `$` sentence opens the block.
---- upstream
-- `/poteto-mode im going to bed. <goal> in a fresh worktree off <base>. done means <checks>. keep a decision log. don't ask me before committing. /loop until done. if you're truly stuck after a few hours, stop and write up why.`
-- `/show-me-your-work catch me up on what you did last night.` Read its Attention section first.
-- `/poteto-mode full autopilot on this queue. each item is independent.`
-- `/poteto-mode autopilot these changes but stack them, don't ship. i'll land the stack.`
-- `/reflect capture what we learned so the next run doesn't repeat it.` Approve only edits that change a future decision.
-- `/bro` restates the last reply in plain words.
---- patched
-In Codex, start with `$` instead of `/`.
-- `/poteto-mode im going to bed. <goal> in a fresh worktree off <base>. done means <checks>. keep a decision log. don't ask me before committing. loop until done, with a scheduled heartbeat every 30 minutes. if you're truly stuck after a few hours, stop and write up why.`
-- `/show-me-your-work catch me up on what you did last night.` Read its Attention section first.
-- `/poteto-mode full autopilot on this queue. each item is independent.`
-- `/poteto-mode autopilot these changes but stack them, don't ship. i'll land the stack.`
-- `/reflect capture what we learned so the next run doesn't repeat it.` Approve only edits that change a future decision.
-- `/bro` restates the last reply in plain words.
-
 === entry 14e2c767f732
 kind: translation
 rules: invoke
@@ -82,12 +62,13 @@ In Codex, start with `$` instead of `/`.
 - `/poteto-mode turn this design into a plan. small verifiable PRs, each with its own verification steps.`
 - `/poteto-mode plan the migration of <library> to <target>. small verifiable PRs. the result must match the original exactly, bugs included.`
 
-=== entry 9a4ffd25ca26
+=== entry b974ccaa7aed
 kind: translation
 rules: invoke
 intent: These are example prompts the user copies, and the section has no lead-in sentence of its own, so the Codex `$` sentence opens the block. Keep every prompt as upstream wrote it.
 --- upstream
 - `/interrogate the whole branch, but skeptically. don't change anything yet. no nitpicks unless it's a real bug or regression.` Read the dismissals too.
+- `/create-formal-verification-skill prove <property> holds in <module>, even when <steps> interleave or retry.` After merges or refactors in that code: `/maintain-formal-verification-skill`.
 - `/swarm check every package under <dir> against its check script. one worker per package. one report.`
 - `/poteto-mode open the pr. small ordered commits, evidence in the description.`
 - `/poteto-mode babysit this pr. get it green.` For status only: `/poteto-mode check on pr <number>. anything outstanding?`
@@ -95,7 +76,30 @@ intent: These are example prompts the user copies, and the section has no lead-i
 --- patched
 In Codex, start with `$` instead of `/`.
 - `/interrogate the whole branch, but skeptically. don't change anything yet. no nitpicks unless it's a real bug or regression.` Read the dismissals too.
+- `/create-formal-verification-skill prove <property> holds in <module>, even when <steps> interleave or retry.` After merges or refactors in that code: `/maintain-formal-verification-skill`.
 - `/swarm check every package under <dir> against its check script. one worker per package. one report.`
 - `/poteto-mode open the pr. small ordered commits, evidence in the description.`
 - `/poteto-mode babysit this pr. get it green.` For status only: `/poteto-mode check on pr <number>. anything outstanding?`
 - `/poteto-mode land the stack.`
+
+=== entry aaccf9291d40
+kind: translation
+rules: loop, invoke
+intent: Turns "/loop until done" in the overnight recipe into looping until done on a 30-minute scheduled heartbeat. Keep the rest of the recipe and the other recipes. The section has no lead-in sentence, so the Codex `$` sentence opens the block.
+--- upstream
+- `/poteto-mode im going to bed. <goal> in a fresh worktree off <base>. done means <checks>. keep a decision log. don't ask me before committing. /loop until done. if you're truly stuck after a few hours, stop and write up why.`
+- `/show-me-your-work catch me up on what you did last night.` Read its Attention section first.
+- `/ketchup` catches you up on this chat since your last message and lists every call that waits on you.
+- `/poteto-mode full autopilot on this queue. each item is independent.`
+- `/poteto-mode autopilot these changes but stack them, don't ship. i'll land the stack.`
+- `/reflect capture what we learned so the next run doesn't repeat it.` Approve only edits that change a future decision.
+- `/bro` restates the last reply in plain words.
+--- patched
+In Codex, start with `$` instead of `/`.
+- `/poteto-mode im going to bed. <goal> in a fresh worktree off <base>. done means <checks>. keep a decision log. don't ask me before committing. loop until done, with a scheduled heartbeat every 30 minutes. if you're truly stuck after a few hours, stop and write up why.`
+- `/show-me-your-work catch me up on what you did last night.` Read its Attention section first.
+- `/ketchup` catches you up on this chat since your last message and lists every call that waits on you.
+- `/poteto-mode full autopilot on this queue. each item is independent.`
+- `/poteto-mode autopilot these changes but stack them, don't ship. i'll land the stack.`
+- `/reflect capture what we learned so the next run doesn't repeat it.` Approve only edits that change a future decision.
+- `/bro` restates the last reply in plain words.
