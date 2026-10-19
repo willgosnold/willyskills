@@ -14,3 +14,12 @@ name: create-formal-verification-skill
 description: "Generate a project-local skill that formally verifies the code where a bug costs the most and tests reach the least, in any language, with whichever verification tool fits. Use for /create-formal-verification-skill or $create-formal-verification-skill, \"model-check this race\", \"prove this invariant\", or when concurrency, retries, state machines, parsers, or unsafe code need more than tests."
 disable-model-invocation: true
 ---
+
+=== entry 49c8cf6d4a92
+kind: translation
+rules: invoke
+intent: The hand-off tells the user what to type to bring the verification back in line, so that skill gets its Codex form. Everything else stays verbatim.
+--- upstream
+Tell the user what you verified, which tool you used and why, the bounds, what the check found in plain words, how to run it, and what it does not cover. Suggest a second target only if you found a close one. Point the user at `/maintain-formal-verification-skill` for bringing the verification back in line after changes that did not recheck it.
+--- patched
+Tell the user what you verified, which tool you used and why, the bounds, what the check found in plain words, how to run it, and what it does not cover. Suggest a second target only if you found a close one. Point the user at `/maintain-formal-verification-skill` (`$maintain-formal-verification-skill` in Codex) for bringing the verification back in line after changes that did not recheck it.
