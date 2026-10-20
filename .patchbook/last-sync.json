@@ -1,24 +1,16 @@
 {
   "upstreams": {
     "pstack": {
-      "from": "0b8e952052d482ee6de06deebf14d590d77b1b34",
-      "to": "d457567332aa6989e753ea289f30ea2bfbc80bc0",
+      "from": "d457567332aa6989e753ea289f30ea2bfbc80bc0",
+      "to": "88d47514b82e7c44f00f2b2a72ff6dd12158038c",
       "upstream": [
         "changed .cursor-plugin/plugin.json",
         "changed README.md",
-        "changed docs/guide/01-setup.md",
         "changed docs/guide/02-poteto-mode.md",
-        "changed docs/guide/06-verify-and-ship.md",
-        "changed docs/guide/07-overnight.md",
-        "changed docs/guide/09-make-it-yours.md",
         "changed docs/guide/10-recipes-and-pitfalls.md",
-        "changed docs/guide/README.md",
         "changed plugin.json",
-        "changed skills/create-formal-verification-skill/SKILL.md",
-        "added skills/maintain-formal-verification-skill/SKILL.md",
         "changed skills/poteto-help/SKILL.md",
         "changed skills/poteto-help/references/recipes.md",
-        "changed skills/setup-pstack/SKILL.md",
         "changed skills/sharpen/SKILL.md"
       ],
       "merged": [],
