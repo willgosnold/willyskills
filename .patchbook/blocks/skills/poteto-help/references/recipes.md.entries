@@ -1,11 +1,11 @@
-=== entry 14e2c767f732
+=== entry a8801037d31b
 kind: translation
 rules: invoke
 intent: These are example prompts the user copies, and the section has no lead-in sentence of its own, so the Codex `$` sentence opens the block. Keep every prompt as upstream wrote it.
 --- upstream
 - `/poteto-mode read <thread>. restate the underlying issue in your own words, in plain english.`
 - `/in-your-own-words <long or messy ask>`
-- `/sharpen <your task>`
+- `/sharpen <the prompt you're about to send>`
 - `/poteto-mode investigate why <symptom>. give me what we know, what data you used, and your best hypotheses. don't change any code yet.`
 - `use /how to understand <subsystem>. then use /why to find out why it broke recently.`
 - `/recall my work on <topic> from last week, then read <issue>.`
@@ -15,7 +15,7 @@ intent: These are example prompts the user copies, and the section has no lead-i
 In Codex, start with `$` instead of `/`.
 - `/poteto-mode read <thread>. restate the underlying issue in your own words, in plain english.`
 - `/in-your-own-words <long or messy ask>`
-- `/sharpen <your task>`
+- `/sharpen <the prompt you're about to send>`
 - `/poteto-mode investigate why <symptom>. give me what we know, what data you used, and your best hypotheses. don't change any code yet.`
 - `use /how to understand <subsystem>. then use /why to find out why it broke recently.`
 - `/recall my work on <topic> from last week, then read <issue>.`
