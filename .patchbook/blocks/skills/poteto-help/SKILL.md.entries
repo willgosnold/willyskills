@@ -307,7 +307,7 @@ Other tools can read the skills, because they use the Agent Skills format. But m
 --- patched
 Other tools can read the skills, because they use the Agent Skills format. But most workflow skills, including **poteto-mode**, **how**, **why**, and **teach**, spawn T3 child tasks with per-role models, and scheduled tasks are a T3 feature, so those parts may not work there.
 
-=== entry e226544a5808
+=== entry c03a6a9431f0
 kind: translation
 rules: cursor-only, invoke
 intent: Drops "as cloud agents" from the swarm row, and describes make-bot-ui as waking an agent thread rather than a Grok Bot (no rule covers the bot name; closest faithful). Keep every row and link. The table routes the user to commands, so rows keep `/name` and one Codex `$` sentence sits just above the table inside this entry (status reads each entry alone, so it can't live in the lead-in entry).
@@ -316,7 +316,7 @@ intent: Drops "as cloud agents" from the swarm row, and describes make-bot-ui as
 |---|---|
 | Do any non-trivial task with rigor | [`/poteto-mode`](../poteto-mode/SKILL.md) |
 | Check that the agent understood their goal and the problem before it starts | [`/in-your-own-words`](../in-your-own-words/SKILL.md) |
-| Aim a task higher before starting: more expert, more outcome-focused, not overspecified | [`/sharpen`](../sharpen/SKILL.md) |
+| Get a prompt rewritten deeper, not bigger, before sending it: what a top professional would add, their raw material and methods, and an outside check. It returns the prompt and doesn't do the task | [`/sharpen`](../sharpen/SKILL.md) |
 | Know how code works now, or where new code should live | [`/how`](../how/SKILL.md) |
 | Know why code is shaped this way, or where a number came from | [`/why`](../why/SKILL.md) |
 | Understand a change or subsystem, explained plainly | [`/teach`](../teach/SKILL.md) |
@@ -353,7 +353,7 @@ In Codex, start with `$` instead of `/`.
 |---|---|
 | Do any non-trivial task with rigor | [`/poteto-mode`](../poteto-mode/SKILL.md) |
 | Check that the agent understood their goal and the problem before it starts | [`/in-your-own-words`](../in-your-own-words/SKILL.md) |
-| Aim a task higher before starting: more expert, more outcome-focused, not overspecified | [`/sharpen`](../sharpen/SKILL.md) |
+| Get a prompt rewritten deeper, not bigger, before sending it: what a top professional would add, their raw material and methods, and an outside check. It returns the prompt and doesn't do the task | [`/sharpen`](../sharpen/SKILL.md) |
 | Know how code works now, or where new code should live | [`/how`](../how/SKILL.md) |
 | Know why code is shaped this way, or where a number came from | [`/why`](../why/SKILL.md) |
 | Understand a change or subsystem, explained plainly | [`/teach`](../teach/SKILL.md) |
