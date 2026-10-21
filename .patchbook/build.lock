@@ -31,7 +31,7 @@
 100644 b3b6d0ccd8673a79b7f4bb7868fcd14ddc88f3df poteto-help/SKILL.md
 100644 28e541a9abcb9e0c772cc3cc8fdcfcefaa4ac7f0 poteto-help/references/prompting.md
 100644 0ef18f6530aeeb97a909526ccfaf947b309a7ee9 poteto-help/references/recipes.md
-100644 7f03a14d08a7210790873fb98c413d1421a5b07c poteto-mode/SKILL.md
+100644 8fa84b78836fa2ac9384c1a902442372d1017d48 poteto-mode/SKILL.md
 100644 4325be8e29e26cebfc8fb359794bf95048bd8093 poteto-mode/playbooks/authoring-a-skill.md
 100644 839aa66bbb82f6efb7a44bead6ddc27f3af5654f poteto-mode/playbooks/autonomous-run.md
 100644 d6221d4aac12d04ac807d4547c76ae6c9393a9b4 poteto-mode/playbooks/autopilot-full.md
@@ -44,7 +44,7 @@
 100644 cd119f04f23e0b7acb3f8cc5ba13ce4ab7aa6c7d poteto-mode/playbooks/investigation.md
 100644 e31eb44fbc96c8906496bde7b12f20c684e26a09 poteto-mode/playbooks/multi-phase-plan.md
 100644 695a20d0e85378ad8aa47efe382e5de2cff5d6e2 poteto-mode/playbooks/opening-a-pr.md
-100644 dcee53f8406db7e483b69560fd308e18b32ca005 poteto-mode/playbooks/orchestrate.md
+100644 5d1c0cfb177fd394ec1cc8f59cf5f098254370dd poteto-mode/playbooks/orchestrate.md
 100644 9d1c5f8303976fff40de099f7f28185909430c11 poteto-mode/playbooks/pause-safely.md
 100644 67d612bb4f8c803aadeeac42546784559387e247 poteto-mode/playbooks/perf-issue.md
 100644 18bedc7e9249d180f9198d5b4b13e3817d41d281 poteto-mode/playbooks/prototype.md
@@ -56,6 +56,7 @@
 100644 bb58a9938f3a5d4c1d9f35df256b448a78cf93dd poteto-mode/playbooks/visual-parity.md
 100644 d5bf58885f4067083050c5c2fd7fc182a2bfd9ee poteto-mode/playbooks/worktree-cleanup.md
 100644 b2fc7d35712783707607cf2f39752885c8d5105c poteto-mode/references/bugbot-triage.md
+100644 3673174dc31c5401c73dff862f47e59c28025a20 poteto-mode/references/compact-reload.md
 100644 c2658d7d1b31848c3b71960543cb0368e56cd4c7 poteto-mode/scripts/.gitignore
 100644 d9c63e2007449a80000abe75ecaf7f2a0bd5826b poteto-mode/scripts/bootstrap.ts
 100644 65f0c662f300a0f72b319ca93ea18f56219c2581 poteto-mode/scripts/bun.lock
