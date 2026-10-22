@@ -28,7 +28,7 @@
 100644 a9257bfd97ea94db4fcf8a490e8f9fd5b716c6c0 maintain-verification-skill/SKILL.md
 100644 cb5934e0b224c725eef6f35645285d72cbbb0d2f make-bot-ui/SKILL.md
 100644 e4e53545c25eece723922b1a22625867309dcdc7 no-comments/SKILL.md
-100644 b3b6d0ccd8673a79b7f4bb7868fcd14ddc88f3df poteto-help/SKILL.md
+100644 5fcc5eb40801c0a5c0a369820bd8a71222b7e5a5 poteto-help/SKILL.md
 100644 28e541a9abcb9e0c772cc3cc8fdcfcefaa4ac7f0 poteto-help/references/prompting.md
 100644 0ef18f6530aeeb97a909526ccfaf947b309a7ee9 poteto-help/references/recipes.md
 100644 8fa84b78836fa2ac9384c1a902442372d1017d48 poteto-mode/SKILL.md
@@ -118,6 +118,18 @@
 100644 2e58e0525a21873241e6f3b5c8f1d9ce73cf59be show-me-your-work/SKILL.md
 100644 db220376ecb8c582a6a4f6575a8f26469603a38d show-me-your-work/references/decision-log-template.tsv
 100755 052e53b7e1090579eaec1d3d59f7a1cd2f2e452a show-me-your-work/scripts/log.sh
+100644 4429962d55460b60164a5ac96a6b2957de31afae statechart/SKILL.md
+100644 7dfa337d2426e1b9f86e727e2602382b6fd2d5d1 statechart/scripts/chart-to-tla.mjs
+100644 587125a9ff266e33c6c65490785ed59b969b7bb1 statechart/scripts/compare-charts.mjs
+100644 cf72d5cd115b95f545a35b08108bf0134e5718fd statechart/scripts/lib.mjs
+100644 68fd715a87e70ec30a433d45d1ad468db1672912 statechart/scripts/model/OutputFolder.cfg
+100644 9618338f6620e30d812c35b8ab4df605d4f71259 statechart/scripts/model/OutputFolder.map.mjs
+100644 7765babcbb44a83ec14b7b8185bf531e71eac5d6 statechart/scripts/model/OutputFolder.tla
+100644 6e2ebfccdafff7900016b5cf2ed5384c84181545 statechart/scripts/statechart.mjs
+100644 a90c7e4a3a7993dc787d9963ab7ba7bc3240e1a8 statechart/scripts/test/statechart.test.mjs
+100644 c780c2e4336925b66e79c2bd107c045c69e54355 statechart/scripts/test/sync.mmd
+100644 dcfafa73793e4475427a6897466debd40c4e3f8f statechart/scripts/test/upload.mmd
+100644 ccb68fd7b549171afea2d8035f495985a2d859d1 statechart/scripts/tlc-to-chart.mjs
 100644 8baf3bda02f63c435490b110d2edcfde26e66abc swarm/SKILL.md
 100644 ca6f24c963001d9d518db2936dfe3d12f29b4e94 tdd/SKILL.md
 100644 25369f3f554ed6b5826340ae3eee688fac0bda80 teach/SKILL.md

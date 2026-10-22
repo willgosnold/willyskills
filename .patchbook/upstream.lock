@@ -3,8 +3,8 @@
   "upstreams": [
     {
       "name": "pstack",
-      "commit": "88d47514b82e7c44f00f2b2a72ff6dd12158038c",
-      "tree": "34a0b817e5ea92375bb10f20b15cf750d4e8095a"
+      "commit": "eb4db2b55b2b7dec3d9282754cddf0a56bf4ff10",
+      "tree": "d08bf3a76c8f3bdaeb9af65c98344c85a304fb63"
     }
   ]
 }
