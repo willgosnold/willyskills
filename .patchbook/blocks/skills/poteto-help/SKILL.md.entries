@@ -310,7 +310,7 @@ Other tools can read the skills, because they use the Agent Skills format. But m
 === entry c03a6a9431f0
 kind: translation
 rules: cursor-only, invoke
-intent: Drops "as cloud agents" from the swarm row, and describes make-bot-ui as waking an agent thread rather than a Grok Bot (no rule covers the bot name; closest faithful). Keep every row and link. The table routes the user to commands, so rows keep `/name` and one Codex `$` sentence sits just above the table inside this entry (status reads each entry alone, so it can't live in the lead-in entry).
+intent: Adds a sentence above the routing table saying that Codex spells commands with a dollar sign instead of a slash, since the table's command names would otherwise mislead Codex users. It reroutes the cheap-test bug row to the renamed poteto-tdd skill, drops the cloud-agents qualifier from the swarm row, and describes the make-bot-ui page as waking an agent thread rather than a Grok Bot, keeping every row and link.
 --- upstream
 | The user wants to | Skill |
 |---|---|
@@ -364,7 +364,7 @@ In Codex, start with `$` instead of `/`.
 | Get several attempts at one brief, merged into the best one | [`/arena`](../arena/SKILL.md) |
 | Run parallel checks over slices, or race workers | [`/swarm`](../swarm/SKILL.md) |
 | Have different models review a diff and try to break it | [`/interrogate`](../interrogate/SKILL.md) |
-| Fix a bug test-first when a cheap local test exists | [`/tdd`](../tdd/SKILL.md) |
+| Fix a bug test-first when a cheap local test exists | [`/poteto-tdd`](../poteto-tdd/SKILL.md) |
 | Apply TypeScript rules to `.ts` or `.tsx` work | [`/typescript-best-practices`](../typescript-best-practices/SKILL.md) |
 | Strip comments before review, using a reviewer that didn't write them | [`/no-comments`](../no-comments/SKILL.md) |
 | Clean AI tells out of prose | [`/unslop`](../unslop/SKILL.md) |
