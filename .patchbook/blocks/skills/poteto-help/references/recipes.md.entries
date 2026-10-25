@@ -25,7 +25,7 @@ In Codex, start with `$` instead of `/`.
 === entry 11fd7ebd863a
 kind: translation
 rules: invoke
-intent: These are example prompts the user copies, and the section has no lead-in sentence of its own, so the Codex `$` sentence opens the block. Keep every prompt as upstream wrote it.
+intent: Adds a note at the top of the recipe prompts that Codex spells commands with a dollar sign instead of a slash, because the block has no lead-in of its own. It points the cheap-test bug recipe at the renamed poteto-tdd skill, and every other example prompt stays exactly as written.
 --- upstream
 - Bug: `/poteto-mode <symptom>. repro first, then fix and verify.`
 - Bug in an app: `/poteto-mode repro this with /verify-<app>. if it repros on main, fix it and show me a video as proof.`
@@ -37,7 +37,7 @@ intent: These are example prompts the user copies, and the section has no lead-i
 In Codex, start with `$` instead of `/`.
 - Bug: `/poteto-mode <symptom>. repro first, then fix and verify.`
 - Bug in an app: `/poteto-mode repro this with /verify-<app>. if it repros on main, fix it and show me a video as proof.`
-- Bug with a cheap test: `/poteto-mode repro <bug> first. if there's a cheap test path, /tdd it. then fix and rerun.`
+- Bug with a cheap test: `/poteto-mode repro <bug> first. if there's a cheap test path, /poteto-tdd it. then fix and rerun.`
 - Feature: `/poteto-mode add <behavior>. <current output> stays byte-identical. verify both.`
 - Refactor: `/poteto-mode move <code> into one module, zero behavior change. record the current output first and prove it's unchanged after.`
 - Perf: `/poteto-mode <operation> takes <time> on <fixture>. trace it, fix the measured cause, show me before and after.`
