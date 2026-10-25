@@ -150,6 +150,9 @@
 100644 f1dd2c09108dde1a5f56097cee8461b3ea834499 research/LICENSE
 100644 fecee97e9457ba039678d2fcf1b1bc9fca78307d research/SKILL.md
 100644 e18b96ca0ccc1003889d5d6991386207c2454bc2 research/agents/openai.yaml
+100644 f1dd2c09108dde1a5f56097cee8461b3ea834499 resolving-merge-conflicts/LICENSE
+100644 bfb7e5606e231e6808979f623fce76a9aad4b71c resolving-merge-conflicts/SKILL.md
+100644 331ffb9d38937877f51a5f867a66dc61eee259ae resolving-merge-conflicts/agents/openai.yaml
 100644 f1dd2c09108dde1a5f56097cee8461b3ea834499 setup-matt-pocock-skills/LICENSE
 100644 293c25b75590119794af03b037ba4288054a32b3 setup-matt-pocock-skills/SKILL.md
 100644 65a0da8128c98051183235e490767a8065310868 setup-matt-pocock-skills/agents/openai.yaml

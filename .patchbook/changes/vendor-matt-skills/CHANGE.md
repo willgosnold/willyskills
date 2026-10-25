@@ -1,6 +1,6 @@
 # vendor-matt-skills
 
-intent: Brings a set of Matt Pocock's engineering and productivity skills into the repo's top-level skills folder, so the skills CLI installs them alongside the others, and includes each skill's license file so the license travels with it. The TDD skill is installed under the name matt-tdd so it does not collide with other skills of the same name.
+intent: Brings Matt Pocock's engineering and productivity skills, including the resolving-merge-conflicts skill, into the repo's top-level skills folder so the skills CLI installs them alongside the others, and includes each skill's license file so the license travels with it. The TDD skill is installed under the name matt-tdd so it does not collide with other skills of the same name.
 
 edits:
 - copy matt/skills/engineering/code-review -> skills/code-review
@@ -27,3 +27,6 @@ edits:
 - copy matt/LICENSE -> skills/research/LICENSE
 - copy matt/LICENSE -> skills/setup-matt-pocock-skills/LICENSE
 - copy matt/LICENSE -> skills/writing-for-agents/LICENSE
+- copy matt/LICENSE -> skills/resolving-merge-conflicts/LICENSE
+- add skills/resolving-merge-conflicts/SKILL.md
+- add skills/resolving-merge-conflicts/agents/openai.yaml
