@@ -112,6 +112,7 @@
 100644 6c94e0a687f8e48f91acffd21f725320dd66e659 poteto-mode/scripts/watch-pr/types.ts
 100755 99807d577c3b006cfe6ee9e149cf2914bfd4afd6 poteto-mode/scripts/watch-pr/watch-pr
 100755 3074e08c4a2023f31868ff00a9d35548c7a8a6ba poteto-mode/scripts/worktree-audit.sh
+100644 978066a386273c926748621d9ab2448b90f6b416 poteto-tdd/SKILL.md
 100644 e9a6d499606992edd9963b80f8f8f57feaccb221 principle-attack-the-premise/SKILL.md
 100644 dfe9a6fb0e5acd6ae43a41437ee0951adfe839cb principle-boundary-discipline/SKILL.md
 100644 cbf003850489d95fea78e64198fd972c35b1aad3 principle-build-the-lever/SKILL.md
@@ -163,7 +164,6 @@
 100644 db220376ecb8c582a6a4f6575a8f26469603a38d show-me-your-work/references/decision-log-template.tsv
 100755 052e53b7e1090579eaec1d3d59f7a1cd2f2e452a show-me-your-work/scripts/log.sh
 100644 8baf3bda02f63c435490b110d2edcfde26e66abc swarm/SKILL.md
-100644 ca6f24c963001d9d518db2936dfe3d12f29b4e94 tdd/SKILL.md
 100644 25369f3f554ed6b5826340ae3eee688fac0bda80 teach/SKILL.md
 100644 ef1b713b32bdb5a40218f9b4ee4e220e32386c00 technical-writing/SKILL.md
 100644 e1e5aa7c97ed39c425d60d933a96424a3f14539e typescript-best-practices/SKILL.md
