@@ -4,6 +4,12 @@ description: poteto's agent style for concise, detailed responses, deliberate su
 disable-model-invocation: true
 icon: crown
 color: yellow
+hooks:
+  PreToolUse:
+    - hooks:
+        - type: command
+          once: true
+          command: mkdir -p "$CLAUDE_PROJECT_DIR/.claude" && jq -r .session_id > "$CLAUDE_PROJECT_DIR/.claude/orchestrator-session"
 ---
 
 # Poteto mode

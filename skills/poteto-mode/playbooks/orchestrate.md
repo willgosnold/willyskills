@@ -30,6 +30,7 @@ Create `orchestrate/<project-slug>/` in the current agent's store (path in the s
 - `inbox/` holds completion pointers. `gates.md` parks human gates (question, options, default on no answer).
 - `decisions.tsv` is the trail via the show-me-your-work skill.
 - `status.md` is derived from `units.tsv` and `ledger.tsv` at each drain, never hand-maintained. Regenerate it from the tables instead of narrating events into it.
+- `$CLAUDE_PROJECT_DIR/.claude/orchestrator-state.md` is the one file that survives compaction, so it lives in the project and not the store. Rewrite it at each drain, under 6,000 characters. It holds the standing orders or the path to `preferences.md`, the live agents with their `taskId`s, the Pods, the open PRs, the open gates, and the next steps. The compact hook in `references/compact-reload.md` prints it back; install that hook in the project's `.claude/settings.json`, or the file is never read.
 
 #### The brief
 
