@@ -1,6 +1,6 @@
 # vendor-matt-skills
 
-intent: Brings a set of Matt Pocock's engineering and productivity skills into the repo's top-level skills folder, so the skills CLI installs them alongside the others. The TDD skill is installed under the name matt-tdd so it does not collide with other skills of the same name.
+intent: Brings a set of Matt Pocock's engineering and productivity skills into the repo's top-level skills folder, so the skills CLI installs them alongside the others, and includes each skill's license file so the license travels with it. The TDD skill is installed under the name matt-tdd so it does not collide with other skills of the same name.
 
 edits:
 - copy matt/skills/engineering/code-review -> skills/code-review
@@ -15,3 +15,15 @@ edits:
 - copy matt/skills/engineering/research -> skills/research
 - copy matt/skills/engineering/setup-matt-pocock-skills -> skills/setup-matt-pocock-skills
 - copy matt/skills/productivity/writing-for-agents -> skills/writing-for-agents
+- copy matt/LICENSE -> skills/code-review/LICENSE
+- copy matt/LICENSE -> skills/codebase-design/LICENSE
+- copy matt/LICENSE -> skills/diagnosing-bugs/LICENSE
+- copy matt/LICENSE -> skills/domain-modeling/LICENSE
+- copy matt/LICENSE -> skills/grill-me/LICENSE
+- copy matt/LICENSE -> skills/grilling/LICENSE
+- copy matt/LICENSE -> skills/handoff/LICENSE
+- copy matt/LICENSE -> skills/implement/LICENSE
+- copy matt/LICENSE -> skills/matt-tdd/LICENSE
+- copy matt/LICENSE -> skills/research/LICENSE
+- copy matt/LICENSE -> skills/setup-matt-pocock-skills/LICENSE
+- copy matt/LICENSE -> skills/writing-for-agents/LICENSE
