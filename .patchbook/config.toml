@@ -33,3 +33,9 @@ instructions = ".patchbook/testing.md"
 
 [deploy]
 command = "tools/update-projects.sh"
+
+[[upstream]]
+name = "matt"
+remote = "https://github.com/mattpocock/skills.git"
+branch = "main"
+mount = "matt"
