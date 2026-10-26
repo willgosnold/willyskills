@@ -1,0 +1,16 @@
+=== entry 79cdbcf7e9cc
+kind: translation
+rules: invoke
+intent: The description names both invocations, /statechart for Claude Code and $statechart for Codex. Everything else stays verbatim.
+--- upstream
+---
+name: statechart
+description: "Draw how any system moves between states, such as a product flow, a protocol, or a service, as a Mermaid statechart from a TLA+ model. Each bug is a numbered path with blue borders to a state that breaks a rule. Use for /statechart, to show a bug as a path through states, or to turn an agreed chart into a TLA+ skeleton."
+disable-model-invocation: true
+---
+--- patched
+---
+name: statechart
+description: "Draw how any system moves between states, such as a product flow, a protocol, or a service, as a Mermaid statechart from a TLA+ model. Each bug is a numbered path with blue borders to a state that breaks a rule. Use for /statechart or $statechart, to show a bug as a path through states, or to turn an agreed chart into a TLA+ skeleton."
+disable-model-invocation: true
+---
