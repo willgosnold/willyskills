@@ -113,7 +113,7 @@
 100644 1b53279c7f3e5da55703ed17d6ad0616254c5751 poteto-mode/scripts/watch-pr/types.compile.ts
 100644 60b9abcac983fc0a4319428c1be145dc110a8cc5 poteto-mode/scripts/watch-pr/types.ts
 100755 99807d577c3b006cfe6ee9e149cf2914bfd4afd6 poteto-mode/scripts/watch-pr/watch-pr
-100755 f9955bc4fd2b7973311c3524b99ac6af0f4763fe poteto-mode/scripts/worktree-audit.sh
+100755 9c1a9c397ec508be47b1058557e68b5a1175d7b8 poteto-mode/scripts/worktree-audit.sh
 100644 978066a386273c926748621d9ab2448b90f6b416 poteto-tdd/SKILL.md
 100644 e9a6d499606992edd9963b80f8f8f57feaccb221 principle-attack-the-premise/SKILL.md
 100644 dfe9a6fb0e5acd6ae43a41437ee0951adfe839cb principle-boundary-discipline/SKILL.md
