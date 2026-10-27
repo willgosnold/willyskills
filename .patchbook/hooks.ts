@@ -1,4 +1,4 @@
-/** willystack's rules that a config pattern can't express. */
+/** willyskills's rules that a config pattern can't express. */
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
