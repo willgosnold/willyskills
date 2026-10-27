@@ -10,7 +10,7 @@ Open a step list with one entry per phase before starting, and keep it current a
 === entry 67769a2b1c21
 kind: translation
 rules: model-role
-intent: Architect's runners come from the `architect runners` line in the project models file, else willystack's default, replacing the arena runners line; entries apply as in arena's Phase A. The rejected-entry fallback is dropped.
+intent: Architect's runners come from the `architect runners` line in the project models file, else willyskills's default, replacing the arena runners line; entries apply as in arena's Phase A. The rejected-entry fallback is dropped.
 --- upstream
 Take the runners from the `architect runners` line in the `pstack-models.mdc` rule, in place of the `arena runners` line. If the rule or that line is missing, use `claude-opus-5-5-xhigh` and `grok-4.7-xhigh-fast`. Alias and rejected entries follow the runner rules in the **arena** skill's Phase A.
 --- patched

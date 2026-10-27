@@ -1,4 +1,4 @@
-# Testing a willystack build
+# Testing a willyskills build
 
 Run these after `patchbook build`, before the review. They check that agents in T3 can load the built skills and follow them. Both run in the sandbox project, `~/Projects/pstack-phase0-sandbox` (T3 project "pstack-phase0-sandbox"). Its `main` has a known bug: `ledger summary --month` ignores the year.
 
@@ -11,8 +11,8 @@ S=~/Projects/pstack-phase0-sandbox
 B=pbtest-$(date +%Y%m%d)-claude    # and -codex for the second check
 git -C $S worktree add -q ~/.t3/worktrees/pstack-phase0-sandbox/$B -b $B main
 cd ~/.t3/worktrees/pstack-phase0-sandbox/$B
-npx -y skills@1.7.2 add <this willystack checkout> --skill '*' -a claude-code -a codex -y
-git add -A && git commit -qm "Install the willystack build under test"
+npx -y skills@1.7.2 add <this willyskills checkout> --skill '*' -a claude-code -a codex -y
+git add -A && git commit -qm "Install the willyskills build under test"
 ```
 
 Install before the thread starts: agents load skills when a session begins.

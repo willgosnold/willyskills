@@ -1,6 +1,6 @@
 <img src="assets/icon.svg" width="64" height="64" alt="">
 
-# willystack
+# willyskills
 
 Created in [T3 Code](https://t3.codes).
 
@@ -13,7 +13,7 @@ Created in [T3 Code](https://t3.codes).
 | `.patchbook/` | Every change to upstream, for the [patchbook](https://github.com/willgosnold/patchbook) CLI: `config.toml` (the upstreams and their mounts), `upstream.lock` (the pins), `blocks/` (paragraph edits, one file per upstream file), `changes/` (file edits and moves), `patch.md` (the rules for writing them), `hooks.ts`, `testing.md`. |
 | `models.json` | The default model for each pstack role. A project's `.agents/pstack-models.md` overrides it line by line (`/setup-pstack` writes that file). |
 | `skills/` | Build output, one folder per skill, plus a `pstack` folder holding the subagent briefs. Never edit it. |
-| `tools/update-projects.sh` | Runs `npx skills update` in every project under `~/Projects` that installed willystack, then commits and pushes the result. |
+| `tools/update-projects.sh` | Runs `npx skills update` in every project under `~/Projects` that installed willyskills, then commits and pushes the result. |
 
 ## Use
 
@@ -21,7 +21,7 @@ Install into a project with the [`skills` CLI](https://github.com/vercel-labs/sk
 
 ```sh
 cd <project>
-npx skills add willgosnold/willystack --skill '*' -a claude-code -a codex   # or a local checkout's path
+npx skills add willgosnold/willyskills --skill '*' -a claude-code -a codex   # or a local checkout's path
 ```
 
 This puts one copy of each skill in `.agents/skills/`, which Codex reads, and symlinks `.claude/skills/` to it. Invoke `/poteto-mode` in Claude Code and `$poteto-mode` in Codex. pstack's own scripts need [Bun](https://bun.sh).

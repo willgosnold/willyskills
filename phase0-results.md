@@ -36,7 +36,7 @@ Budget for the first round:
 
 - Claude only. Codex runs come later, if the Claude round justifies them.
 - The run thread uses Claude Opus 5.5 at `medium` effort. Children follow the budget in `t3.md`: Claude only, `low` or `medium` effort, Sonnet 5.5 for any non-Claude slug, no fast mode.
-- One run at a time, in the order below. Adapter fixes between runs are committed, and each run records the `willystack` commit it used.
+- One run at a time, in the order below. Adapter fixes between runs are committed, and each run records the `willyskills` commit it used.
 - Each prompt caps subagents, so a run that misroutes costs little.
 
 | # | Playbook | Prompt |
@@ -48,7 +48,7 @@ Budget for the first round:
 
 Orchestrate is left out. It is built for multi-day programs with sub-coordinators, and a three-file fixture cannot exercise it. Autonomous run replaces it because its wake step tests the `/loop` rows in `t3.md`.
 
-| # | Playbook | Agent | willystack commit | Thread | Result |
+| # | Playbook | Agent | willyskills commit | Thread | Result |
 | --- | --- | --- | --- | --- | --- |
 | 1 | Bug fix | Claude Code | `d00e113` | `mcp:464dbd91-1fd4-4bb2-be8f-a4ed38c424f3` | Pass in 2 minutes. Failing test before fix, one child, PR [#1](https://github.com/willgosnold/pstack-phase0-sandbox/pull/1) linked. |
 | 2 | Feature | Claude Code | `4d03959` | `mcp:04058359-5983-484d-b1ce-703ea55c611d` | Pass in 3 minutes over two turns. Async child woke the parent. Parent caught a regression the child missed. PR [#2](https://github.com/willgosnold/pstack-phase0-sandbox/pull/2) linked. |
@@ -100,7 +100,7 @@ Untested so far: `schedule_task` for `/loop`, `watch_pull_request`, `task_cancel
 
 ## Round 2
 
-| # | Playbook | Agent | willystack commit | Thread | Result |
+| # | Playbook | Agent | willyskills commit | Thread | Result |
 | --- | --- | --- | --- | --- | --- |
 | 5 | Babysit | Claude Code | `9c212e7` | `mcp:21f283b9-95a5-431f-b3c9-c67ac5ab2cda` | Pass over two turns. `watch-pr` ran under Bun in a background shell, its `READY` verdict woke the thread when CI finished, and it did not merge. |
 | 6 | Bug fix | Codex (GPT-6.1-Sol, low) | `9c212e7` | `mcp:83c55533-6210-4479-b7bc-259008be2eaf` | Pass in 2 minutes. 3 Claude children, failing test first, PR [#4](https://github.com/willgosnold/pstack-phase0-sandbox/pull/4) linked. |
