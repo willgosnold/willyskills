@@ -2,7 +2,7 @@
 100644 f8503c9595b289c607ff5088f82b21197edf94ec architect/references/design-red-flags.md
 100644 a10f77f59510c532cd909faaf3bfeee5ffbfd588 architect/references/rationale-template.md
 100644 b1ad21aef22e80d718c361787190b599eb359d6c architect/references/runner-prompt.md
-100644 873576a128f699eafbd653d5fa3aba273507dde4 arena/SKILL.md
+100644 771a75dbc5db9805c26c07185e9b995c538e66bd arena/SKILL.md
 100644 cc4ca5581bb061e36e9c532c78c4471bfc25d2f8 automate-me/SKILL.md
 100644 e901d1fdbc9ffce53e94d6514be7d9a22e771a1a benchmark-checklist/SKILL.md
 100644 b296cce0d746260a53c16e3671cb05bacfe82daf blast-radius/SKILL.md
@@ -64,10 +64,10 @@
 100644 897a01cabf2b01153882c96223285f28a59cf724 poteto-help/references/recipes.md
 100644 51b19a9a9ad3f1af929cdd6ec45fbf76ea7476eb poteto-mode/SKILL.md
 100644 4325be8e29e26cebfc8fb359794bf95048bd8093 poteto-mode/playbooks/authoring-a-skill.md
-100644 b31d4033370a8c0d282e8d9ba90646835d81a3af poteto-mode/playbooks/autonomous-run.md
+100644 f2ceefd479f3687b0ef199ffa8addbbe7849e964 poteto-mode/playbooks/autonomous-run.md
 100644 c4247e9849bcdbe1cfe0fb3333f9b6dc37ecc8e6 poteto-mode/playbooks/autopilot-full.md
 100644 819862c8fe7b756c8571eed410a30a09625673d9 poteto-mode/playbooks/autopilot-stack.md
-100644 3bf6f562216c177700e2adf8a398104c595c6069 poteto-mode/playbooks/babysit.md
+100644 eccbc4c45f0c35b78c71a4077ed7155a408d28f5 poteto-mode/playbooks/babysit.md
 100644 c7c0fadff13abe450242431839708d2285d16d2f poteto-mode/playbooks/bug-fix.md
 100644 3424fe492de90e720a56b8fb6af42a778a66e341 poteto-mode/playbooks/eval.md
 100644 d31afce60712cff5f2a9183d306fbe91be1ebe5c poteto-mode/playbooks/feature.md
@@ -75,7 +75,7 @@
 100644 cd119f04f23e0b7acb3f8cc5ba13ce4ab7aa6c7d poteto-mode/playbooks/investigation.md
 100644 4bbcfc8ac07e08b4c7aeb22fa2085aa23fc19cdd poteto-mode/playbooks/multi-phase-plan.md
 100644 12cefa000c5f8ee5ee38685831acf6a9c6dc6dcc poteto-mode/playbooks/opening-a-pr.md
-100644 22617384e7f0752063adf9852cc06cd33772197a poteto-mode/playbooks/orchestrate.md
+100644 e60848e7de039864768a133a4683407b4772684a poteto-mode/playbooks/orchestrate.md
 100644 9d1c5f8303976fff40de099f7f28185909430c11 poteto-mode/playbooks/pause-safely.md
 100644 67d612bb4f8c803aadeeac42546784559387e247 poteto-mode/playbooks/perf-issue.md
 100644 18bedc7e9249d180f9198d5b4b13e3817d41d281 poteto-mode/playbooks/prototype.md
@@ -106,7 +106,7 @@
 100644 1b53279c7f3e5da55703ed17d6ad0616254c5751 poteto-mode/scripts/watch-pr/types.compile.ts
 100644 60b9abcac983fc0a4319428c1be145dc110a8cc5 poteto-mode/scripts/watch-pr/types.ts
 100755 99807d577c3b006cfe6ee9e149cf2914bfd4afd6 poteto-mode/scripts/watch-pr/watch-pr
-100755 c8f270a62c5d21baf55f618dd93446b4be6dbbed poteto-mode/scripts/worktree-audit.sh
+100755 cd7d0028513d6eacc487853c0255ee1aabbdfd99 poteto-mode/scripts/worktree-audit.sh
 100644 978066a386273c926748621d9ab2448b90f6b416 poteto-tdd/SKILL.md
 100644 e9a6d499606992edd9963b80f8f8f57feaccb221 principle-attack-the-premise/SKILL.md
 100644 dfe9a6fb0e5acd6ae43a41437ee0951adfe839cb principle-boundary-discipline/SKILL.md
