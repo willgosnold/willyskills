@@ -1,0 +1,2 @@
+series merge=union
+build.lock merge=union
