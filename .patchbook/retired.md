@@ -17,3 +17,35 @@ Retired at upstream pstack c742dd6. Kind: translation (isolation, cursor-only).
 intent: Every child runs in a worktree on this machine, so the lost-work example is a worktree removed or the machine dying, not a cloud VM. Keep the rule that output is externalized the moment it lands, and the three examples of externalizing.
 
 Why: upstream deleted the externalize-on-landing rule along with the orchestrator's store layout and its `orch` CLI. No new block carries it.
+
+## skills/interrogate/SKILL.md fc18e66f1474
+
+Retired at upstream pstack c742dd6. Kind: translation (model-role).
+
+intent: The default table comes from willyskills's `interrogate reviewers` role. The placeholder expands to a list, so one row covers all reviewers in order. Preserve the table form.
+
+Why: upstream deleted the default table. The `interrogate reviewers` default now sits in entry 396b0b06eb52.
+
+## skills/interrogate/SKILL.md 2df50e629aaa
+
+Retired at upstream pstack c742dd6. Kind: translation (general-purpose, read-only, model-role).
+
+intent: Each reviewer is a read-only child sharing the checkout, with `target` from its entry per the model-entry snippet (inherit-parent omits target). Preserve configured-entry-else-default.
+
+Why: upstream's reviewers became adversaries that run repros in their own worktrees, so they are no longer read-only. Agent type, model and target now come through the arena skill's step 3 and Phase B, which arena's entries translate.
+
+## skills/interrogate/SKILL.md 6f513b774653
+
+Retired at upstream pstack c742dd6. Kind: translation (model-role).
+
+intent: Deleted: the whole block is the rejected-slug and family-prefix fallback, which model-role drops (orchestrator_capabilities lists what exists). If upstream adds non-fallback guidance here, keep that part.
+
+Why: upstream deleted the block. The fallback now lives only in arena's step 3, which arena's entry d4a7c6b535e0 handles.
+
+## skills/interrogate/SKILL.md 9cd5262f18c2
+
+Retired at upstream pstack c742dd6. Kind: translation (model-effort).
+
+intent: Replaces picking a reasoning level and fast or standard speed with the effort ceiling from the role's models-file line: lower it for routine work, never raise it. Keep the pointer to the Subagents section and the shared reviewer template.
+
+Why: upstream deleted the block and the shared reviewer template (`references/reviewer-prompt.md`, `rubric.md`, `code-quality-review.md`). The effort choice moved into arena's step 3.
