@@ -102,3 +102,12 @@ intent: The trigger is what the user types, so it gives both forms. Preserve the
 Invoke when the user says "reflect" or "/reflect". Skip when the conversation is trivial, off-topic, or already covered by an existing skill the parent followed correctly. One-offs are not learnings.
 --- patched
 Invoke when the user says "reflect" or "/reflect" ("$reflect" in Codex). Skip when the conversation is trivial, off-topic, or already covered by an existing skill the parent followed correctly. One-offs are not learnings.
+
+=== entry 08d70818a9ad
+kind: translation
+rules: paths
+intent: A cached plugin skill is still never edited in place; the example cache is Claude Code's. The destination is the project's skills folder, or the agent's personal skills folder (~/.agents/skills for Codex, ~/.claude/skills for Claude Code); the personal folders go beyond the paths rule, which only names project skills, and match the automate-me entries. Keep showing the destination before approval, copying after it, and never opening a PR or pushing.
+--- upstream
+Never edit a skill under `plugins/cache/`. Before approval, show its destination, `.cursor/skills/<skill>/` or `~/.cursor/skills/<skill>/`. After approval, copy the skill folder there and edit the copy. Never open a PR or push.
+--- patched
+Never edit a skill under a plugin cache, such as `~/.claude/plugins/cache/`. Before approval, show its destination, the project's `.agents/skills/<skill>/`, or the personal `~/.agents/skills/<skill>/` (Codex) or `~/.claude/skills/<skill>/` (Claude Code). After approval, copy the skill folder there and edit the copy. Never open a PR or push.
