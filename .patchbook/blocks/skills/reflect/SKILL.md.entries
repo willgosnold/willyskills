@@ -102,3 +102,12 @@ intent: The trigger is what the user types, so it gives both forms. Preserve the
 Invoke when the user says "reflect" or "/reflect". Skip when the conversation is trivial, off-topic, or already covered by an existing skill the parent followed correctly. One-offs are not learnings.
 --- patched
 Invoke when the user says "reflect" or "/reflect" ("$reflect" in Codex). Skip when the conversation is trivial, off-topic, or already covered by an existing skill the parent followed correctly. One-offs are not learnings.
+
+=== entry 08d70818a9ad
+kind: translation
+rules: paths
+intent: An installed skill is edited as a copy in T3's skill folders: the project's `.agents/skills/`, or the agent's personal folder (`~/.agents/skills` for Codex, `~/.claude/skills` for Claude Code). Preserve never editing the cache copy, showing the destination before approval, and never opening a PR or pushing.
+--- upstream
+Never edit a skill under `plugins/cache/`. Before approval, show its destination, `.cursor/skills/<skill>/` or `~/.cursor/skills/<skill>/`. After approval, copy the skill folder there and edit the copy. Never open a PR or push.
+--- patched
+Never edit a skill under `plugins/cache/`. Before approval, show its destination, `.agents/skills/<skill>/` in the project, or `~/.agents/skills/<skill>/` in Codex and `~/.claude/skills/<skill>/` in Claude Code. After approval, copy the skill folder there and edit the copy. Never open a PR or push.
