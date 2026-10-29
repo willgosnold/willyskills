@@ -71,7 +71,9 @@ fi
 
 # Chat transcripts. Claude Code keeps one folder per working directory under
 # ~/.claude/projects, named after the path with every other character as "-".
-# Codex records each session's cwd in its rollout files. T3 sets CODEX_HOME for
+# A folder below the worktree also starts with the worktree's name plus "-", as
+# does a sibling such as glint-482-r37, so those count only when a transcript
+# records a cwd inside the worktree. Codex records each session's cwd in its rollout files. T3 sets CODEX_HOME for
 # its own Codex, so look in every ~/.codex* home as well.
 claude_projects="${CLAUDE_CONFIG_DIR:-$HOME/.claude}/projects"
 codex_rollouts=$(mktemp)
@@ -120,6 +122,7 @@ git worktree list --porcelain | awk '/^worktree /{print $2}' | while read -r wt;
 	last="-"; last_ts=0
 	slug=$(printf '%s' "$wt" | sed 's#[^A-Za-z0-9]#-#g')
 	for f in "$claude_projects/$slug"/*.jsonl \
+		$(grep -l -F "\"cwd\":\"${wt}/" "$claude_projects/$slug"-*/*.jsonl 2>/dev/null) \
 		$([ -s "$codex_rollouts" ] && xargs grep -l -F -e "\"cwd\":\"${wt}\"" -e "\"cwd\":\"${wt}/" < "$codex_rollouts" 2>/dev/null); do
 		[ -f "$f" ] || continue
 		ts=$(stat "${stat_fmt[@]}" "$f" 2>/dev/null | awk '{print $1}')
