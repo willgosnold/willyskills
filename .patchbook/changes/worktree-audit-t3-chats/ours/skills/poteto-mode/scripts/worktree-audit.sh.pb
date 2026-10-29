@@ -73,8 +73,6 @@ fi
 # ~/.claude/projects, named after the path with every other character as "-".
 # Codex records each session's cwd in its rollout files. T3 sets CODEX_HOME for
 # its own Codex, so look in every ~/.codex* home as well.
-mtime() { stat -c %Y "$1" 2>/dev/null || stat -f %m "$1" 2>/dev/null; }
-day() { date -d "@$1" '+%Y-%m-%d' 2>/dev/null || date -r "$1" '+%Y-%m-%d' 2>/dev/null; }
 claude_projects="${CLAUDE_CONFIG_DIR:-$HOME/.claude}/projects"
 codex_rollouts=$(mktemp)
 for home in "${CODEX_HOME:-}" "$HOME"/.codex "$HOME"/.codex-*; do
@@ -120,23 +118,14 @@ git worktree list --porcelain | awk '/^worktree /{print $2}' | while read -r wt;
 
 	# Most recent agent chat that ran in this worktree or below it.
 	last="-"; last_ts=0
-<<<<<<< ours
 	slug=$(printf '%s' "$wt" | sed 's#[^A-Za-z0-9]#-#g')
 	for f in "$claude_projects/$slug"/*.jsonl \
 		$([ -s "$codex_rollouts" ] && xargs grep -l -F -e "\"cwd\":\"${wt}\"" -e "\"cwd\":\"${wt}/" < "$codex_rollouts" 2>/dev/null); do
 		[ -f "$f" ] || continue
-		ts=$(mtime "$f")
+		ts=$(stat "${stat_fmt[@]}" "$f" 2>/dev/null | awk '{print $1}')
 		[ "${ts:-0}" -gt "$last_ts" ] && last_ts=$ts
 	done
-	[ "$last_ts" -gt 0 ] && last=$(day "$last_ts")
-=======
-	if [ -d "$transcripts" ]; then
-		f=$(rg -l -e "${wt}/" -e "${wt}\"" "$transcripts" 2>/dev/null \
-			| xargs stat "${stat_fmt[@]}" 2>/dev/null | sort -rn | head -1)
-		if [ -n "$f" ]; then last_ts=$(echo "$f" | awk '{print $1}')
-			last=$(fmt_day "$last_ts" 2>/dev/null); fi
-	fi
->>>>>>> upstream
+	[ "$last_ts" -gt 0 ] && last=$(fmt_day "$last_ts" 2>/dev/null)
 	recent=$([ "$last_ts" -gt 0 ] 2>/dev/null && [ $(( (now - last_ts) / 86400 )) -le 4 ] && echo yes || echo no)
 
 	case "$dirty" in wip:*) bucket=hold-wip ;; *)
