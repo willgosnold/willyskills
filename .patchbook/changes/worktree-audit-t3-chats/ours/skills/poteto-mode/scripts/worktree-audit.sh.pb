@@ -119,7 +119,10 @@ git worktree list --porcelain | awk '/^worktree /{print $2}' | while read -r wt;
 	# Most recent agent chat that ran in this worktree or below it.
 	last="-"; last_ts=0
 	slug=$(printf '%s' "$wt" | sed 's#[^A-Za-z0-9]#-#g')
+	# A session started below the worktree has its own folder, named after a
+	# longer path. Its slug can also be a sibling's (glint-482-r37), so check cwd.
 	for f in "$claude_projects/$slug"/*.jsonl \
+		$(grep -l -F -e "\"cwd\":\"${wt}/" "$claude_projects/$slug"-*/*.jsonl 2>/dev/null) \
 		$([ -s "$codex_rollouts" ] && xargs grep -l -F -e "\"cwd\":\"${wt}\"" -e "\"cwd\":\"${wt}/" < "$codex_rollouts" 2>/dev/null); do
 		[ -f "$f" ] || continue
 		ts=$(stat "${stat_fmt[@]}" "$f" 2>/dev/null | awk '{print $1}')
