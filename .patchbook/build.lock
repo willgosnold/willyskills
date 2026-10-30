@@ -75,7 +75,7 @@
 100644 cd119f04f23e0b7acb3f8cc5ba13ce4ab7aa6c7d poteto-mode/playbooks/investigation.md
 100644 4bbcfc8ac07e08b4c7aeb22fa2085aa23fc19cdd poteto-mode/playbooks/multi-phase-plan.md
 100644 12cefa000c5f8ee5ee38685831acf6a9c6dc6dcc poteto-mode/playbooks/opening-a-pr.md
-100644 723a2a13161f07b46a757ce20cab43f7afc59c0b poteto-mode/playbooks/orchestrate.md
+100644 49521af154181da2a274f1cecc405fd3429dabb9 poteto-mode/playbooks/orchestrate.md
 100644 9d1c5f8303976fff40de099f7f28185909430c11 poteto-mode/playbooks/pause-safely.md
 100644 67d612bb4f8c803aadeeac42546784559387e247 poteto-mode/playbooks/perf-issue.md
 100644 18bedc7e9249d180f9198d5b4b13e3817d41d281 poteto-mode/playbooks/prototype.md
@@ -106,7 +106,7 @@
 100644 1b53279c7f3e5da55703ed17d6ad0616254c5751 poteto-mode/scripts/watch-pr/types.compile.ts
 100644 60b9abcac983fc0a4319428c1be145dc110a8cc5 poteto-mode/scripts/watch-pr/types.ts
 100755 99807d577c3b006cfe6ee9e149cf2914bfd4afd6 poteto-mode/scripts/watch-pr/watch-pr
-100755 c8f270a62c5d21baf55f618dd93446b4be6dbbed poteto-mode/scripts/worktree-audit.sh
+100755 f543b1457e878719ea83b95a38a52db365fc9c55 poteto-mode/scripts/worktree-audit.sh
 100644 978066a386273c926748621d9ab2448b90f6b416 poteto-tdd/SKILL.md
 100644 e9a6d499606992edd9963b80f8f8f57feaccb221 principle-attack-the-premise/SKILL.md
 100644 dfe9a6fb0e5acd6ae43a41437ee0951adfe839cb principle-boundary-discipline/SKILL.md
