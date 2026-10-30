@@ -47,6 +47,14 @@ origin/*) git fetch origin "+refs/heads/${base#origin/}:refs/remotes/$base" --qu
 esac
 git rev-parse --verify --quiet "$base^{commit}" >/dev/null 2>&1 || { echo "error: base ref not found: $base" >&2; exit 1; }
 
+# GNU coreutils (Linux, Homebrew gnubin) reads `stat -f` as file system status
+# and `date -r` as a file, so pick the stat and date flags once.
+if stat -c %Y / >/dev/null 2>&1; then
+	stat_fmt=(-c '%Y %n'); fmt_day() { date -d "@$1" '+%Y-%m-%d'; }
+else
+	stat_fmt=(-f '%m %N'); fmt_day() { date -r "$1" '+%Y-%m-%d'; }
+fi
+
 # PR state by branch, fetched once as [{number, state, head}] with a lowercase
 # state. Origin when its CLI can read this repo's PRs, otherwise gh. Empty when
 # neither can.
@@ -65,8 +73,6 @@ fi
 # ~/.claude/projects, named after the path with every other character as "-".
 # Codex records each session's cwd in its rollout files. T3 sets CODEX_HOME for
 # its own Codex, so look in every ~/.codex* home as well.
-mtime() { stat -c %Y "$1" 2>/dev/null || stat -f %m "$1" 2>/dev/null; }
-day() { date -d "@$1" '+%Y-%m-%d' 2>/dev/null || date -r "$1" '+%Y-%m-%d' 2>/dev/null; }
 claude_projects="${CLAUDE_CONFIG_DIR:-$HOME/.claude}/projects"
 codex_rollouts=$(mktemp)
 for home in "${CODEX_HOME:-}" "$HOME"/.codex "$HOME"/.codex-*; do
@@ -113,13 +119,16 @@ git worktree list --porcelain | awk '/^worktree /{print $2}' | while read -r wt;
 	# Most recent agent chat that ran in this worktree or below it.
 	last="-"; last_ts=0
 	slug=$(printf '%s' "$wt" | sed 's#[^A-Za-z0-9]#-#g')
+	# A session started below the worktree has its own folder, named after a
+	# longer path. Its slug can also be a sibling's (glint-482-r37), so check cwd.
 	for f in "$claude_projects/$slug"/*.jsonl \
+		$(grep -l -F -e "\"cwd\":\"${wt}/" "$claude_projects/$slug"-*/*.jsonl 2>/dev/null) \
 		$([ -s "$codex_rollouts" ] && xargs grep -l -F -e "\"cwd\":\"${wt}\"" -e "\"cwd\":\"${wt}/" < "$codex_rollouts" 2>/dev/null); do
 		[ -f "$f" ] || continue
-		ts=$(mtime "$f")
+		ts=$(stat "${stat_fmt[@]}" "$f" 2>/dev/null | awk '{print $1}')
 		[ "${ts:-0}" -gt "$last_ts" ] && last_ts=$ts
 	done
-	[ "$last_ts" -gt 0 ] && last=$(day "$last_ts")
+	[ "$last_ts" -gt 0 ] && last=$(fmt_day "$last_ts" 2>/dev/null)
 	recent=$([ "$last_ts" -gt 0 ] 2>/dev/null && [ $(( (now - last_ts) / 86400 )) -le 4 ] && echo yes || echo no)
 
 	case "$dirty" in wip:*) bucket=hold-wip ;; *)
