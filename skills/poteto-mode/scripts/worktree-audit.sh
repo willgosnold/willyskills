@@ -119,7 +119,10 @@ git worktree list --porcelain | awk '/^worktree /{print $2}' | while read -r wt;
 	# Most recent agent chat that ran in this worktree or below it.
 	last="-"; last_ts=0
 	slug=$(printf '%s' "$wt" | sed 's#[^A-Za-z0-9]#-#g')
+	# A chat started in a subdirectory gets its own "$slug-..." folder, which a
+	# sibling worktree's slug can also match, so check the recorded cwd.
 	for f in "$claude_projects/$slug"/*.jsonl \
+		$(find "$claude_projects" -maxdepth 1 -type d -name "$slug-*" -exec grep -rlF --include='*.jsonl' -e "\"cwd\":\"${wt}/" {} + 2>/dev/null) \
 		$([ -s "$codex_rollouts" ] && xargs grep -l -F -e "\"cwd\":\"${wt}\"" -e "\"cwd\":\"${wt}/" < "$codex_rollouts" 2>/dev/null); do
 		[ -f "$f" ] || continue
 		ts=$(stat "${stat_fmt[@]}" "$f" 2>/dev/null | awk '{print $1}')
