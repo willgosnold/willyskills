@@ -62,4 +62,4 @@ fi
 exit 0
 ```
 
-The coordinator rewrites `.claude/orchestrator-state.md` at each drain. Gitignore it and `.claude/orchestrator-session`.
+The coordinator rewrites `.claude/orchestrator-state.md` after each wake. Gitignore it and `.claude/orchestrator-session`.
