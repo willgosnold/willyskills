@@ -47,7 +47,7 @@
 100644 e17e35dbfc0f2d5fc509510649a5cdd968758984 implement/SKILL.md
 100644 f8794dc153b409052a9167baf10858cf01b36175 implement/agents/openai.yaml
 100644 eec84607e25d1c3395685fa6a7ee5a3b953a9c8b in-your-own-words/SKILL.md
-100644 117e10c7a918dbcbb613a0874b2ab36eaefa26c6 interrogate/SKILL.md
+100644 3df3ece897b6afb4016075e227e1e48c7a805a6d interrogate/SKILL.md
 100644 27b12663af5332bfb21614fe342f1d855b901d37 ketchup-video/SKILL.md
 100644 184ddc145086f10ae4eefd48f79524af2fcc0701 ketchup/SKILL.md
 100644 8346e37cf3988ad52b86583c611fa6de3cde4bd3 maintain-formal-verification-skill/SKILL.md
@@ -74,8 +74,8 @@
 100644 0216863afc9899bbb35811c50fc1d7168be3d133 poteto-mode/playbooks/hillclimb.md
 100644 cd119f04f23e0b7acb3f8cc5ba13ce4ab7aa6c7d poteto-mode/playbooks/investigation.md
 100644 4bbcfc8ac07e08b4c7aeb22fa2085aa23fc19cdd poteto-mode/playbooks/multi-phase-plan.md
-100644 12cefa000c5f8ee5ee38685831acf6a9c6dc6dcc poteto-mode/playbooks/opening-a-pr.md
-100644 689eed07cf951b54035870874ea83087eed0ad72 poteto-mode/playbooks/orchestrate.md
+100644 8f7c459e310b02747c769b3de30fb45930d39c57 poteto-mode/playbooks/opening-a-pr.md
+100644 5997477183783dc9630117db360bb106cd62402b poteto-mode/playbooks/orchestrate.md
 100644 9d1c5f8303976fff40de099f7f28185909430c11 poteto-mode/playbooks/pause-safely.md
 100644 67d612bb4f8c803aadeeac42546784559387e247 poteto-mode/playbooks/perf-issue.md
 100644 18bedc7e9249d180f9198d5b4b13e3817d41d281 poteto-mode/playbooks/prototype.md
@@ -87,7 +87,7 @@
 100644 bb58a9938f3a5d4c1d9f35df256b448a78cf93dd poteto-mode/playbooks/visual-parity.md
 100644 d5bf58885f4067083050c5c2fd7fc182a2bfd9ee poteto-mode/playbooks/worktree-cleanup.md
 100644 b2fc7d35712783707607cf2f39752885c8d5105c poteto-mode/references/bugbot-triage.md
-100644 138f2967b99d45ae4d61885b3e1369a7125f471d poteto-mode/references/compact-reload.md
+100644 8edbd1117dfda4fad25ef79f6dffe0779732d5ec poteto-mode/references/compact-reload.md
 100644 c2658d7d1b31848c3b71960543cb0368e56cd4c7 poteto-mode/scripts/.gitignore
 100644 d9c63e2007449a80000abe75ecaf7f2a0bd5826b poteto-mode/scripts/bootstrap.ts
 100644 65f0c662f300a0f72b319ca93ea18f56219c2581 poteto-mode/scripts/bun.lock

@@ -62,4 +62,4 @@ fi
 exit 0
 ```
 
-The coordinator rewrites `.claude/orchestrator-state.md` after each wake. Gitignore it and `.claude/orchestrator-session`.
+The coordinator writes `.claude/orchestrator-state.md` before it first ends the turn and rewrites it after each wake. Gitignore it and `.claude/orchestrator-session`.
