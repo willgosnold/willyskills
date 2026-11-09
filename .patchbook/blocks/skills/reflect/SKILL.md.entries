@@ -79,6 +79,15 @@ One `Task` call, `subagent_type: generalPurpose`, `model` from the `reflect judg
 --- patched
 One `delegate_task` call, with its own `clientRequestId` and its model from the `reflect judgment, divergent, synthesizer` line (default {{model:reflect judgment, divergent, synthesizer}}). Never set `runtimeMode`. It spot-verifies citations through MCP. Pass `references/synthesizer.md` verbatim as the `task`, with each reviewer's full output inlined where marked. It returns an Accepted / Rejected / Backlog list.
 
+=== entry 08d70818a9ad
+kind: translation
+rules: paths
+intent: An approved edit never touches a plugin's cached copy: it shows the destination first, then copies the skill folder into a project or personal skills folder and edits the copy, with no PR or push. The project folder comes from the paths rule; the personal folders (~/.agents/skills for Codex, ~/.claude/skills for Claude Code) go beyond it, as in automate-me. `plugins/cache/` stays, since Claude Code keeps plugin skills under `~/.claude/plugins/cache/` too.
+--- upstream
+Never edit a skill under `plugins/cache/`. Before approval, show its destination, `.cursor/skills/<skill>/` or `~/.cursor/skills/<skill>/`. After approval, copy the skill folder there and edit the copy. Never open a PR or push.
+--- patched
+Never edit a skill under `plugins/cache/`. Before approval, show its destination, `.agents/skills/<skill>/` in the project, or `~/.agents/skills/<skill>/` (Codex) or `~/.claude/skills/<skill>/` (Claude Code) for a personal skill. After approval, copy the skill folder there and edit the copy. Never open a PR or push.
+
 === entry ff502e4a2467
 kind: translation
 rules: create-skill
