@@ -102,3 +102,11 @@ intent: The trigger is what the user types, so it gives both forms. Preserve the
 Invoke when the user says "reflect" or "/reflect". Skip when the conversation is trivial, off-topic, or already covered by an existing skill the parent followed correctly. One-offs are not learnings.
 --- patched
 Invoke when the user says "reflect" or "/reflect" ("$reflect" in Codex). Skip when the conversation is trivial, off-topic, or already covered by an existing skill the parent followed correctly. One-offs are not learnings.
+=== entry 08d70818a9ad
+kind: translation
+rules: paths
+intent: Upstream's new rule: never edit a cached plugin copy of a skill; copy it to a skills folder after approval and edit the copy, with no PR or push. The destinations become T3's skill folders: the project's `.agents/skills/`, or a personal folder (`~/.agents/skills/` for Codex, `~/.claude/skills/` for Claude Code), as other entries translate Cursor's user folder; the paths rule only names project skills. `plugins/cache/` stays, since Claude Code also caches plugins there.
+--- upstream
+Never edit a skill under `plugins/cache/`. Before approval, show its destination, `.cursor/skills/<skill>/` or `~/.cursor/skills/<skill>/`. After approval, copy the skill folder there and edit the copy. Never open a PR or push.
+--- patched
+Never edit a skill under `plugins/cache/`. Before approval, show its destination, `.agents/skills/<skill>/` in the project, or `~/.agents/skills/<skill>/` (Codex) or `~/.claude/skills/<skill>/` (Claude Code) for a personal skill. After approval, copy the skill folder there and edit the copy. Never open a PR or push.
