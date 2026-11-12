@@ -71,8 +71,9 @@ fi
 
 # Chat transcripts. Claude Code keeps one folder per working directory under
 # ~/.claude/projects, named after the path with every other character as "-",
-# so a subdirectory's folder starts with the worktree's name plus "-" and its
-# transcripts record the cwd.
+# so a subdirectory's folder starts with the worktree's name plus "-". Distinct
+# paths can share a name (glint/r37 and glint-r37), so a transcript counts only
+# when the cwd it records is the worktree or inside it.
 # Codex records each session's cwd in its rollout files. T3 sets CODEX_HOME for
 # its own Codex, so look in every ~/.codex* home as well.
 claude_projects="${CLAUDE_CONFIG_DIR:-$HOME/.claude}/projects"
@@ -80,7 +81,7 @@ codex_rollouts=$(mktemp)
 for home in "${CODEX_HOME:-}" "$HOME"/.codex "$HOME"/.codex-*; do
 	[ -n "$home" ] && [ -d "$home/sessions" ] && (cd "$home/sessions" && pwd -P)
 done | sort -u | while read -r sessions; do
-	find "$sessions" -name 'rollout-*.jsonl' -mtime -30 2>/dev/null
+	find "$sessions" -name 'rollout-*.jsonl' 2>/dev/null
 done > "$codex_rollouts"
 now=$(date +%s)
 
@@ -121,13 +122,16 @@ git worktree list --porcelain | awk '/^worktree /{print $2}' | while read -r wt;
 	# Most recent agent chat that ran in this worktree or below it.
 	last="-"; last_ts=0
 	slug=$(printf '%s' "$wt" | sed 's#[^A-Za-z0-9]#-#g')
-	for f in "$claude_projects/$slug"/*.jsonl \
-		$(grep -l -F -e "\"cwd\":\"${wt}/" "$claude_projects/$slug"-*/*.jsonl 2>/dev/null) \
-		$([ -s "$codex_rollouts" ] && xargs grep -l -F -e "\"cwd\":\"${wt}\"" -e "\"cwd\":\"${wt}/" < "$codex_rollouts" 2>/dev/null); do
+	while IFS= read -r f; do
 		[ -f "$f" ] || continue
 		ts=$(stat "${stat_fmt[@]}" "$f" 2>/dev/null | awk '{print $1}')
 		[ "${ts:-0}" -gt "$last_ts" ] && last_ts=$ts
-	done
+	done < <(
+		grep -l -F -e "\"cwd\":\"${wt}\"" -e "\"cwd\":\"${wt}/" \
+			"$claude_projects/$slug"/*.jsonl "$claude_projects/$slug"-*/*.jsonl 2>/dev/null
+		[ -s "$codex_rollouts" ] && tr '\n' '\0' < "$codex_rollouts" \
+			| xargs -0 grep -l -F -e "\"cwd\":\"${wt}\"" -e "\"cwd\":\"${wt}/" 2>/dev/null
+	)
 	[ "$last_ts" -gt 0 ] && last=$(fmt_day "$last_ts" 2>/dev/null)
 	recent=$([ "$last_ts" -gt 0 ] 2>/dev/null && [ $(( (now - last_ts) / 86400 )) -le 4 ] && echo yes || echo no)
 
