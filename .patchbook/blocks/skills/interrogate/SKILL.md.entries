@@ -1,8 +1,8 @@
 === entry 396b0b06eb52
 kind: translation
-rules: general-purpose
-intent: The default agent needs no field, so the generalPurpose change is dropped and "four changes" becomes "three". Keep the interrogate reviewers line, copying uncommitted changes into each worktree, and the adversary brief.
+rules: general-purpose, model-role
+intent: The default agent needs no field, so the generalPurpose change is dropped and "four changes" becomes "three". The reviewers fall back to willyskills's own `interrogate reviewers` default, not arena's runner default. Keep the interrogate reviewers line, copying uncommitted changes into each worktree, and the adversary brief.
 --- upstream
 Run Phase A steps 3 and 4 and Phase B of the **arena** skill, with four changes. Read the `interrogate reviewers` line in place of `arena runners`. Copy the scope's uncommitted changes into each worktree. Spawn each adversary as `generalPurpose`. In place of the arena task and rationale, give each adversary the scope, the intent, and this brief:
 --- patched
-Run Phase A steps 3 and 4 and Phase B of the **arena** skill, with three changes. Read the `interrogate reviewers` line in place of `arena runners`. Copy the scope's uncommitted changes into each worktree. In place of the arena task and rationale, give each adversary the scope, the intent, and this brief:
+Run Phase A steps 3 and 4 and Phase B of the **arena** skill, with three changes. Read the `interrogate reviewers` line in place of `arena runners`, else {{model:interrogate reviewers}}. Copy the scope's uncommitted changes into each worktree. In place of the arena task and rationale, give each adversary the scope, the intent, and this brief:
