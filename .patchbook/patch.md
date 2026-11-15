@@ -102,7 +102,7 @@ T3: the line's effort is a ceiling. Lower it for routine work, never raise it. N
 
 ### model-unnamed
 Intent: spawns that name no role still get a deliberate model.
-T3: "fast code model" / trivial mechanical edits → `feature, refactoring`. "Strongest judgment model" / hardest changes → `hardest tasks`. "Fast, cheap model" → `how explorer`. A reviewer or verifier "on a different model family" → rule `same-model-review`. Anything else → `judgment and prose`.
+T3: "fast code model" / trivial mechanical edits → `feature, refactoring`. "Strongest judgment model" / hardest changes → `hardest tasks`. "Fast, cheap model" → `swarm workers`. A reviewer or verifier "on a different model family" → rule `same-model-review`. Anything else → `judgment and prose`.
 
 ### same-model-review
 Kind: policy.
