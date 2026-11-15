@@ -73,7 +73,7 @@
 100644 854d56f69388e24d0d9262cb6b545e1484873ca1 poteto-mode/playbooks/investigation.md
 100644 fad405b4acb165e100a5a2b839f6dd0a07da7b2b poteto-mode/playbooks/multi-phase-plan.md
 100644 8f7c459e310b02747c769b3de30fb45930d39c57 poteto-mode/playbooks/opening-a-pr.md
-100644 328073d226157162d1a0894d0fdd1a6d9a4dc54e poteto-mode/playbooks/orchestrate.md
+100644 a9b8851ec1a4fe012bc3b4badc1c65dc8fa8330b poteto-mode/playbooks/orchestrate.md
 100644 9d1c5f8303976fff40de099f7f28185909430c11 poteto-mode/playbooks/pause-safely.md
 100644 144023ef1d28b8a14269c4ba29127d8dca7f569b poteto-mode/playbooks/perf-issue.md
 100644 18bedc7e9249d180f9198d5b4b13e3817d41d281 poteto-mode/playbooks/prototype.md
@@ -134,7 +134,7 @@
 100644 1bda1fe8f63c347ae7408a736ec8b35e79114ca9 pstack/SKILL.md
 100644 1965e3d17c60d02b1ff28b3cf19ad96a02c40900 pstack/agents/comment-sicko.md
 100644 e750fadb9b04e8e080553d96c0b2b734c6f69db9 pstack/agents/poteto-agent.md
-100644 a109edb555f6e0147e322cfd1132ad256e8caaf5 recall/SKILL.md
+100644 091c8d9185a15c44e12afe5202c3c95dd26a2dad recall/SKILL.md
 100644 e14fed1862735dbfe6b334b0d297fd00cc5d6e5f reflect/SKILL.md
 100644 c9f04fb52ce10d77740e710c11b9d90c83cc03a8 reflect/references/divergent-reviewer.md
 100644 ff91daad1ca4ca71eef12976099c884daca22540 reflect/references/judgment-reviewer.md
