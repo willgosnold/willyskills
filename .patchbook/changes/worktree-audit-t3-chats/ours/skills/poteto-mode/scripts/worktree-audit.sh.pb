@@ -124,12 +124,15 @@ git worktree list --porcelain | awk '/^worktree /{print $2}' | while read -r wt;
 	# cwd at or inside this worktree.
 	slug=$(printf '%s' "$wt" | sed 's#[^A-Za-z0-9]#-#g')
 	cwd_in_wt=(-e "\"cwd\":\"${wt}\"" -e "\"cwd\":\"${wt}/" -e "\"cwd\": \"${wt}\"" -e "\"cwd\": \"${wt}/")
-	for f in $(grep -l -F "${cwd_in_wt[@]}" "$claude_projects/$slug"/*.jsonl "$claude_projects/$slug"-*/*.jsonl 2>/dev/null) \
-		$([ -s "$codex_rollouts" ] && xargs grep -l -F "${cwd_in_wt[@]}" < "$codex_rollouts" 2>/dev/null); do
+	# Read the matches line by line, so a path with spaces stays whole.
+	while IFS= read -r f; do
 		[ -f "$f" ] || continue
 		ts=$(stat "${stat_fmt[@]}" "$f" 2>/dev/null | awk '{print $1}')
 		[ "${ts:-0}" -gt "$last_ts" ] && last_ts=$ts
-	done
+	done < <(
+		grep -l -F "${cwd_in_wt[@]}" "$claude_projects/$slug"/*.jsonl "$claude_projects/$slug"-*/*.jsonl 2>/dev/null
+		[ -s "$codex_rollouts" ] && tr '\n' '\0' < "$codex_rollouts" | xargs -0 grep -l -F "${cwd_in_wt[@]}" 2>/dev/null
+	)
 	[ "$last_ts" -gt 0 ] && last=$(fmt_day "$last_ts" 2>/dev/null)
 	recent=$([ "$last_ts" -gt 0 ] 2>/dev/null && [ $(( (now - last_ts) / 86400 )) -le 4 ] && echo yes || echo no)
 
