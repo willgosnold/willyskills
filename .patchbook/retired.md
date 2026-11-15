@@ -2,6 +2,24 @@
 
 Patches that no longer apply, newest first. Each keeps its intent and says why it was retired.
 
+## skills/interrogate/SKILL.md [2df50e629aaa]
+
+kind: translation
+intent: Each reviewer is a read-only child sharing the checkout, with `target` from its entry per the model-entry snippet (inherit-parent omits target). Preserve configured-entry-else-default.
+retired: At bf0c7cd upstream replaced the read-only reviewers with adversaries that run arena Phase A steps 3-4 and Phase B, each in its own worktree where it runs repros, so they are no longer read-only. Their targets now come from the patched arena runner step, so this paragraph has no successor. The default for the role moved into entry 396b0b06eb52.
+
+## skills/interrogate/SKILL.md [6f513b774653]
+
+kind: translation
+intent: Deleted: the whole block is the rejected-slug and family-prefix fallback, which model-role drops (orchestrator_capabilities lists what exists). If upstream adds non-fallback guidance here, keep that part.
+retired: At bf0c7cd upstream removed interrogate's own rejected-slug and family-prefix fallback paragraph. Interrogate now defers to the arena runner step, so there is nothing left to delete.
+
+## skills/interrogate/SKILL.md [9cd5262f18c2]
+
+kind: translation
+intent: Replaces picking a reasoning level and fast or standard speed with the effort ceiling from the role's models-file line: lower it for routine work, never raise it. Keep the pointer to the Subagents section and the shared reviewer template.
+retired: At bf0c7cd upstream deleted interrogate's references/ (reviewer-prompt.md, rubric.md, code-quality-review.md) and the paragraph that filled the shared reviewer template and set reasoning and speed. The adversary brief is now inline, and effort follows the arena runner step.
+
 ## skills/why/SKILL.md [1dee5fd9349d]
 
 kind: translation
