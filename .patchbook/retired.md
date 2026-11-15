@@ -2,6 +2,18 @@
 
 Patches that no longer apply, newest first. Each keeps its intent and says why it was retired.
 
+## skills/poteto-mode/playbooks/orchestrate.md [850c1a1d2385]
+
+kind: translation
+intent: The read-only liveness probe uses `task_status`, which reads state without waking the agent. The Cursor-restart bullet becomes a T3 restart: no rule covers it, so it keeps upstream's recovery steps and drops the local-versus-cloud split, since every child runs on this machine and its worktree and pushed branches outlive the session. Preserve never resuming to check on an agent, the retry-by-mode table, and reattaching by PR and branch rather than agent id.
+retired: At bf0c7cd upstream rewrote the Orchestrate playbook from about 112 lines to 25 and removed this failure-handling list: the liveness probe through the Cursor dashboard, the postmortem rows, the stop line, and the after-a-Cursor-restart recovery are gone. Its retry-by-cause and never-check-in rules survive in new Supervision and Topology bullets that need no translation (the check-in now reads `task_status` in the Topology entry ca155dd357b3).
+
+## skills/poteto-mode/playbooks/orchestrate.md [da6d7e9ea334]
+
+kind: translation
+intent: Every child runs in a worktree on this machine, so the lost-work example is a worktree removed or the machine dying, not a cloud VM. Keep the rule that output is externalized the moment it lands, and the three examples of externalizing.
+retired: At bf0c7cd upstream's Orchestrate rewrite dropped the externalize-output paragraph and its "work that exists only on one VM" example; nothing in the new playbook mentions a VM's lost work.
+
 ## skills/interrogate/SKILL.md [2df50e629aaa]
 
 kind: translation
