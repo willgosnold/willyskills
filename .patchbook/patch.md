@@ -102,7 +102,7 @@ T3: the line's effort is a ceiling. Lower it for routine work, never raise it. N
 
 ### model-unnamed
 Intent: spawns that name no role still get a deliberate model.
-T3: "fast code model" / trivial mechanical edits → `feature, refactoring`. "Strongest judgment model" / hardest changes → `hardest tasks`. "Fast, cheap model" → `how explorer`. A reviewer or verifier "on a different model family" → rule `same-model-review`. Anything else → `judgment and prose`.
+T3: "fast code model" / trivial mechanical edits → `feature, refactoring`. "Strongest judgment model" / hardest changes → `hardest tasks`. "Fast, cheap model" → `swarm workers`. A reviewer or verifier "on a different model family" → rule `same-model-review`. Anything else → `judgment and prose`.
 
 ### same-model-review
 Kind: policy.
@@ -112,7 +112,7 @@ Patched: "on the same model and effort as the worker it checks, unless the user 
 
 ### setup-pstack
 Intent: `/setup-pstack` writes the project models file.
-T3: detect models with `orchestrator_capabilities`. Write {{snippet:models-file}} with one line per role and a `# budget:` line. A budget sets each entry's effort to its level, or the highest that model offers below it. Tell the user to commit the file if worktrees and other people should see it.
+T3: detect models with `orchestrator_capabilities`. Write {{snippet:models-file}} with one line per role and a `# budget:` line. A budget moves each entry's default effort along the ladder (`large` keeps it, `unlimited` raises it one step, `medium` and `small` lower it one and two steps), or takes the highest effort that model offers below the target. Tell the user to commit the file if worktrees and other people should see it.
 
 ## Tools the agent uses
 
