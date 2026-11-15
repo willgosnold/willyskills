@@ -118,13 +118,14 @@ git worktree list --porcelain | awk '/^worktree /{print $2}' | while read -r wt;
 
 	# Most recent agent chat that ran in this worktree or below it.
 	last="-"; last_ts=0
-	# A session started in a subdirectory gets its own folder, "$slug-<sub>",
-	# which a sibling worktree's folder can also match, so those count only
-	# when they record a cwd inside this worktree.
+	# Claude Code names a session's folder after its cwd with every other
+	# character as "-", so a subdirectory's folder ("$slug-sub") can equal a
+	# sibling worktree's ("wt-sub"). Count a transcript only when it records a
+	# cwd at or inside this worktree.
 	slug=$(printf '%s' "$wt" | sed 's#[^A-Za-z0-9]#-#g')
-	for f in "$claude_projects/$slug"/*.jsonl \
-		$(grep -l -F -e "\"cwd\":\"${wt}/" -e "\"cwd\": \"${wt}/" "$claude_projects/$slug"-*/*.jsonl 2>/dev/null) \
-		$([ -s "$codex_rollouts" ] && xargs grep -l -F -e "\"cwd\":\"${wt}\"" -e "\"cwd\":\"${wt}/" -e "\"cwd\": \"${wt}\"" -e "\"cwd\": \"${wt}/" < "$codex_rollouts" 2>/dev/null); do
+	cwd_in_wt=(-e "\"cwd\":\"${wt}\"" -e "\"cwd\":\"${wt}/" -e "\"cwd\": \"${wt}\"" -e "\"cwd\": \"${wt}/")
+	for f in $(grep -l -F "${cwd_in_wt[@]}" "$claude_projects/$slug"/*.jsonl "$claude_projects/$slug"-*/*.jsonl 2>/dev/null) \
+		$([ -s "$codex_rollouts" ] && xargs grep -l -F "${cwd_in_wt[@]}" < "$codex_rollouts" 2>/dev/null); do
 		[ -f "$f" ] || continue
 		ts=$(stat "${stat_fmt[@]}" "$f" 2>/dev/null | awk '{print $1}')
 		[ "${ts:-0}" -gt "$last_ts" ] && last_ts=$ts
