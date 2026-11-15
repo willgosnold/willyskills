@@ -24,7 +24,7 @@ Open a step list with one entry per phase before launching anything. Codex keeps
 
 ## Phase B: Fan out
 
-Spawn all N workers in one message: N `delegate_task` calls, each with its whole brief in `task`, its own `clientRequestId`, `mode: "async"`, and the step 3 model. Keep each returned `taskId` and `childThreadId`. A worker that writes gets `isolation: "worktree"`, a checkout of your current local commit, so commit first. A worker that only reads gets no `isolation` and keeps scratch copies in `/tmp`. Each completion wakes this thread, so end the turn instead of polling.
+Spawn all N workers in one message: N `delegate_task` calls, each with its whole brief in `task`, its own `clientRequestId`, `mode: "async"`, and the step 3 model. Keep each returned `taskId` and `childThreadId`. A worker that writes gets `isolation: "worktree"`, a checkout of your current local commit, so commit first. A worker that only reads gets no `isolation`, a brief that says "Do not edit, create, commit, or push files.", and scratch copies in `/tmp`, and you run `git status` once it returns. Each completion wakes this thread, so end the turn instead of polling.
 
 When a worker must start from a non-default pushed branch, its brief tells it to check out that branch first.
 
