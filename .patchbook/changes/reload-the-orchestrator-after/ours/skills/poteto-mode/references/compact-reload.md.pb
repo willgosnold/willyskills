@@ -1,6 +1,6 @@
 # Reloading the orchestrator after compaction
 
-Auto-compaction truncates long skills, so the coordinator loses `SKILL.md`, the Orchestrate playbook, and its live state. This restores them for the coordinator session only.
+Auto-compaction truncates long skills, so the coordinator loses `SKILL.md`, the Orchestrate playbook, and its live state. This restores them for the coordinator session only. It uses Claude Code's hooks, so it works only when the coordinator runs in Claude Code.
 
 Two hooks do it. The `PreToolUse` hook in this skill's frontmatter records the session id the first time the skill runs a tool, in `$CLAUDE_PROJECT_DIR/.claude/orchestrator-session`. A `SessionStart` hook for `compact` must live in the project's `.claude/settings.json`, because a `compact` hook in skill frontmatter never fires. It reads the session id and prints a reload directive only when it matches. Another session on the project gets nothing. A later session that runs this skill overwrites the id, so one orchestrator per project.
 
@@ -35,6 +35,7 @@ id=$(jq -r '.session_id // empty' 2>/dev/null)
 [ -n "$id" ] && [ "$id" = "$(cat "$dir/.claude/orchestrator-session" 2>/dev/null)" ] || exit 0
 
 skill=$dir/.claude/skills/poteto-mode
+[ -f "$skill/SKILL.md" ] || skill=${CLAUDE_CONFIG_DIR:-$HOME/.claude}/skills/poteto-mode
 state=$dir/.claude/orchestrator-state.md
 budget=9500
 out=
