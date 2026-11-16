@@ -112,7 +112,7 @@ Patched: "on the same model and effort as the worker it checks, unless the user 
 
 ### setup-pstack
 Intent: `/setup-pstack` writes the project models file.
-T3: detect models with `orchestrator_capabilities`. Write {{snippet:models-file}} with one line per role and a `# budget:` line. A budget sets each entry's effort to its level, or the highest that model offers below it. Tell the user to commit the file if worktrees and other people should see it.
+T3: detect models with `orchestrator_capabilities`. Write {{snippet:models-file}} with one line per role and a `# budget:` line. A budget moves each entry's default effort by steps (`large` keeps it, `unlimited` raises it one, `medium` lowers it one, `small` lowers it two), and the entry takes the highest effort its model offers at or below that target. Tell the user to commit the file if worktrees and other people should see it.
 
 ## Tools the agent uses
 
