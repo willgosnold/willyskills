@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Ketchup video
 
-Follow the [**ketchup**](../ketchup/SKILL.md) skill, but show what happened in a short subtitled video instead of its summary and visuals. Its window starts at the last message the user wrote before this skill started, not before any earlier **ketchup** run. Writing and rendering the video, outside the repo, is the one exception to its read-only rule. The reply is ketchup's opening sentence, the embedded video, one line naming any work left that you can do yourself, and the action items. When the video shows a call's options, call each option by the name the video gives it. If the render fails, say so in one line and give only the calls.
+Follow the [**ketchup**](../ketchup/SKILL.md) skill, but show what happened in a short subtitled video instead of its summary and visuals. Its window starts at the last message the user wrote before the one that started this skill, not before any earlier **ketchup** run. Writing and rendering the video, outside the repo, is the one exception to its read-only rule. The reply is ketchup's opening sentence, the embedded video, one line naming any work left that you can do yourself, and the action items. When the video shows a call's options, call each option by the name the video gives it. If the render fails, say so in one line and give only the calls.
 
 ## Slides
 

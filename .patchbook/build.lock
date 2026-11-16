@@ -2,7 +2,7 @@
 100644 f8503c9595b289c607ff5088f82b21197edf94ec architect/references/design-red-flags.md
 100644 a10f77f59510c532cd909faaf3bfeee5ffbfd588 architect/references/rationale-template.md
 100644 b1ad21aef22e80d718c361787190b599eb359d6c architect/references/runner-prompt.md
-100644 81988e42d1c44b96aeeeb0d9411a4f0b41a58c53 arena/SKILL.md
+100644 ed7711ee3e47038d49f0b18f23da43091588e3e2 arena/SKILL.md
 100644 cc4ca5581bb061e36e9c532c78c4471bfc25d2f8 automate-me/SKILL.md
 100644 e901d1fdbc9ffce53e94d6514be7d9a22e771a1a benchmark-checklist/SKILL.md
 100644 1f5c95140597b8aa42fadf165e1aa0bca01639ff blast-radius/SKILL.md
@@ -40,13 +40,13 @@
 100644 f1dd2c09108dde1a5f56097cee8461b3ea834499 handoff/LICENSE
 100644 36667b013279112cc9f0cc52890e900d35427bbf handoff/SKILL.md
 100644 6e1d8da121beceddc2f9ec7fa8714c1d914dd11a handoff/agents/openai.yaml
-100644 8ce99b2de965285caf3fef3a444d8a7796c7bd84 how/SKILL.md
+100644 627aba650379fbd0afb205d83816e13f98fa03b8 how/SKILL.md
 100644 f1dd2c09108dde1a5f56097cee8461b3ea834499 implement/LICENSE
 100644 e17e35dbfc0f2d5fc509510649a5cdd968758984 implement/SKILL.md
 100644 f8794dc153b409052a9167baf10858cf01b36175 implement/agents/openai.yaml
 100644 eec84607e25d1c3395685fa6a7ee5a3b953a9c8b in-your-own-words/SKILL.md
-100644 8f6d06e7899a6c07dcb7e25facd58907f59cc9d4 interrogate/SKILL.md
-100644 e2e72c36a2b641ba44795cf811f6941237c129fb ketchup-video/SKILL.md
+100644 aeae8a29fb42fba9370f8650f6678a22af4c58f1 interrogate/SKILL.md
+100644 2c1576d3c3e143c3c7dc787cc8292b0734cd444c ketchup-video/SKILL.md
 100644 184ddc145086f10ae4eefd48f79524af2fcc0701 ketchup/SKILL.md
 100644 8346e37cf3988ad52b86583c611fa6de3cde4bd3 maintain-formal-verification-skill/SKILL.md
 100644 a9257bfd97ea94db4fcf8a490e8f9fd5b716c6c0 maintain-verification-skill/SKILL.md
@@ -60,7 +60,7 @@
 100644 20079613041ce02d6924248eb087e5aaa7c42506 poteto-help/SKILL.md
 100644 28e541a9abcb9e0c772cc3cc8fdcfcefaa4ac7f0 poteto-help/references/prompting.md
 100644 897a01cabf2b01153882c96223285f28a59cf724 poteto-help/references/recipes.md
-100644 b9923f0fe101da75b1f80675ae8c7f4e86cee0d3 poteto-mode/SKILL.md
+100644 62dd66727713ce5abb2744c010c62e31106a025c poteto-mode/SKILL.md
 100644 4325be8e29e26cebfc8fb359794bf95048bd8093 poteto-mode/playbooks/authoring-a-skill.md
 100644 b31d4033370a8c0d282e8d9ba90646835d81a3af poteto-mode/playbooks/autonomous-run.md
 100644 c4247e9849bcdbe1cfe0fb3333f9b6dc37ecc8e6 poteto-mode/playbooks/autopilot-full.md
@@ -73,7 +73,7 @@
 100644 854d56f69388e24d0d9262cb6b545e1484873ca1 poteto-mode/playbooks/investigation.md
 100644 fad405b4acb165e100a5a2b839f6dd0a07da7b2b poteto-mode/playbooks/multi-phase-plan.md
 100644 12cefa000c5f8ee5ee38685831acf6a9c6dc6dcc poteto-mode/playbooks/opening-a-pr.md
-100644 ca4b752d3ff9ea5e8f2c379382744da0dacdb898 poteto-mode/playbooks/orchestrate.md
+100644 748e1d39be7f2e8ebf2deeebb90d171fdd3c9316 poteto-mode/playbooks/orchestrate.md
 100644 9d1c5f8303976fff40de099f7f28185909430c11 poteto-mode/playbooks/pause-safely.md
 100644 144023ef1d28b8a14269c4ba29127d8dca7f569b poteto-mode/playbooks/perf-issue.md
 100644 18bedc7e9249d180f9198d5b4b13e3817d41d281 poteto-mode/playbooks/prototype.md
@@ -104,7 +104,7 @@
 100644 1b53279c7f3e5da55703ed17d6ad0616254c5751 poteto-mode/scripts/watch-pr/types.compile.ts
 100644 60b9abcac983fc0a4319428c1be145dc110a8cc5 poteto-mode/scripts/watch-pr/types.ts
 100755 99807d577c3b006cfe6ee9e149cf2914bfd4afd6 poteto-mode/scripts/watch-pr/watch-pr
-100755 989ed194f48e6e387c4566add9ffeb3b08bf427e poteto-mode/scripts/worktree-audit.sh
+100755 a941dc50b1c8eb13b246837eb1b8122f37d6970e poteto-mode/scripts/worktree-audit.sh
 100644 978066a386273c926748621d9ab2448b90f6b416 poteto-tdd/SKILL.md
 100644 e9a6d499606992edd9963b80f8f8f57feaccb221 principle-attack-the-premise/SKILL.md
 100644 dfe9a6fb0e5acd6ae43a41437ee0951adfe839cb principle-boundary-discipline/SKILL.md
@@ -134,7 +134,7 @@
 100644 1bda1fe8f63c347ae7408a736ec8b35e79114ca9 pstack/SKILL.md
 100644 1965e3d17c60d02b1ff28b3cf19ad96a02c40900 pstack/agents/comment-sicko.md
 100644 e750fadb9b04e8e080553d96c0b2b734c6f69db9 pstack/agents/poteto-agent.md
-100644 f3ad1257cc76957594d956b03b8d15ba1e2f02cb recall/SKILL.md
+100644 3fdb103724c2f276e670a5df620023a134332ec0 recall/SKILL.md
 100644 6fc1b6375fac2012079fff5bc6f78cf29530e3d2 reflect/SKILL.md
 100644 c9f04fb52ce10d77740e710c11b9d90c83cc03a8 reflect/references/divergent-reviewer.md
 100644 ff91daad1ca4ca71eef12976099c884daca22540 reflect/references/judgment-reviewer.md
@@ -154,7 +154,7 @@
 100644 1aeb5d04fadd9b7240e3f70dff20a758a1c729ea setup-matt-pocock-skills/issue-tracker-gitlab.md
 100644 0209a19af92c9c485cf3acc3d9e253171517ea17 setup-matt-pocock-skills/issue-tracker-local.md
 100644 5276464244857a3cc29890ff4a978a197b21f3fc setup-matt-pocock-skills/triage-labels.md
-100644 1c885ee9de6cc9712517bcb4c9df6e11670385cf setup-pstack/SKILL.md
+100644 48c8fd822ff372f27b219e99a24e55fd0b1fee0a setup-pstack/SKILL.md
 100644 168c094eb4da3165edab28892cb09ea3feb0399b sharpen/SKILL.md
 100644 2e58e0525a21873241e6f3b5c8f1d9ce73cf59be show-me-your-work/SKILL.md
 100644 db220376ecb8c582a6a4f6575a8f26469603a38d show-me-your-work/references/decision-log-template.tsv
