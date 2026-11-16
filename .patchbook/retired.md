@@ -2,6 +2,14 @@
 
 Patches that no longer apply, newest first. Each keeps its intent and says why it was retired.
 
+## orchestrate.md failure, externalizing, and verification entries
+
+Retired at upstream bf0c7cd. Upstream rewrote the Orchestrate playbook and deleted the failure-handling list, the externalize-on-landing rule, and the scale-verification paragraph these entries patched. The new Supervision list judges a stalled worker by its pushes and PR activity and has no Cursor terms. The verifier policy (same-model-review) moved to the new topology entry.
+
+- `850c1a1d2385`: The read-only liveness probe uses `task_status`, which reads state without waking the agent. The Cursor-restart bullet becomes a T3 restart: no rule covers it, so it keeps upstream's recovery steps and drops the local-versus-cloud split, since every child runs on this machine and its worktree and pushed branches outlive the session. Preserve never resuming to check on an agent, the retry-by-mode table, and reattaching by PR and branch rather than agent id.
+- `da6d7e9ea334`: Every child runs in a worktree on this machine, so the lost-work example is a worktree removed or the machine dying, not a cloud VM. Keep the rule that output is externalized the moment it lands, and the three examples of externalizing.
+- `a3856a70a3d4`: Policy: a dedicated verifier runs on its worker's model, not a different family, unless the user names another (rule same-model-review).
+
 ## interrogate/SKILL.md reviewer entries
 
 Retired at upstream bf0c7cd. Upstream rebuilt interrogate on the arena skill's runner and fan-out steps, and deleted the reviewer table, the slug fallbacks, the read-only reviewer setup, and the reviewer-prompt, rubric, and code-quality references these entries patched. Adversaries now write repros in their own worktrees, so the read-only rule no longer fits. The launch entry was rewritten on the new fan-out block instead.
