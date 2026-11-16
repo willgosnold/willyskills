@@ -44,7 +44,7 @@ Each reviewer and the synthesizer name a role line in the `pstack-models.mdc` ru
 --- patched
 Each reviewer and the synthesizer name a role line and a default. Take each one's model from that line in {{snippet:models-file}}, else from its default. {{snippet:model-entry}} Pick each subagent's effort for the job within that ceiling, per the Subagents section of the **poteto-mode** skill.
 
-=== entry ef9be67a1261
+=== entry f354387cb64d
 kind: translation
 rules: model-role
 intent: The default column holds each role's willyskills default from models.json instead of a hard-coded model. Keeps the lens, role line, and template columns as they are.
@@ -52,7 +52,7 @@ intent: The default column holds each role's willyskills default from models.jso
 | Lens | Role line | Default `model` | Prompt template |
 |---|---|---|---|
 | Judgment | `reflect judgment, divergent, synthesizer` | `claude-opus-5-5-xhigh` | `references/judgment-reviewer.md` |
-| Tooling | `reflect tooling` | `grok-4.7-xhigh-fast` | `references/tooling-reviewer.md` |
+| Tooling | `reflect tooling` | `claude-opus-5-5-high-fast` | `references/tooling-reviewer.md` |
 | Divergent | `reflect judgment, divergent, synthesizer` | `claude-opus-5-5-xhigh` | `references/divergent-reviewer.md` |
 --- patched
 | Lens | Role line | Default | Prompt template |
@@ -102,3 +102,12 @@ intent: The trigger is what the user types, so it gives both forms. Preserve the
 Invoke when the user says "reflect" or "/reflect". Skip when the conversation is trivial, off-topic, or already covered by an existing skill the parent followed correctly. One-offs are not learnings.
 --- patched
 Invoke when the user says "reflect" or "/reflect" ("$reflect" in Codex). Skip when the conversation is trivial, off-topic, or already covered by an existing skill the parent followed correctly. One-offs are not learnings.
+
+=== entry 08d70818a9ad
+kind: translation
+rules: paths
+intent: An approved edit to an installed skill goes to a copy in T3's project skills folder or the agent's personal skills folder (~/.agents/skills for Codex, ~/.claude/skills for Claude Code), never the plugin cache. The personal folders go beyond the paths rule, as in automate-me. Keep the no-PR, no-push rule.
+--- upstream
+Never edit a skill under `plugins/cache/`. Before approval, show its destination, `.cursor/skills/<skill>/` or `~/.cursor/skills/<skill>/`. After approval, copy the skill folder there and edit the copy. Never open a PR or push.
+--- patched
+Never edit a skill under `plugins/cache/`. Before approval, show its destination: the project's `.agents/skills/<skill>/`, or the personal `~/.agents/skills/<skill>/` (Codex) or `~/.claude/skills/<skill>/` (Claude Code). After approval, copy the skill folder there and edit the copy. Never open a PR or push.

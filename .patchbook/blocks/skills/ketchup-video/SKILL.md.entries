@@ -1,0 +1,25 @@
+=== entry 210d422550f4
+kind: translation
+rules: invoke
+intent: The description names the ketchup skill without a slash and gives both invocations, /ketchup-video for Claude Code and $ketchup-video for Codex. Everything else stays verbatim.
+--- upstream
+---
+name: ketchup-video
+description: "Catch the user up like /ketchup, with a short subtitled video of slides for what happened and the waiting calls as text under it. Use for /ketchup-video."
+disable-model-invocation: true
+---
+--- patched
+---
+name: ketchup-video
+description: "Catch the user up like the ketchup skill, with a short subtitled video of slides for what happened and the waiting calls as text under it. Use for /ketchup-video or $ketchup-video."
+disable-model-invocation: true
+---
+
+=== entry ca3eb4519e0a
+kind: translation
+rules: invoke
+intent: Names the ketchup skill instead of its slash command, keeping the link. The window starts at the user's last message before the one that started this skill, as upstream's "before `/ketchup-video`" does, without naming a typed command. Everything else stays verbatim.
+--- upstream
+Follow [`/ketchup`](../ketchup/SKILL.md), but show what happened in a short subtitled video instead of its summary and visuals. Its window starts at the last message the user wrote before `/ketchup-video`, not before any earlier `/ketchup`. Writing and rendering the video, outside the repo, is the one exception to its read-only rule. The reply is ketchup's opening sentence, the embedded video, one line naming any work left that you can do yourself, and the action items. When the video shows a call's options, call each option by the name the video gives it. If the render fails, say so in one line and give only the calls.
+--- patched
+Follow the [**ketchup**](../ketchup/SKILL.md) skill, but show what happened in a short subtitled video instead of its summary and visuals. Its window starts at the last message the user wrote before the one that started this skill, not before any earlier **ketchup** run. Writing and rendering the video, outside the repo, is the one exception to its read-only rule. The reply is ketchup's opening sentence, the embedded video, one line naming any work left that you can do yourself, and the action items. When the video shows a call's options, call each option by the name the video gives it. If the render fails, say so in one line and give only the calls.

@@ -18,18 +18,6 @@
   "hardest tasks": [
     "claudeAgent/claude-opus-5-5 xhigh"
   ],
-  "how explorer": [
-    "claudeAgent/claude-haiku-5-5 xhigh"
-  ],
-  "how explainer": [
-    "claudeAgent/claude-opus-5-5 high"
-  ],
-  "why investigators": [
-    "claudeAgent/claude-haiku-5-5 xhigh"
-  ],
-  "why synthesizer": [
-    "claudeAgent/claude-opus-5-5 high"
-  ],
   "reflect tooling": [
     "claudeAgent/claude-haiku-5-5 xhigh"
   ],
@@ -41,7 +29,8 @@
     "codex/gpt-6.1-sol xhigh"
   ],
   "arena cross-judge pool": [
-    "claudeAgent/claude-opus-5-5 high"
+    "claudeAgent/claude-opus-5-5 high",
+    "codex/gpt-6.1-sol xhigh"
   ],
   "swarm workers": [
     "claudeAgent/claude-haiku-5-5 xhigh"
