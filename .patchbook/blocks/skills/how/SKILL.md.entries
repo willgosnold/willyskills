@@ -5,4 +5,4 @@ intent: The one spawn is a read-only delegate_task child sharing the checkout. U
 --- upstream
 Spawn one Task subagent with `subagent_type: generalPurpose` and `readonly: true` that explores and explains in one pass. Give it the user's question and this brief:
 --- patched
-Spawn one `delegate_task` child, with no `isolation`, that explores and explains in one pass, and run `git status` after it returns. Run it on the `judgment and prose` line in {{snippet:models-file}}, else {{model:judgment and prose}}. {{snippet:model-entry}} Its `task` holds the user's question, "Do not edit, create, commit, or push files.", and this brief:
+Spawn one `delegate_task` child, with its own `clientRequestId` and no `isolation`, that explores and explains in one pass. Keep its returned `taskId` and `childThreadId`, and run `git status` after it returns. Run it on the `judgment and prose` line in {{snippet:models-file}}, else {{model:judgment and prose}}. {{snippet:model-entry}} Its `task` holds the user's question, "Do not edit, create, commit, or push files.", and this brief:
