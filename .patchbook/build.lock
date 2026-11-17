@@ -1,5 +1,5 @@
 100644 5a117c4d0060d7b82e46d1287ad637f808b06098 architect/SKILL.md
-100644 b43b06a9ef8d150da92f15e3b390f5468d89dca0 arena/SKILL.md
+100644 2fa1e6b1874fcabc4278d117b5cbb510f4deb805 arena/SKILL.md
 100644 cc4ca5581bb061e36e9c532c78c4471bfc25d2f8 automate-me/SKILL.md
 100644 88546fa684c003625a13d61b975ced97b8fcb90e benchmark-checklist/SKILL.md
 100644 1f5c95140597b8aa42fadf165e1aa0bca01639ff blast-radius/SKILL.md
@@ -64,7 +64,7 @@
 100644 2cca41205ce59089b2a61f9691e0f46c572a0e04 poteto-mode/playbooks/autopilot-stack.md
 100644 3da63dff5e903ccd1546e4a808258a76718c0205 poteto-mode/playbooks/babysit.md
 100644 84205e74a639d9e461ed4a52e6ad6fa9018d466b poteto-mode/playbooks/bug-fix.md
-100644 dbc0d0d77d83f93e4039765a763445512ab6f0c9 poteto-mode/playbooks/eval.md
+100644 2ffefd86f841ef47b8337fa0ab7a2e694079f276 poteto-mode/playbooks/eval.md
 100644 2dd9b51a2227d8636a9da5e2f9ebec6b6aad556f poteto-mode/playbooks/feature.md
 100644 691a33f6c7155f178f21ba2143298aca00837cf1 poteto-mode/playbooks/hillclimb.md
 100644 854d56f69388e24d0d9262cb6b545e1484873ca1 poteto-mode/playbooks/investigation.md
