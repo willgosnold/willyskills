@@ -114,6 +114,38 @@ Intent: Parallel writers on one branch are `delegate_task` calls with `isolation
 Upstream deleted the paragraph on a PR-opening subagent running interrogate, `/deslop`, and `/no-comments` and the Autopilot owner exemption.
 Intent: The subagent runs the interrogate, deslop, and no-comments skills, named with no slash. Preserve the no-babysitting default and the Autopilot owner exemption.
 
+### skills/reflect/SKILL.md, entry 1fcdeb5e787b
+Upstream deleted the transcript-listing command along with the whole locate step.
+Intent: Deletes the command that lists transcript files. The thread ID from the step above names the transcript directly, so there is nothing to list.
+
+### skills/reflect/SKILL.md, entry cb36f987c82e
+Reflect no longer spawns reviewers; the parent reads the transcript itself.
+Intent: Three reviewers spawn together as three `delegate_task` calls in one message, each with its whole brief and its own `clientRequestId`. Drops the agent type and the `readonly: false` setting (the default), and keeps the reason: reviewers need MCP access to the context the transcript references.
+
+### skills/reflect/SKILL.md, entry 5157161f31ee
+Reflect no longer spawns reviewers or a synthesizer, so no role line picks a model.
+Intent: Each reviewer and the synthesizer take their model from their role line in the project models file, else the default in the table, applied as the model-entry snippet says. Drops the rejected-slug fallbacks, and the poteto-mode pointer now only lowers effort within the line's ceiling.
+
+### skills/reflect/SKILL.md, entry ef9be67a1261
+Upstream deleted the reviewer lens table.
+Intent: The default column holds each role's willyskills default from models.json instead of a hard-coded model. Keeps the lens, role line, and template columns as they are.
+
+### skills/reflect/SKILL.md, entry ec00188f9333
+Upstream deleted the reviewer templates and their hand-off.
+Intent: The templates go verbatim as each child's `task`, with the thread reference (and how to read it) standing in for the transcript path. Reviewers return findings as their task result; each completion wakes this thread, and synthesis waits until all three have returned.
+
+### skills/reflect/SKILL.md, entry b18d28d636f2
+Reflect no longer spawns a synthesizer; the parent presents Accepted, Rejected and Backlog itself.
+Intent: The synthesizer is one `delegate_task` call with its model from the `reflect judgment, divergent, synthesizer` line, else that role's default. Drops the agent type and `readonly: false`, and keeps the reason it needs MCP: spot-verifying citations.
+
+### skills/reflect/SKILL.md, entry ff502e4a2467
+Upstream deleted the routing list and no longer hands edits to a skill-authoring skill.
+Intent: The skill-authoring handoffs go to the `skill-creator` skill, if it is installed, which has the same draft / test / iterate and description-optimization loops. The routing label becomes `new skill via skill-creator:`, matching what the synthesizer template emits. Keep the four routes and the trivial-edit-done-directly rule.
+
+### skills/reflect/SKILL.md, entry bdf8364557df
+Upstream deleted the "/reflect" trigger sentence; the description's "says reflect" has no slash.
+Intent: The trigger is what the user types, so it gives both forms. Preserve the skip conditions and that one-offs are not learnings.
+
 
 ## reload-the-orchestrator-after
 
