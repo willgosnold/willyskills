@@ -102,6 +102,10 @@ Intent: Replaces picking a reasoning level and fast or standard speed with the e
 Upstream replaced the described playbook list with a bare list of playbook names that drops Orchestrate, the cloud-agent URL, the Cursor restart, and "/loop until X", so nothing in it needs a change.
 Intent: Drops the cloud-agent URL from Session pickup's sources and the Cursor restart from Pause safely's triggers, and rewrites the quoted user phrase "/loop until X" as "keep going until X". Every playbook name and description otherwise stays verbatim, since routing matches on them.
 
+### skills/poteto-mode/playbooks/babysit.md, entry 303f48cdd024
+Upstream deleted the sentence about Cursor's built-in babysit skill and the hand-off to Shipping, leaving only the opening claim, which has no Cursor term.
+Intent: Dropped the sentence about not routing to Cursor's built-in babysit skill; T3 has none. Keep the opening claim and the hand-off to playbooks/shipping.md.
+
 
 ## reload-the-orchestrator-after
 
