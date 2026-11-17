@@ -98,6 +98,10 @@ Intent: Deleted: the whole block is the rejected-slug and family-prefix fallback
 Upstream deleted the reviewer template paragraph; adversary effort now comes through arena's step 3, whose entry applies the effort ceiling.
 Intent: Replaces picking a reasoning level and fast or standard speed with the effort ceiling from the role's models-file line: lower it for routine work, never raise it. Keep the pointer to the Subagents section and the shared reviewer template.
 
+### skills/poteto-mode/SKILL.md, entry 1bec9809dcd4
+Upstream replaced the described playbook list with a bare list of playbook names that drops Orchestrate, the cloud-agent URL, the Cursor restart, and "/loop until X", so nothing in it needs a change.
+Intent: Drops the cloud-agent URL from Session pickup's sources and the Cursor restart from Pause safely's triggers, and rewrites the quoted user phrase "/loop until X" as "keep going until X". Every playbook name and description otherwise stays verbatim, since routing matches on them.
+
 
 ## reload-the-orchestrator-after
 
