@@ -58,6 +58,26 @@ Intent: The new-skill row drafts via `skill-creator` and routes as `new skill vi
 Upstream deleted the reviewer prompt files, and the new SKILL.md says only "a skill the session used" without defining how to tell.
 Intent: A skill counts as used when the transcript shows it read from a skill folder, loaded with `Skill` (how Claude Code opens a skill), or named in a `delegate_task` brief. The paths rule gives only the project folders; the user-level folders (`~/.agents/skills/`, `~/.claude/skills/`, `~/.claude/plugins/`, `~/.codex/skills/`) are the closest match for Cursor's user and plugin folders.
 
+### skills/why/SKILL.md, entry 1dee5fd9349d
+Upstream rewrote why as a single paragraph that reads the record itself; nothing spawns, so no role line picks a model.
+Intent: Every spawn takes its model from its role line in the project models file, else the role's willyskills default, applied as the model-entry snippet says. Drops the rejected-slug fallbacks; the poteto-mode pointer now only lowers effort within the line's ceiling.
+
+### skills/why/SKILL.md, entry 68051d8304d7
+Upstream deleted the spawns and the agent-mode warning with them.
+Intent: Every spawn is a plain `delegate_task` that keeps full tool and MCP access; never narrowing `runtimeMode` replaces "do not use readonly/Ask mode". Keeps the reason (MCP-backed investigators and citation spot-checks) and that investigators write nothing, now enforced by the brief and a `git status` check.
+
+### skills/why/SKILL.md, entry e13a8a92d392
+Upstream deleted the MCP discovery step.
+Intent: The available MCP servers are the MCP tools in this agent's tool list. Drops the available-tools map and the `mcps/` folder.
+
+### skills/why/SKILL.md, entry 9aad2f123d9c
+Upstream deleted the parallel investigators.
+Intent: Investigators spawn as one `delegate_task` per category in a single message, each owning one MCP, with the model from the `why investigators` line, else its willyskills default.
+
+### skills/why/SKILL.md, entry 9ea9cff1882e
+Upstream deleted the synthesizer spawn.
+Intent: The synthesizer takes its model from the `why synthesizer` line, else its willyskills default. The list of what it gets is unchanged.
+
 
 ## reload-the-orchestrator-after
 
