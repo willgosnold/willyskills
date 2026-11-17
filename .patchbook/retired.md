@@ -106,6 +106,14 @@ Intent: Drops the cloud-agent URL from Session pickup's sources and the Cursor r
 Upstream deleted the sentence about Cursor's built-in babysit skill and the hand-off to Shipping, leaving only the opening claim, which has no Cursor term.
 Intent: Dropped the sentence about not routing to Cursor's built-in babysit skill; T3 has none. Keep the opening claim and the hand-off to playbooks/shipping.md.
 
+### skills/poteto-mode/playbooks/opening-a-pr.md, entry 49969656b7a9
+Upstream cut the Worktree paragraph to one sentence with no `Task` calls, so the parallel-writers-per-branch rule this entry translated is gone.
+Intent: Parallel writers on one branch are `delegate_task` calls with `isolation: "worktree"`, which copies only committed work. Preserves the worktree-off-main rule, the reset alternative, and the dirty and snarled worktree recoveries.
+
+### skills/poteto-mode/playbooks/opening-a-pr.md, entry a60ae6c65955
+Upstream deleted the paragraph on a PR-opening subagent running interrogate, `/deslop`, and `/no-comments` and the Autopilot owner exemption.
+Intent: The subagent runs the interrogate, deslop, and no-comments skills, named with no slash. Preserve the no-babysitting default and the Autopilot owner exemption.
+
 
 ## reload-the-orchestrator-after
 
