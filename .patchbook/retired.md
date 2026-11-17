@@ -86,6 +86,18 @@ Intent: Opens the visible phase list in T3's terms (update_plan in Codex, the re
 Upstream deleted the opt-in checkpoint (Phase C) and its "/architect with checkpoint" phrase.
 Intent: The quoted opt-in phrase is what the user types, so it gives both forms. Preserve that the checkpoint is opt-in and pauses for sign-off.
 
+### skills/interrogate/SKILL.md, entry 2df50e629aaa
+Adversaries now run arena's Phase B in their own worktrees and write repros there, so the read-only shared-checkout reviewer and its per-entry `target` setting are gone; arena's step 3 entry applies the line's entries.
+Intent: Each reviewer is a read-only child sharing the checkout, with `target` from its entry per the model-entry snippet (inherit-parent omits target). Preserve configured-entry-else-default.
+
+### skills/interrogate/SKILL.md, entry 6f513b774653
+Upstream deleted the rejected-slug and family-prefix fallback block this entry deleted.
+Intent: Deleted: the whole block is the rejected-slug and family-prefix fallback, which model-role drops (orchestrator_capabilities lists what exists). If upstream adds non-fallback guidance here, keep that part.
+
+### skills/interrogate/SKILL.md, entry 9cd5262f18c2
+Upstream deleted the reviewer template paragraph; adversary effort now comes through arena's step 3, whose entry applies the effort ceiling.
+Intent: Replaces picking a reasoning level and fast or standard speed with the effort ceiling from the role's models-file line: lower it for routine work, never raise it. Keep the pointer to the Subagents section and the shared reviewer template.
+
 
 ## reload-the-orchestrator-after
 
