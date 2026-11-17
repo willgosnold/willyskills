@@ -46,6 +46,14 @@ Intent: A skill counts as used when the transcript shows it read from a skill fo
 Upstream deleted the reviewer prompt files, and the new SKILL.md says only "a skill the session used" without defining how to tell.
 Intent: A skill counts as used when the transcript shows it read from a skill folder, loaded with `Skill` (how Claude Code opens a skill), or named in a `delegate_task` brief. The paths rule gives only the project folders; the user-level folders (`~/.agents/skills/`, `~/.claude/skills/`, `~/.claude/plugins/`, `~/.codex/skills/`) are the closest match for Cursor's user and plugin folders.
 
+### skills/reflect/references/synthesizer.md, entry 859b2e1104e7
+Upstream deleted the synthesizer template; the new SKILL.md has no routing labels.
+Intent: The new-skill route label becomes `new skill via skill-creator:`, matching reflect's SKILL.md. Keep every criterion unchanged.
+
+### skills/reflect/references/synthesizer.md, entry 12906bd834bb
+Upstream deleted the synthesizer template and its row shapes.
+Intent: The new-skill row drafts via `skill-creator` and routes as `new skill via skill-creator: <kebab-name>`, matching reflect's SKILL.md. Keep the three row shapes.
+
 
 ## reload-the-orchestrator-after
 
