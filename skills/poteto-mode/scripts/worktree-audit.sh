@@ -119,11 +119,11 @@ git worktree list --porcelain | awk '/^worktree /{print $2}' | while read -r wt;
 	# Most recent agent chat that ran in this worktree or below it.
 	last="-"; last_ts=0
 	slug=$(printf '%s' "$wt" | sed 's#[^A-Za-z0-9]#-#g')
-	f=$(for f in "$claude_projects/$slug"/*.jsonl \
-		$([ -s "$codex_rollouts" ] && xargs grep -l -F -e "\"cwd\":\"${wt}\"" -e "\"cwd\":\"${wt}/" < "$codex_rollouts" 2>/dev/null); do
-		[ -f "$f" ] && printf '%s\n' "$f"
-	done | xargs stat "${stat_fmt[@]}" 2>/dev/null | sort -rn | head -1)
-	if [ -n "$f" ]; then last_ts=$(echo "$f" | awk '{print $1}')
+	f=$({ for f in "$claude_projects/$slug"/*.jsonl; do [ -f "$f" ] && printf '%s\n' "$f"; done
+		[ -s "$codex_rollouts" ] && tr '\n' '\0' < "$codex_rollouts" \
+			| xargs -0 grep -l -F -e "\"cwd\":\"${wt}\"" -e "\"cwd\":\"${wt}/" 2>/dev/null
+	} | while IFS= read -r f; do stat "${stat_fmt[@]}" "$f" 2>/dev/null; done | sort -rn | head -1)
+	if [ -n "$f" ]; then last_ts=${f%% *}
 		last=$(fmt_day "$last_ts" 2>/dev/null); fi
 	recent=$([ "$last_ts" -gt 0 ] 2>/dev/null && [ $(( (now - last_ts) / 86400 )) -le 4 ] && echo yes || echo no)
 
