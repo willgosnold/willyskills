@@ -78,6 +78,14 @@ Intent: Investigators spawn as one `delegate_task` per category in a single mess
 Upstream deleted the synthesizer spawn.
 Intent: The synthesizer takes its model from the `why synthesizer` line, else its willyskills default. The list of what it gets is unchanged.
 
+### skills/architect/SKILL.md, entry bcaf34d31ad8
+Upstream condensed architect to two paragraphs and dropped its phase list, so there is no todolist to open.
+Intent: Opens the visible phase list in T3's terms (update_plan in Codex, the reply in Claude Code) and keeps it current. Preserve that it opens before starting, with one entry per phase.
+
+### skills/architect/SKILL.md, entry 3ded7fe1302c
+Upstream deleted the opt-in checkpoint (Phase C) and its "/architect with checkpoint" phrase.
+Intent: The quoted opt-in phrase is what the user types, so it gives both forms. Preserve that the checkpoint is opt-in and pauses for sign-off.
+
 
 ## reload-the-orchestrator-after
 
