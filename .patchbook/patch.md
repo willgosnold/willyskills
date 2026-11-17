@@ -102,17 +102,17 @@ T3: the line's effort is a ceiling. Lower it for routine work, never raise it. N
 
 ### model-unnamed
 Intent: spawns that name no role still get a deliberate model.
-T3: "fast code model" / trivial mechanical edits → `feature, refactoring`. "Strongest judgment model" / hardest changes → `hardest tasks`. "Fast, cheap model" → `how explorer`. A reviewer or verifier "on a different model family" → rule `same-model-review`. Anything else → `judgment and prose`.
+T3: "fast code model" / trivial mechanical edits → `feature, refactoring`. "Strongest judgment model" / hardest changes → `hardest tasks`, unless upstream reserves its strongest model for when the user names it or two runs failed (such as Fable): then the work runs on its own role, and `hardest tasks` only under that reservation. "Fast, cheap model" → `how explorer`. A reviewer or verifier "on a different model family" → rule `same-model-review`. Anything else → `judgment and prose`.
 
 ### same-model-review
 Kind: policy.
 Intent: a review or verification runs on the same model and effort as the work it checks, unless the user names another. Cross-family runs are only for the panels that compare competing implementations, designs, or reviews (`arena runners`, `architect runners`, `interrogate reviewers`), which list two families on purpose.
-Upstream: a reviewer, verifier, or judge "on a different model family", or the first `arena cross-judge pool` entry whose provider differs from the worker's.
-Patched: "on the same model and effort as the worker it checks, unless the user named another". A judge that picks between candidates (arena, eval) takes the `arena cross-judge pool` line as written.
+Upstream: a reviewer, verifier, second opinion, or judge "on a different model family" or "on another vendor's model".
+Patched: "on the same model and effort as the worker it checks, unless the user named another". A judge that picks between candidates (arena, eval) comes from the `arena cross-judge pool` line: the first entry whose provider differs from the parent's, else the first entry, so a judge always runs. An `inherit-parent` entry is the parent's model, so it never counts as another provider.
 
 ### setup-pstack
 Intent: `/setup-pstack` writes the project models file.
-T3: detect models with `orchestrator_capabilities`. Write {{snippet:models-file}} with one line per role and a `# budget:` line. A budget sets each entry's effort to its level, or the highest that model offers below it. Tell the user to commit the file if worktrees and other people should see it.
+T3: detect models with `orchestrator_capabilities`. Write {{snippet:models-file}} with a `# defaults: 3` line, a `# budget:` line, and one line per role. A file without the `# defaults: 3` line comes from an older setup. The budget moves each entry's default effort: `large` keeps it, `medium` lowers it one step, `small` two, and nothing runs above `xhigh`. Tell the user to commit the file if worktrees and other people should see it.
 
 ## Tools the agent uses
 
@@ -215,7 +215,7 @@ T3: delete the step or clause. Bugbot is a GitHub app, so its PR comments can st
 Anything that isn't one paragraph is a change in `changes/<name>/CHANGE.md`, applied in the order `series` lists. Each has an intent, and `patchbook show <name>` prints it with its diffs.
 
 - **pstack-support-skill**: the subagent briefs and the LICENSE ship in a `pstack` support skill, since the `skills` CLI installs skill folders only.
-- **bun-gitignore**: `node_modules/` is gitignored beside `scripts/package.json`.
-- **check-plan-hourly-tick** and **worktree-audit-t3-chats**: whole-file edits to upstream's scripts. When upstream changes a script, sync merges it with ours; a conflict is resolved from the change's intent.
+- **bun-gitignore**: `node_modules/` is gitignored beside each `scripts/package.json` (poteto-mode and statechart).
+- **worktree-audit-t3-chats**: a whole-file edit to an upstream script. When upstream changes the script, sync merges it with ours; a conflict is resolved from the change's intent.
 
 Only `skills/` ships (`[output]` in `config.toml`). Upstream's `docs/`, `automations/`, `README.md`, and `plugin.json` are for Cursor users. `hooks.ts` holds the checks a pattern can't express: each skill's `name` must be its folder name, because the `skills` CLI names the install folder after it and Codex matches `$name` against it, and `node_modules/` must be gitignored beside each `scripts/package.json`.

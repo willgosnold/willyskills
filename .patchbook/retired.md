@@ -1,3 +1,160 @@
 # Retired entries
 
 Patches that no longer apply, newest first. Each keeps its intent and says why it was retired.
+
+## Block entries retired at pstack e1cc031
+
+Upstream deleted or rewrote these paragraphs so that nothing in them needs a change any more.
+
+### skills/poteto-mode/playbooks/multi-phase-plan.md, entry ef26c450e81f
+Upstream rewrote the steps without explorer subagents, the agent store, the technical-writing and unslop pass, or check-plan.mjs, so the new steps have no Cursor term.
+Intent: Explorers are delegate_task children whose brief opens with the poteto-agent read line (absolute paths resolved from this skill's folder), and the effort pick becomes a ceiling taken from the role line, never raised; the plan file's default home is the shared pstack state folder. Keep the explicit model per the Subagents section, the file-pointer return contract, and every other step as written. Step 5 names the technical-writing and unslop skills with no slash.
+
+### skills/poteto-mode/playbooks/multi-phase-plan.md, entry c8af48ae5edc
+Upstream deleted the plan skeleton's Verification paragraph and its `swarm workers` slug; the new step 4 states the verification rule with no model.
+Intent: The live lanes' model comes from the swarm workers role line in the project models file, else the willyskills default, with no hard-coded slug. Everything else in the verification rule stays verbatim.
+
+### skills/poteto-mode/playbooks/multi-phase-plan.md, entry badec09370bc
+Upstream deleted the plan skeleton's Control skill paragraph with its control-ui and control-cli picks.
+Intent: The control skill is the project's own verification skill when it has one, else T3's preview tools for browser, Electron, and web UIs and the shell for CLIs and TUIs. Keep the per-surface pick, native mobile, two-surface lanes, and the Appendix C risk for an uncontrolled surface.
+
+### skills/poteto-mode/playbooks/multi-phase-plan.md, entry a1c6fc6a1a6a
+Upstream deleted the plan skeleton, including the hourly `/loop 1h` tick and the PR mechanics box, and scripts/check-plan.mjs with it.
+Intent: In the plan skeleton: the hourly audit tick is an interval schedule_task (reported nextRunAt, deleted at close); PRs open through origin or gh and are linked with link_pull_request; /deslop is conditional on being installed; live lanes run in their own worktree on this machine and drive the project verification skill, preview tools, or the shell, not a cloud VM. The PR heading placeholder says 'The task' because the bare capitalized word trips the Cursor-term check (no rule covers that). Keep every heading, sub-block, box order, and the tick prompt verbatim. Rule gap: scripts/check-plan.mjs still requires the literal "/loop 1h" marker in Program checklist, so it reports a false problem until the script's marker is patched. The PR mechanics box names the deslop and no-comments skills with no slash.
+
+### skills/poteto-mode/playbooks/orchestrate.md, entry 25ab709f3f5f
+Upstream deleted the Orchestrate playbook and scripts/orch/.
+Intent: Coordinator spawns, resumes, and drains agents only through T3's task tools, and sets effort under the role line's ceiling. Workers and verifiers that write default to their own worktree the way upstream defaulted them to cloud, and the list of reasons to stay on this machine becomes a note that every child runs here; the 'cloud agents cannot read the local store' clause becomes 'briefs give the store's absolute path'. The verifier's different model family comes from the cross-judge pool. Preserve the three-layer roles, the never-edits-code rule, the rolling window cap, and one writer per worktree. Policy: verifiers run on their worker's model and effort (rule same-model-review).
+
+### skills/poteto-mode/playbooks/orchestrate.md, entry 850c1a1d2385
+Upstream deleted the Orchestrate playbook and scripts/orch/.
+Intent: The read-only liveness probe uses `task_status`, which reads state without waking the agent. The Cursor-restart bullet becomes a T3 restart: no rule covers it, so it keeps upstream's recovery steps and drops the local-versus-cloud split, since every child runs on this machine and its worktree and pushed branches outlive the session. Preserve never resuming to check on an agent, the retry-by-mode table, and reattaching by PR and branch rather than agent id.
+
+### skills/poteto-mode/playbooks/orchestrate.md, entry da6d7e9ea334
+Upstream deleted the Orchestrate playbook and scripts/orch/.
+Intent: Every child runs in a worktree on this machine, so the lost-work example is a worktree removed or the machine dying, not a cloud VM. Keep the rule that output is externalized the moment it lands, and the three examples of externalizing.
+
+### skills/poteto-mode/playbooks/orchestrate.md, entry a3856a70a3d4
+Upstream deleted the Orchestrate playbook, so its dedicated verifier no longer exists.
+Intent: Policy: a dedicated verifier runs on its worker's model, not a different family, unless the user names another (rule same-model-review).
+
+### skills/reflect/references/divergent-reviewer.md, entry 0acd819d8733
+Upstream deleted the reviewer prompt files, and the new SKILL.md says only "a skill the session used" without defining how to tell.
+Intent: A skill counts as used when the transcript shows it read from a skill folder, loaded with `Skill` (how Claude Code opens a skill), or named in a `delegate_task` brief. The paths rule gives only the project folders; the user-level folders (`~/.agents/skills/`, `~/.claude/skills/`, `~/.claude/plugins/`, `~/.codex/skills/`) are the closest match for Cursor's user and plugin folders.
+
+### skills/reflect/references/judgment-reviewer.md, entry 0acd819d8733
+Upstream deleted the reviewer prompt files, and the new SKILL.md says only "a skill the session used" without defining how to tell.
+Intent: A skill counts as used when the transcript shows it read from a skill folder, loaded with `Skill` (how Claude Code opens a skill), or named in a `delegate_task` brief. The paths rule gives only the project folders; the user-level folders (`~/.agents/skills/`, `~/.claude/skills/`, `~/.claude/plugins/`, `~/.codex/skills/`) are the closest match for Cursor's user and plugin folders.
+
+### skills/reflect/references/synthesizer.md, entry 859b2e1104e7
+Upstream deleted the synthesizer template; the new SKILL.md has no routing labels.
+Intent: The new-skill route label becomes `new skill via skill-creator:`, matching reflect's SKILL.md. Keep every criterion unchanged.
+
+### skills/reflect/references/synthesizer.md, entry 12906bd834bb
+Upstream deleted the synthesizer template and its row shapes.
+Intent: The new-skill row drafts via `skill-creator` and routes as `new skill via skill-creator: <kebab-name>`, matching reflect's SKILL.md. Keep the three row shapes.
+
+### skills/reflect/references/tooling-reviewer.md, entry 0acd819d8733
+Upstream deleted the reviewer prompt files, and the new SKILL.md says only "a skill the session used" without defining how to tell.
+Intent: A skill counts as used when the transcript shows it read from a skill folder, loaded with `Skill` (how Claude Code opens a skill), or named in a `delegate_task` brief. The paths rule gives only the project folders; the user-level folders (`~/.agents/skills/`, `~/.claude/skills/`, `~/.claude/plugins/`, `~/.codex/skills/`) are the closest match for Cursor's user and plugin folders.
+
+### skills/why/SKILL.md, entry 1dee5fd9349d
+Upstream rewrote why as a single paragraph that reads the record itself; nothing spawns, so no role line picks a model.
+Intent: Every spawn takes its model from its role line in the project models file, else the role's willyskills default, applied as the model-entry snippet says. Drops the rejected-slug fallbacks; the poteto-mode pointer now only lowers effort within the line's ceiling.
+
+### skills/why/SKILL.md, entry 68051d8304d7
+Upstream deleted the spawns and the agent-mode warning with them.
+Intent: Every spawn is a plain `delegate_task` that keeps full tool and MCP access; never narrowing `runtimeMode` replaces "do not use readonly/Ask mode". Keeps the reason (MCP-backed investigators and citation spot-checks) and that investigators write nothing, now enforced by the brief and a `git status` check.
+
+### skills/why/SKILL.md, entry e13a8a92d392
+Upstream deleted the MCP discovery step.
+Intent: The available MCP servers are the MCP tools in this agent's tool list. Drops the available-tools map and the `mcps/` folder.
+
+### skills/why/SKILL.md, entry 9aad2f123d9c
+Upstream deleted the parallel investigators.
+Intent: Investigators spawn as one `delegate_task` per category in a single message, each owning one MCP, with the model from the `why investigators` line, else its willyskills default.
+
+### skills/why/SKILL.md, entry 9ea9cff1882e
+Upstream deleted the synthesizer spawn.
+Intent: The synthesizer takes its model from the `why synthesizer` line, else its willyskills default. The list of what it gets is unchanged.
+
+### skills/architect/SKILL.md, entry bcaf34d31ad8
+Upstream condensed architect to two paragraphs and dropped its phase list, so there is no todolist to open.
+Intent: Opens the visible phase list in T3's terms (update_plan in Codex, the reply in Claude Code) and keeps it current. Preserve that it opens before starting, with one entry per phase.
+
+### skills/architect/SKILL.md, entry 3ded7fe1302c
+Upstream deleted the opt-in checkpoint (Phase C) and its "/architect with checkpoint" phrase.
+Intent: The quoted opt-in phrase is what the user types, so it gives both forms. Preserve that the checkpoint is opt-in and pauses for sign-off.
+
+### skills/interrogate/SKILL.md, entry 2df50e629aaa
+Adversaries now run arena's Phase B in their own worktrees and write repros there, so the read-only shared-checkout reviewer and its per-entry `target` setting are gone; arena's step 3 entry applies the line's entries.
+Intent: Each reviewer is a read-only child sharing the checkout, with `target` from its entry per the model-entry snippet (inherit-parent omits target). Preserve configured-entry-else-default.
+
+### skills/interrogate/SKILL.md, entry 6f513b774653
+Upstream deleted the rejected-slug and family-prefix fallback block this entry deleted.
+Intent: Deleted: the whole block is the rejected-slug and family-prefix fallback, which model-role drops (orchestrator_capabilities lists what exists). If upstream adds non-fallback guidance here, keep that part.
+
+### skills/interrogate/SKILL.md, entry 9cd5262f18c2
+Upstream deleted the reviewer template paragraph; adversary effort now comes through arena's step 3, whose entry applies the effort ceiling.
+Intent: Replaces picking a reasoning level and fast or standard speed with the effort ceiling from the role's models-file line: lower it for routine work, never raise it. Keep the pointer to the Subagents section and the shared reviewer template.
+
+### skills/poteto-mode/SKILL.md, entry 1bec9809dcd4
+Upstream replaced the described playbook list with a bare list of playbook names that drops Orchestrate, the cloud-agent URL, the Cursor restart, and "/loop until X", so nothing in it needs a change.
+Intent: Drops the cloud-agent URL from Session pickup's sources and the Cursor restart from Pause safely's triggers, and rewrites the quoted user phrase "/loop until X" as "keep going until X". Every playbook name and description otherwise stays verbatim, since routing matches on them.
+
+### skills/poteto-mode/playbooks/babysit.md, entry 303f48cdd024
+Upstream deleted the sentence about Cursor's built-in babysit skill and the hand-off to Shipping, leaving only the opening claim, which has no Cursor term.
+Intent: Dropped the sentence about not routing to Cursor's built-in babysit skill; T3 has none. Keep the opening claim and the hand-off to playbooks/shipping.md.
+
+### skills/poteto-mode/playbooks/opening-a-pr.md, entry 49969656b7a9
+Upstream cut the Worktree paragraph to one sentence with no `Task` calls, so the parallel-writers-per-branch rule this entry translated is gone.
+Intent: Parallel writers on one branch are `delegate_task` calls with `isolation: "worktree"`, which copies only committed work. Preserves the worktree-off-main rule, the reset alternative, and the dirty and snarled worktree recoveries.
+
+### skills/poteto-mode/playbooks/opening-a-pr.md, entry a60ae6c65955
+Upstream deleted the paragraph on a PR-opening subagent running interrogate, `/deslop`, and `/no-comments` and the Autopilot owner exemption.
+Intent: The subagent runs the interrogate, deslop, and no-comments skills, named with no slash. Preserve the no-babysitting default and the Autopilot owner exemption.
+
+### skills/reflect/SKILL.md, entry 1fcdeb5e787b
+Upstream deleted the transcript-listing command along with the whole locate step.
+Intent: Deletes the command that lists transcript files. The thread ID from the step above names the transcript directly, so there is nothing to list.
+
+### skills/reflect/SKILL.md, entry cb36f987c82e
+Reflect no longer spawns reviewers; the parent reads the transcript itself.
+Intent: Three reviewers spawn together as three `delegate_task` calls in one message, each with its whole brief and its own `clientRequestId`. Drops the agent type and the `readonly: false` setting (the default), and keeps the reason: reviewers need MCP access to the context the transcript references.
+
+### skills/reflect/SKILL.md, entry 5157161f31ee
+Reflect no longer spawns reviewers or a synthesizer, so no role line picks a model.
+Intent: Each reviewer and the synthesizer take their model from their role line in the project models file, else the default in the table, applied as the model-entry snippet says. Drops the rejected-slug fallbacks, and the poteto-mode pointer now only lowers effort within the line's ceiling.
+
+### skills/reflect/SKILL.md, entry ef9be67a1261
+Upstream deleted the reviewer lens table.
+Intent: The default column holds each role's willyskills default from models.json instead of a hard-coded model. Keeps the lens, role line, and template columns as they are.
+
+### skills/reflect/SKILL.md, entry ec00188f9333
+Upstream deleted the reviewer templates and their hand-off.
+Intent: The templates go verbatim as each child's `task`, with the thread reference (and how to read it) standing in for the transcript path. Reviewers return findings as their task result; each completion wakes this thread, and synthesis waits until all three have returned.
+
+### skills/reflect/SKILL.md, entry b18d28d636f2
+Reflect no longer spawns a synthesizer; the parent presents Accepted, Rejected and Backlog itself.
+Intent: The synthesizer is one `delegate_task` call with its model from the `reflect judgment, divergent, synthesizer` line, else that role's default. Drops the agent type and `readonly: false`, and keeps the reason it needs MCP: spot-verifying citations.
+
+### skills/reflect/SKILL.md, entry ff502e4a2467
+Upstream deleted the routing list and no longer hands edits to a skill-authoring skill.
+Intent: The skill-authoring handoffs go to the `skill-creator` skill, if it is installed, which has the same draft / test / iterate and description-optimization loops. The routing label becomes `new skill via skill-creator:`, matching what the synthesizer template emits. Keep the four routes and the trivial-edit-done-directly rule.
+
+### skills/reflect/SKILL.md, entry bdf8364557df
+Upstream deleted the "/reflect" trigger sentence; the description's "says reflect" has no slash.
+Intent: The trigger is what the user types, so it gives both forms. Preserve the skip conditions and that one-offs are not learnings.
+
+
+## reload-the-orchestrator-after
+
+Retired at pstack e1cc031, with its frontmatter `PreToolUse` hook in poteto-mode's `SKILL.md` (entry 9ab9dbbc3978) and its state-file bullet in the Orchestrate playbook (entry 46658be16fff). Upstream deleted the Orchestrate playbook and its coordinator, so no playbook keeps the state file this hook reloads, and `references/compact-reload.md` would point at `playbooks/orchestrate.md`, which no longer exists.
+
+Intent: Reload the orchestrator after auto-compaction. The frontmatter PreToolUse hook records the coordinator's session id once; the project's settings.json SessionStart compact hook (a compact hook in skill frontmatter does not fire) prints a reload directive and the state file for that session only. The Orchestrate playbook names the state file the coordinator keeps current, and references/compact-reload.md holds the settings snippet and script.
+
+## check-plan-hourly-tick
+
+Retired at pstack e1cc031. Upstream deleted `skills/poteto-mode/scripts/check-plan.mjs` and its test, and the Multi-phase plan playbook no longer has a plan skeleton with a Program checklist or an audit tick. Nothing is left to check.
+
+Intent: The Program checklist must arm an hourly audit tick. The patched plan skeleton arms it with schedule_task and everyMs: 3600000, so check-plan.mjs looks for that instead of /loop 1h. The test's valid-plan fixture keeps in step, in a code span as in a real plan, because the checker rejects a mid-sentence colon in prose.
