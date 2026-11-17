@@ -102,13 +102,13 @@ T3: the line's effort is a ceiling. Lower it for routine work, never raise it. N
 
 ### model-unnamed
 Intent: spawns that name no role still get a deliberate model.
-T3: "fast code model" / trivial mechanical edits → `feature, refactoring`. "Strongest judgment model" / hardest changes → `hardest tasks`. A model upstream reserves for when the user names it or two runs failed (such as Fable) → `hardest tasks`, with the same reservation. "Fast, cheap model" → `how explorer`. A reviewer or verifier "on a different model family" → rule `same-model-review`. Anything else → `judgment and prose`.
+T3: "fast code model" / trivial mechanical edits → `feature, refactoring`. "Strongest judgment model" / hardest changes → `hardest tasks`, unless upstream reserves its strongest model for when the user names it or two runs failed (such as Fable): then the work runs on its own role, and `hardest tasks` only under that reservation. "Fast, cheap model" → `how explorer`. A reviewer or verifier "on a different model family" → rule `same-model-review`. Anything else → `judgment and prose`.
 
 ### same-model-review
 Kind: policy.
 Intent: a review or verification runs on the same model and effort as the work it checks, unless the user names another. Cross-family runs are only for the panels that compare competing implementations, designs, or reviews (`arena runners`, `architect runners`, `interrogate reviewers`), which list two families on purpose.
 Upstream: a reviewer, verifier, second opinion, or judge "on a different model family" or "on another vendor's model".
-Patched: "on the same model and effort as the worker it checks, unless the user named another". A judge that picks between candidates (arena, eval) comes from the `arena cross-judge pool` line: the first entry whose provider differs from the parent's, else the first entry, so a judge always runs.
+Patched: "on the same model and effort as the worker it checks, unless the user named another". A judge that picks between candidates (arena, eval) comes from the `arena cross-judge pool` line: the first entry whose provider differs from the parent's, else the first entry, so a judge always runs. An `inherit-parent` entry is the parent's model, so it never counts as another provider.
 
 ### setup-pstack
 Intent: `/setup-pstack` writes the project models file.
