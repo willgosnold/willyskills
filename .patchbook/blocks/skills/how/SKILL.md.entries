@@ -1,8 +1,8 @@
-=== entry 38953263928b
+=== entry a58adc5488ce
 kind: translation
-rules: delegate, general-purpose, read-only, model-role, model-effort
-intent: Every spawn is a read-only delegate_task child sharing the checkout, on the `how explorer` / `how explainer` lines of the project models file, else willyskills's defaults. Rejected-slug fallbacks and the speed/reasoning sentence are dropped.
+rules: delegate, general-purpose, read-only, model-role
+intent: The one explainer is a read-only delegate_task child sharing the checkout, on the `how explainer` line of the project models file, else willyskills's default. Upstream's single spawn names no model; it is the explainer that explores and explains in one pass, so it keeps that role. Preserve that the user's question and the quoted brief follow.
 --- upstream
-Every spawn is a Task subagent with `subagent_type: generalPurpose` and `readonly: true`. Explorers use the `how explorer` line in the `pstack-models.mdc` rule (default `grok-4.7-xhigh-fast`), and every explainer uses the `how explainer` line (default `claude-opus-5-5-xhigh`). Set `model` to that line's value, or to the default if the rule or the line is missing. Leave `model` unset when the value is `auto` or `inherit-parent`. If the Task tool rejects a slug, use the default and say so. If it rejects the default, use the closest valid slug of the same family from its error message. Pick each subagent's reasoning level and fast or standard speed for the job, per the Subagents section of the **poteto-mode** skill.
+Spawn one Task subagent with `subagent_type: generalPurpose` and `readonly: true` that explores and explains in one pass. Give it the user's question and this brief:
 --- patched
-Every spawn is a `delegate_task` child with the whole brief in `task`, its own `clientRequestId`, and no `isolation`. Each brief says "Do not edit, create, commit, or push files.", and you run `git status` afterward. Explorers use the `how explorer` line in {{snippet:models-file}}, else {{model:how explorer}}, and every explainer uses the `how explainer` line, else {{model:how explainer}}. {{snippet:model-entry}}
+Spawn one subagent with `delegate_task` that explores and explains in one pass, with its own `clientRequestId`, no `isolation`, and its model from the `how explainer` line in {{snippet:models-file}}, else {{model:how explainer}}. {{snippet:model-entry}} Run `git status` after it returns. Its `task` holds the user's question, "Do not edit, create, commit, or push files.", and this brief:
