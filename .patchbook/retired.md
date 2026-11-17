@@ -38,6 +38,10 @@ Intent: Every child runs in a worktree on this machine, so the lost-work example
 Upstream deleted the Orchestrate playbook, so its dedicated verifier no longer exists.
 Intent: Policy: a dedicated verifier runs on its worker's model, not a different family, unless the user names another (rule same-model-review).
 
+### skills/reflect/references/divergent-reviewer.md, entry 0acd819d8733
+Upstream deleted the reviewer prompt files, and the new SKILL.md says only "a skill the session used" without defining how to tell.
+Intent: A skill counts as used when the transcript shows it read from a skill folder, loaded with `Skill` (how Claude Code opens a skill), or named in a `delegate_task` brief. The paths rule gives only the project folders; the user-level folders (`~/.agents/skills/`, `~/.claude/skills/`, `~/.claude/plugins/`, `~/.codex/skills/`) are the closest match for Cursor's user and plugin folders.
+
 
 ## reload-the-orchestrator-after
 
