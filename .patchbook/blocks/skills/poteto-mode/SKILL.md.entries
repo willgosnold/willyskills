@@ -62,20 +62,29 @@ intent: The default list names each role's willyskills default through `{{model:
 === entry ce7bd647a16c
 kind: translation
 rules: model-role, model-unnamed
-intent: Upstream names Fable 5.2 as a premium model kept for panels and for work two top-effort runs of the default code model failed. willyskills has no Fable role, so the strongest model maps to the `hardest tasks` role (rule model-unnamed: strongest judgment model) and the two failed runs are on the role's own line at its full effort. No rule covers renaming a named model's escalation gate. The gate itself (user named it, or two failed runs, say which, difficulty alone never qualifies) is kept.
+intent: Upstream names Fable 5.2 as a premium model kept for panels and for work two top-effort runs of the default code model failed. willyskills has no Fable role, so the strongest model maps to the `hardest tasks` role (rule model-unnamed: strongest judgment model), and the two failed runs are on the task's ordinary role (its playbook's line) at that line's full effort, matching upstream's two runs of the default code model at its top level. No rule covers renaming a named model's escalation gate. The gate itself (user named it, or two failed runs, say which, difficulty alone never qualifies) is kept.
 --- upstream
 **Fable 5.2 is an exception.** It runs outside a panel only when the user named it for this task or two Opus 5.5 xhigh runs of the same brief failed its check. Say which. Difficulty alone never qualifies.
 --- patched
-**The `hardest tasks` role is an exception.** A spawn uses its line in {{snippet:models-file}}, else {{model:hardest tasks}}, only when the user named it for this task or two runs of the same brief on the role's own line, at its full effort, failed its check. Say which. Difficulty alone never qualifies.
+**The `hardest tasks` role is an exception.** A spawn uses its line in {{snippet:models-file}}, else {{model:hardest tasks}}, only when the user named it for this task or two runs of the same brief on the task's own role (its playbook's line), at that line's full effort, failed its check. Say which. Difficulty alone never qualifies.
 
 === entry 523fb84a242d
 kind: translation
-rules: model-effort, model-role, invoke
-intent: The role's effort is a ceiling: keep it for the hardest work, lower it for judgment and routine work, never raise it, and never set `fastMode`. Preserves that panel seats keep their listed effort, that only effort changes (the role's model stays), and that verification always runs on the `swarm workers` model. Drops the always-fast rule for one model, the per-model effort cap for Gemini, and the rejected-slug fallback chain. The setup-pstack skill is named with no slash.
+rules: model-effort, model-role, same-model-review, invoke
+intent: The role's effort is a ceiling: keep it for the hardest work, lower it for judgment and routine work, never raise it, and never set `fastMode`. Preserves that panel seats keep their listed effort and that only effort changes (the role's model stays). Verification runs on the same model and effort as the worker it checks, unless the user named another (policy same-model-review), instead of upstream's fixed `swarm workers` model. Drops the always-fast rule for one model, the per-model effort cap for Gemini, and the rejected-slug fallback chain. The setup-pstack skill is named with no slash.
 --- upstream
 **Match the model to the job.** Start from the role's line or default, keep its family, and set the level the job needs. The `/setup-pstack` budget sets each role's starting level. Panel seats keep their listed level. Raise any other role one step, up to xhigh, for the hardest or subtlest work, lower it one step for judgment, and two or more steps for routine work. No role runs above xhigh. Opus 5.5 always runs its `-fast` slug. Verification always runs on the `swarm workers` model, `claude-opus-5-5-high-fast` by default. A Gemini seat never runs above `gemini-4-carbon-high`, its top slug. If the Task tool rejects a slug, never pass it again. Fall back to the role's line or default, then the calling skill's fallback, then the closest valid slug of the same family, then omit `model`. Say so.
 --- patched
-**Match the model to the job.** Start from the role's line or default, keep its model, and set the effort the job needs. The **setup-pstack** skill's budget sets each role's starting effort, and that effort is a ceiling. Panel seats keep their listed effort. Keep any other role's effort for the hardest or subtlest work, lower it one step for judgment, and two or more steps for routine work. Never raise it, and never set `fastMode`. Verification always runs on the `swarm workers` model, {{model:swarm workers}} by default. If a model has no effort option at a level, use its nearest level below. `orchestrator_capabilities` lists each model's options.
+**Match the model to the job.** Start from the role's line or default, keep its model, and set the effort the job needs. The **setup-pstack** skill's budget sets each role's starting effort, and that effort is a ceiling. Panel seats keep their listed effort. Keep any other role's effort for the hardest or subtlest work, lower it one step for judgment, and two or more steps for routine work. Never raise it, and never set `fastMode`. Verification runs on the same model and effort as the worker it checks, unless the user named another. If a model has no effort option at a level, use its nearest level below. `orchestrator_capabilities` lists each model's options.
+
+=== entry 690c716cedc6
+kind: policy
+rules: same-model-review
+intent: Applies policy same-model-review: a second opinion is a fresh run of the same prompt on the same model and effort, unless the user names another, instead of another vendor's model. It still applies while upstream asks for a second opinion outside the arena and interrogate panels.
+--- upstream
+You own every subagent's work. Review the diff and write your own summary. A second opinion is the same prompt on another vendor's model.
+--- patched
+You own every subagent's work. Review the diff and write your own summary. A second opinion is a fresh run of the same prompt on the same model and effort, unless the user names another.
 
 === entry 1ad3e0bea581
 kind: translation

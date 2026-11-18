@@ -9,8 +9,8 @@ Open a step list with one entry per phase before launching anything. Codex keeps
 
 === entry 0fa04ffd24df
 kind: translation
-rules: model-role, model-effort
-intent: Step 3 takes the worker model from the `swarm workers` line in the project models file, else the willyskills default, applied as the model-entry snippet says; drops the rejected-slug fallbacks. Effort stays within the line's ceiling. Model races still name each arm's model up front, and the other steps are unchanged.
+rules: model-role, model-effort, same-model-review
+intent: Step 3 takes the worker model from the `swarm workers` line in the project models file, else the willyskills default, applied as the model-entry snippet says; drops the rejected-slug fallbacks. Workers that verify or review another agent's work run on that agent's model and effort unless the user named another (policy same-model-review); the `swarm workers` line still sets every other swarm. Effort stays within the line's ceiling. Model races still name each arm's model up front, and the other steps are unchanged.
 --- upstream
 1. State the done predicate and the artifact or report the swarm must return.
 2. Choose the shape. Partition into slices, race N workers on identical briefs, or mix both. For a race or mixed shape, declare `first pass`, `rank all`, or `best-of` before spawning.
@@ -19,7 +19,7 @@ intent: Step 3 takes the worker model from the `swarm workers` line in the proje
 --- patched
 1. State the done predicate and the artifact or report the swarm must return.
 2. Choose the shape. Partition into slices, race N workers on identical briefs, or mix both. For a race or mixed shape, declare `first pass`, `rank all`, or `best-of` before spawning.
-3. Pick the worker model from the `swarm workers` line in {{snippet:models-file}}, else {{model:swarm workers}}. {{snippet:model-entry}} For a model race, name each arm's model up front. Pick each subagent's effort for the job within that ceiling, per the Subagents section of the **poteto-mode** skill.
+3. Pick the worker model from the `swarm workers` line in {{snippet:models-file}}, else {{model:swarm workers}}. {{snippet:model-entry}} When the workers verify or review another agent's work, run them on the same model and effort as that worker instead, unless the user named another. For a model race, name each arm's model up front. Pick each subagent's effort for the job within that ceiling, per the Subagents section of the **poteto-mode** skill.
 4. Give each worker its own writable output when it writes. When workers verify or measure commits, each brief names the exact SHAs. A measurement brief also names the method (sample count, what one sample is, order). The worker records both in its result.
 
 === entry 9799476dbb2c
