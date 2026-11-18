@@ -106,7 +106,7 @@ T3: "fast code model" / trivial mechanical edits → `feature, refactoring`. "St
 
 ### same-model-review
 Kind: policy.
-Intent: a review or verification runs on the same model and effort as the work it checks, unless the user names another. Cross-family runs are only for the panels that compare competing implementations, designs, or reviews (`arena runners`, `architect runners`, `interrogate reviewers`), which list two families on purpose.
+Intent: a review or verification runs on the same model and effort as the work it checks, unless the user names another. Cross-family runs are only for the panels that compare competing implementations, designs, or reviews (`arena runners`, `interrogate reviewers`), which list two families on purpose.
 Upstream: a reviewer, verifier, or judge "on a different model family", or the first `arena cross-judge pool` entry whose provider differs from the worker's.
 Patched: "on the same model and effort as the worker it checks, unless the user named another". A judge that picks between candidates (arena, eval) takes the `arena cross-judge pool` line as written.
 
@@ -216,6 +216,6 @@ Anything that isn't one paragraph is a change in `changes/<name>/CHANGE.md`, app
 
 - **pstack-support-skill**: the subagent briefs and the LICENSE ship in a `pstack` support skill, since the `skills` CLI installs skill folders only.
 - **bun-gitignore**: `node_modules/` is gitignored beside `scripts/package.json`.
-- **check-plan-hourly-tick** and **worktree-audit-t3-chats**: whole-file edits to upstream's scripts. When upstream changes a script, sync merges it with ours; a conflict is resolved from the change's intent.
+- **worktree-audit-t3-chats**: a whole-file edit to upstream's script. When upstream changes a script, sync merges it with ours; a conflict is resolved from the change's intent.
 
 Only `skills/` ships (`[output]` in `config.toml`). Upstream's `docs/`, `automations/`, `README.md`, and `plugin.json` are for Cursor users. `hooks.ts` holds the checks a pattern can't express: each skill's `name` must be its folder name, because the `skills` CLI names the install folder after it and Codex matches `$name` against it, and `node_modules/` must be gitignored beside each `scripts/package.json`.
