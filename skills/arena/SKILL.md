@@ -25,7 +25,7 @@ If a candidate produces no output, proceed with N-1 and note the dropout.
 
 ## Phase C: Cross-judge
 
-After all Phase B candidates complete, spawn one judge from the `arena cross-judge pool` line in `.agents/pstack-models.md` in the project's main checkout (`"$(dirname "$(git rev-parse --path-format=absolute --git-common-dir)")/.agents/pstack-models.md"`, which may not exist), else from `claudeAgent/claude-opus-5-5 high`. Use the first entry whose provider differs from the parent's, or the first entry when none differs, and say so. An `inherit-parent` entry is the parent model. Spawn the judge with `delegate_task`, `mode: "async"`, and no `isolation`. Its brief says "Do not edit, create, commit, or push files.", and you run `git status` afterward. If no entry can run, skip the judge and say so. While you read in Phase D, the judge scores each candidate, by path label, on each rubric criterion and recommends a base.
+After all Phase B candidates complete, spawn one judge from the `arena cross-judge pool` line in `.agents/pstack-models.md` in the project's main checkout (`"$(dirname "$(git rev-parse --path-format=absolute --git-common-dir)")/.agents/pstack-models.md"`, which may not exist), else from `claudeAgent/claude-opus-5-5 high`. Take the line in its configured order: its first entry runs the judge. An `inherit-parent` entry is the parent model. Spawn the judge with `delegate_task`, `mode: "async"`, and no `isolation`. Its brief says "Do not edit, create, commit, or push files.", and you run `git status` afterward. If the spawn fails, skip the judge and say so. While you read in Phase D, the judge scores each candidate, by path label, on each rubric criterion and recommends a base.
 
 ## Phase D: Pick a base
 

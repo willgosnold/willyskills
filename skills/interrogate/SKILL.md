@@ -14,7 +14,7 @@ The scope is what the user names. Otherwise it is the branch diff from its merge
 
 ## Fan out
 
-Run Phase A steps 3 and 4 and Phase B of the **arena** skill, with three changes. Read the `interrogate reviewers` line in place of `arena runners`, else `claudeAgent/claude-opus-5-5 high`, `codex/gpt-6.1-sol xhigh`. Copy the scope's uncommitted changes into each worktree. In place of the arena task and rationale, give each adversary the scope, the intent, and this brief:
+Run Phase A steps 3 and 4 and Phase B of the **arena** skill, with three changes. Read the `interrogate reviewers` line in place of `arena runners`, else `claudeAgent/claude-opus-5-5 high`, `codex/gpt-6.1-sol xhigh`. Copy the scope's uncommitted changes into each worktree. A worktree starts from your current local commit without them, so before spawning write them to `/tmp/interrogate-<slug>.patch`: `git diff --binary HEAD`, then, for each file `git ls-files --others --exclude-standard` lists, `git diff --binary --no-index /dev/null <file>`. Tell each adversary to run `git apply /tmp/interrogate-<slug>.patch` in its worktree before anything else in the task. In place of the arena task and rationale, give each adversary the scope, the intent, and this brief:
 
 > Break this change. Prove each finding with a run against the real code, such as a failing test, a repro script, or command output that shows the wrong behavior. For a design or plan, run a prototype or probe the current tree. Keep repros in your own worktree. Report each finding with a title, the exact command, the output it printed, and the output the intent requires. Leave out anything you did not run. That covers style, naming, structure, and risks that need a future change to matter. No findings is a valid result.
 
