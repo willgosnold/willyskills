@@ -1,0 +1,16 @@
+=== entry 096227afb28b
+kind: translation
+rules: invoke
+intent: The description names both invocations, /statechart and $statechart. Everything else stays verbatim; the rest of the skill and references/render.md use only the bundled script, mise, TLC, Java, and the Pele npm package, none of them Cursor-only.
+--- upstream
+---
+name: statechart
+description: "Check a TLA+ model of a system that moves between states, such as a product flow, a protocol, or a service, and draw it as a Mermaid statechart. The report gives the shortest path to each state that breaks a rule. Use for /statechart, or to show a bug as a path through states."
+disable-model-invocation: true
+---
+--- patched
+---
+name: statechart
+description: "Check a TLA+ model of a system that moves between states, such as a product flow, a protocol, or a service, and draw it as a Mermaid statechart. The report gives the shortest path to each state that breaks a rule. Use for /statechart or $statechart, or to show a bug as a path through states."
+disable-model-invocation: true
+---
