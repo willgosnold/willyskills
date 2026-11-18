@@ -6,3 +6,12 @@ intent: The deslop skill loses its plugin name, is named with no slash, and runs
 Work from a git worktree off trunk, and keep unrelated work out of it. Rebase into small, landable commits. Run `/deslop` from `cursor-team-kit` over the diff before commit.
 --- patched
 Work from a git worktree off trunk, and keep unrelated work out of it. Rebase into small, landable commits. Run the **deslop** skill, if it is installed, over the diff before commit.
+
+=== entry 53f0e8e91cdb
+kind: translation
+rules: pr-tool
+intent: PRs open ready from the shell with `gh` (or `origin` when Origin's CLI resolves the repository), and each one, once per stack layer, is linked to the thread with link_pull_request right after it is created; list_thread_pull_requests is checked before finishing. Drops the run's PR tool. Keep stacking by base branch, never a draft, and that opening a PR does not start a babysit.
+--- upstream
+Stack follow-ups by base branch. Open PRs ready, through the run's PR tool with `draft: false`. Without one, use `gh pr create` without `--draft`, or `origin pr create --status open` when Origin's CLI resolves the repository. Opening a PR does not start a babysit.
+--- patched
+Stack follow-ups by base branch. Open PRs ready, with `gh pr create` without `--draft`, or `origin pr create --status open` when Origin's CLI resolves the repository. Right after creating each PR, one per stack layer, call `link_pull_request` with its URL. Before finishing, check `list_thread_pull_requests`. Opening a PR does not start a babysit.
