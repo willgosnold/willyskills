@@ -22,11 +22,11 @@ intent: Drops Custom Modes (the keyboard shortcut, Use as Mode, and where Cursor
 === entry 7cfdf24a926d
 kind: translation
 rules: cursor-only, agent-brief, invoke
-intent: Drops the link to Cursor's skills docs, and says a poteto-agent subagent comes from its brief file, not an agent type. Keep the "new task" note and that poteto-mode already uses poteto-agent. The skill is named, not typed.
+intent: Drops the link to Cursor's skills docs, and says a poteto-agent subagent comes from its brief file, not an agent type. The suggested brief opens with poteto-mode's worker.md line, which poteto-mode requires as the first line of every agent kickoff, then the prompt-file line. Keep the "new task" note and that poteto-mode already uses poteto-agent. The skill is named, not typed.
 --- upstream
 Link [Cursor's skills docs](https://cursor.com/docs/skills) when this comes up. Mid-chat, "new task" makes the mode match a fresh playbook. `/poteto-mode` already uses `poteto-agent` for the subagents its playbook steps spawn. To get the same style from a subagent of your own, spawn it with `subagent_type: "poteto-agent"`.
 --- patched
-Mid-chat, "new task" makes the mode match a fresh playbook. The **poteto-mode** skill already uses `poteto-agent` for the subagents its playbook steps spawn. To get the same style from a subagent of your own, start its brief with "Read `<abs>/pstack/agents/poteto-agent.md` and act as that agent. The poteto-mode skill is at `<abs>/poteto-mode/SKILL.md`.", where `<abs>` is the absolute path of the folder that holds the pstack skills (resolve `..` from this skill's folder).
+Mid-chat, "new task" makes the mode match a fresh playbook. The **poteto-mode** skill already uses `poteto-agent` for the subagents its playbook steps spawn. To get the same style from a subagent of your own, start its brief with "Read `<abs>/poteto-mode/worker.md` before anything else." on the first line, then "Read `<abs>/pstack/agents/poteto-agent.md` and act as that agent. The poteto-mode skill is at `<abs>/poteto-mode/SKILL.md`.", where `<abs>` is the absolute path of the folder that holds the pstack skills (resolve `..` from this skill's folder).
 
 === entry 4c6ae23c323e
 kind: translation
