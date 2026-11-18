@@ -27,15 +27,6 @@
   "why investigators": [
     "claudeAgent/claude-haiku-5-5 xhigh"
   ],
-  "why synthesizer": [
-    "claudeAgent/claude-opus-5-5 high"
-  ],
-  "reflect tooling": [
-    "claudeAgent/claude-haiku-5-5 xhigh"
-  ],
-  "reflect judgment, divergent, synthesizer": [
-    "claudeAgent/claude-opus-5-5 high"
-  ],
   "arena runners": [
     "claudeAgent/claude-opus-5-5 high",
     "codex/gpt-6.1-sol xhigh"
@@ -45,10 +36,6 @@
   ],
   "swarm workers": [
     "claudeAgent/claude-haiku-5-5 xhigh"
-  ],
-  "architect runners": [
-    "claudeAgent/claude-opus-5-5 high",
-    "codex/gpt-6.1-sol xhigh"
   ],
   "interrogate reviewers": [
     "claudeAgent/claude-opus-5-5 high",
