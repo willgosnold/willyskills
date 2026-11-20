@@ -45,14 +45,14 @@ intent: Spawn defaults in T3 terms: async `delegate_task` with the whole brief a
 --- patched
 **Defaults for every `delegate_task` call.** `mode: "async"`, the inherited runtime mode (never set `runtimeMode`, a narrower mode makes the child wait for approvals no one can give), the whole brief in `task` with file pointers not inlined context, its own `clientRequestId` (reused only to retry that spawn), and an explicit model per role. Call `orchestrator_capabilities` once before the first spawn. Keep each returned `taskId` and `childThreadId`. The child's completion wakes this thread, so end the turn instead of polling, and use `task_status` only for a result needed mid-turn. The **setup-pstack** skill writes {{snippet:models-file}}, whose per-role lines override the defaults below and the role models in the routed skills (`arena`, `swarm`, `interrogate`). A role with no line keeps its default. {{snippet:model-entry}} Each code playbook reads its own line (`feature, refactoring`, `bug-fix`, `perf-issue`, or `hillclimb`), prose and judgment read `judgment and prose`, and trivial mechanical edits read `swarm workers`.
 
-=== entry 799788d25bee
+=== entry c1ab5af5119c
 kind: translation
 rules: model-role
 intent: The default list names each role's willyskills default through `{{model:...}}` instead of hand-written slugs. Code lists each code playbook's role, since willyskills's code roles have separate defaults, and the three-model panel becomes one runner per entry of the panel role's line.
 --- upstream
 - Code, prose, and judgment: `claude-opus-5-5-xhigh-fast`.
 - Trivial mechanical edits: `claude-opus-5-5-high-fast`.
-- Diverse review and design panels: one runner each on `claude-fable-5-2-high`, `claude-opus-5-5-high-fast`, and `gemini-4-carbon-high`.
+- Diverse review and design panels: one runner each on `claude-fable-5-2-high`, `claude-opus-5-5-high-fast`, and `gemini-4-neon-xhigh`.
 --- patched
 - Code: `feature, refactoring` {{model:feature, refactoring}}, `bug-fix` {{model:bug-fix}}, `perf-issue` {{model:perf-issue}}, `hillclimb` {{model:hillclimb}}.
 - Prose and judgment: {{model:judgment and prose}}.
@@ -68,12 +68,12 @@ intent: Upstream names Fable 5.2 as a premium model kept for panels and for work
 --- patched
 **The `hardest tasks` role is an exception.** A spawn uses its line in {{snippet:models-file}}, else {{model:hardest tasks}}, only when the user named it for this task or two runs of the same brief on the task's own role (its playbook's line), at that line's full effort, failed its check. Say which. Difficulty alone never qualifies.
 
-=== entry 523fb84a242d
+=== entry 0753d7b8daac
 kind: translation
 rules: model-effort, model-role, same-model-review, invoke
 intent: The role's effort is a ceiling: keep it for the hardest work, lower it for judgment and routine work, never raise it, and never set `fastMode`. Preserves that panel seats keep their listed effort and that only effort changes (the role's model stays). Verification runs on the same model and effort as the worker it checks, unless the user named another (policy same-model-review), instead of upstream's fixed `swarm workers` model. Drops the always-fast rule for one model, the per-model effort cap for Gemini, and the rejected-slug fallback chain. The setup-pstack skill is named with no slash.
 --- upstream
-**Match the model to the job.** Start from the role's line or default, keep its family, and set the level the job needs. The `/setup-pstack` budget sets each role's starting level. Panel seats keep their listed level. Raise any other role one step, up to xhigh, for the hardest or subtlest work, lower it one step for judgment, and two or more steps for routine work. No role runs above xhigh. Opus 5.5 always runs its `-fast` slug. Verification always runs on the `swarm workers` model, `claude-opus-5-5-high-fast` by default. A Gemini seat never runs above `gemini-4-carbon-high`, its top slug. If the Task tool rejects a slug, never pass it again. Fall back to the role's line or default, then the calling skill's fallback, then the closest valid slug of the same family, then omit `model`. Say so.
+**Match the model to the job.** Start from the role's line or default, keep its family, and set the level the job needs. The `/setup-pstack` budget sets each role's starting level. Panel seats keep their listed level. Raise any other role one step, up to xhigh, for the hardest or subtlest work, lower it one step for judgment, and two or more steps for routine work. No role runs above xhigh. Opus 5.5 always runs its `-fast` slug. Verification always runs on the `swarm workers` model, `claude-opus-5-5-high-fast` by default. A Gemini seat runs at `gemini-4-neon-xhigh` unless its line names another level. If the Task tool rejects a slug, never pass it again. Fall back to the role's line or default, then the calling skill's fallback, then the closest valid slug of the same family, then omit `model`. Say so.
 --- patched
 **Match the model to the job.** Start from the role's line or default, keep its model, and set the effort the job needs. The **setup-pstack** skill's budget sets each role's starting effort, and that effort is a ceiling. Panel seats keep their listed effort. Keep any other role's effort for the hardest or subtlest work, lower it one step for judgment, and two or more steps for routine work. Never raise it, and never set `fastMode`. Verification runs on the same model and effort as the worker it checks, unless the user named another. If a model has no effort option at a level, use its nearest level below. `orchestrator_capabilities` lists each model's options.
 
