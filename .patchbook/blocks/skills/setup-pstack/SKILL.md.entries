@@ -25,6 +25,14 @@ The default role-to-model mapping is the rule shape shown in step 5 below. If `~
 --- patched
 The defaults are the role entries listed in step 5 below. If that file already exists, read it and treat its `# budget:` line and its role entries as the current choices. Otherwise start from those defaults. A line whose role is not in step 5, such as `architect runners`, `reflect tooling`, `how explainer`, or `why investigators`, is from a retired role. Drop it.
 
+=== entry db7c917c5ce0
+kind: translation
+rules: setup-pstack, cursor-only, model-role
+intent: Deletes the migration of old Gemini panel defaults. It rewrites Cursor Gemini slugs (`gemini-4-*`) in panel roles, but willyskills's panel defaults come from models.json and a project models file holds `<provider>/<model> <effort>` entries, so there is no old Gemini default to replace.
+--- upstream
+Older defaults put another Gemini model, then `gemini-4-neon-high`, in the panel seat. So in any rule, a `gemini-4-neon-high` entry, or a `gemini-4-*` entry other than `gemini-4-neon-*`, in a panel role (`arena runners`, `arena cross-judge pool`, `interrogate reviewers`) is an old default. Each one becomes `gemini-4-neon-xhigh`. A Gemini 4 Neon entry at any other level is the user's choice and stays. Tell the user which entries you replaced.
+--- patched
+
 === entry b9baeb35bcf5
 kind: translation
 rules: setup-pstack, cursor-only
