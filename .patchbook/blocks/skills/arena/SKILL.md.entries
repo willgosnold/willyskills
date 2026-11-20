@@ -10,7 +10,7 @@ Open a step list with one entry per phase (Frame, Fan out, Cross-judge, Pick, Gr
 === entry e31c37c35e68
 kind: translation
 rules: model-role, model-effort, general-purpose
-intent: Runners come from the `arena runners` line in the project models file, else willyskills's default, one per entry, applied with the model-entry snippet. Dropped: upstream's default slugs, the `auto`/`generalPurpose` alias handling (the snippet covers `inherit-parent`), the rejected-slug and family-prefix fallbacks with their keep-at-least-two-runners floor (it only guards seats dropped for a rejected slug), and the reasoning-level sentence, which the snippet's effort ceiling replaces. Preserve the frame steps, the more-runners and repeat-one-model guidance, and the per-candidate output location.
+intent: Runners come from the `arena runners` line in the project models file, else willyskills's default, one per entry, applied with the model-entry snippet. Dropped: upstream's default slugs, the `auto`/`generalPurpose` alias handling (the snippet covers `inherit-parent`), the rejected-slug and family-prefix fallbacks, and the reasoning-level sentence, which the snippet's effort ceiling replaces. Keep upstream's floor of two runners: a seat whose spawn fails is dropped, never below two, and said. Preserve the frame steps, the more-runners and repeat-one-model guidance, and the per-candidate output location.
 --- upstream
 1. State the artifact each candidate is producing.
 2. Derive the rubric, 3-6 concrete gradeable criteria for what success looks like on *this* task. It is the picker's tool in Phase D. Candidates only see the task.
@@ -19,7 +19,7 @@ intent: Runners come from the `arena runners` line in the project models file, e
 --- patched
 1. State the artifact each candidate is producing.
 2. Derive the rubric, 3-6 concrete gradeable criteria for what success looks like on *this* task. It is the picker's tool in Phase D. Candidates only see the task.
-3. Pick the runners from the `arena runners` line in {{snippet:models-file}}, else {{model:arena runners}}, one runner per entry. {{snippet:model-entry}} Spawn more for multiple design directions, and repeat one model when the work is generation-bound, not judgment-sensitive.
+3. Pick the runners from the `arena runners` line in {{snippet:models-file}}, else {{model:arena runners}}, one runner per entry. {{snippet:model-entry}} If a runner's spawn fails, drop that seat, keep at least two runners, and say so. Spawn more for multiple design directions, and repeat one model when the work is generation-bound, not judgment-sensitive.
 4. Give each candidate its own output location (a git worktree where possible, otherwise `/tmp/arena-<slug>/candidate-<n>/`), per the **separate-before-serializing-shared-state** principle skill.
 
 === entry ea996dc046fd
