@@ -16,55 +16,92 @@ Enumerate the model slugs you can pass to a `Task` subagent in this session. Tha
 --- patched
 Call `orchestrator_capabilities`. Each entry in `providers` lists a provider instance's models and each model's effort options (`effort`, or `reasoningEffort` for `codex`). That is the dependable source. A provider whose `canRunChildTask` is false can't run a role, so leave it out. If you cannot detect any, ask the user to paste the models they have access to. Never write a real model you have not confirmed is available. The alias `inherit-parent` is always valid even though it is not a detected model.
 
-=== entry 77990365c1b2
+=== entry cf59bc9fbcaf
 kind: translation
 rules: setup-pstack, model-role
-intent: Loads current choices from the project models file and its `# budget:` line, else the defaults listed in step 5. Keep the retired-role drop.
+intent: Loads current choices from the project models file and its `# budget:` line, else the defaults listed in step 5. Keep the retired-role drop. The examples of retired roles are ones no willyskills skill reads, including `how explainer` and `why investigators`; `hardest tasks`, which upstream retired, is still a willyskills role (see step 5), so it is not an example.
 --- upstream
-The default role-to-model mapping is the rule shape shown in step 5 below. If `~/.cursor/rules/pstack-models.mdc` already exists, read it and treat its `# budget` line and its role values as the current choices. Otherwise start from those defaults. A line whose role is not in step 5, such as `how critics`, is from a retired role. Drop it.
+The default role-to-model mapping is the rule shape shown in step 5 below. If `~/.cursor/rules/pstack-models.mdc` already exists, read it and treat its `# budget` line and its role values as the current choices. Otherwise start from those defaults. A line whose role is not in step 5, such as `hardest tasks`, `architect runners`, `reflect tooling`, or `why investigators`, is from a retired role. Drop it.
 --- patched
-The defaults are the role entries listed in step 5 below. If that file already exists, read it and treat its `# budget:` line and its role entries as the current choices. Otherwise start from those defaults. A line whose role is not in step 5, such as `how critics`, is from a retired role. Drop it.
+The defaults are the role entries listed in step 5 below. If that file already exists, read it and treat its `# budget:` line and its role entries as the current choices. Otherwise start from those defaults. A line whose role is not in step 5, such as `architect runners`, `reflect tooling`, `how explainer`, or `why investigators`, is from a retired role. Drop it.
 
-=== entry 0cf6684b6be5
+=== entry db7c917c5ce0
+kind: translation
+rules: setup-pstack, cursor-only, model-role
+intent: Deletes the migration of old Gemini panel defaults. It rewrites Cursor Gemini slugs (`gemini-4-*`) in panel roles, but willyskills's panel defaults come from models.json and a project models file holds `<provider>/<model> <effort>` entries, so there is no old Gemini default to replace.
+--- upstream
+Older defaults put another Gemini model, then `gemini-4-neon-high`, in the panel seat. So in any rule, a `gemini-4-neon-high` entry, or a `gemini-4-*` entry other than `gemini-4-neon-*`, in a panel role (`arena runners`, `arena cross-judge pool`, `interrogate reviewers`) is an old default. Each one becomes `gemini-4-neon-xhigh`. A Gemini 4 Neon entry at any other level is the user's choice and stays. Tell the user which entries you replaced.
+--- patched
+
+=== entry b9baeb35bcf5
+kind: translation
+rules: setup-pstack, cursor-only
+intent: Drops the `# defaults: 3` marker and the replacement of old default values. Upstream recognizes old defaults by Cursor slug (`grok-*`, a `claude-fable-*`/`claude-opus-*`/`gemini-*` judge pool), which a project models file never holds, and the setup-pstack rule writes only role lines and a `# budget:` line, so a T3 file has no marker to test. Keeps the one replacement that applies to a T3 file: an older setup offered `unlimited`, which now becomes `large` because no role runs above `xhigh`. No rule covers the migration itself; closest faithful.
+--- upstream
+A rule without the `# defaults: 3` line comes from an older setup. That setup wrote a line for every role, so some of its values are old defaults, not choices. Before step 3, replace these values:
+--- patched
+A `# budget: unlimited` line comes from an older setup. Before step 3, replace it with `large`, because no role runs above `xhigh`, and tell the user you replaced it.
+
+=== entry 2abc5a89ef9d
+kind: translation
+rules: setup-pstack, cursor-only, model-role
+intent: Deletes the list of old-default replacements: each bullet matches Cursor slugs (`claude-fable-*`, `claude-opus-*`, `gemini-*`, `grok-*`) that a project models file never holds. The `unlimited` bullet is carried in the sentence before it.
+--- upstream
+- An `arena cross-judge pool` list of exactly one `claude-fable-*` entry, one `claude-opus-*` entry, and one `gemini-*` entry, in any order, takes the role's step 5 list. Fable and Opus are one vendor, so the Fable entry could judge only where the Opus entry also could.
+- A `# budget: unlimited` line becomes `large`, because no role runs above `xhigh`.
+- If the rule has no `# defaults: 2` line either, an old slug is one that matches `grok-*`. An old slug in `feature, refactoring`, `bug-fix`, `perf-issue`, `hillclimb`, or `swarm workers` takes the role's step 5 default. In a panel role (`arena runners`, `arena cross-judge pool`, `interrogate reviewers`), a list of exactly one `claude-opus-*` entry and one old slug, in either order, takes the role's step 5 list. In any other list, each old slug becomes `claude-opus-5-5-high-fast`.
+--- patched
+
+
+=== entry 2d422bf9b030
+kind: translation
+rules: setup-pstack, cursor-only
+intent: Deletes the closing sentence of the old-default replacements, which the T3 file does not have; telling the user about the one replacement left (`unlimited`) is in the sentence before. This block has no Cursor term, but it describes the dropped slug replacements and the `auto` alias.
+--- upstream
+Every other value is the user's choice and stays, including an old slug in any other role and every `inherit-parent` or `auto` value. Tell the user which values you replaced.
+--- patched
+
+
+=== entry 37ded065fd50
 kind: translation
 rules: ask, setup-pstack
-intent: Asks for the budget in plain text and ends the turn; with no models file, names the budget whose effort matches the defaults instead of hard-coding one. Keep the four exact labels.
+intent: Asks for the budget in plain text and ends the turn, and calls the setup output the models file. Drops "`large` matches the skill defaults": a budget sets every entry to its level, and the defaults mix `high` and `xhigh`, so no budget matches them. Keep the three exact labels.
 --- upstream
-**(a) Ask for a budget.** Prefer AskQuestion over free text. Offer these four options with these exact labels, and name the current budget when the rule records one. With no rule, say that `large` matches the skill defaults.
+**(a) Ask for a budget.** Prefer AskQuestion over free text. Offer these three options with these exact labels, and name the current budget when the rule records one. With no rule, say that `large` matches the skill defaults.
 --- patched
-**(a) Ask for a budget.** Ask in plain text, then end the turn. Offer these four options with these exact labels, and name the current budget when the file records one. With no models file, name the budget whose effort matches the defaults in step 5.
+**(a) Ask for a budget.** Ask in plain text, then end the turn. Offer these three options with these exact labels, and name the current budget when the file records one.
 
-=== entry 6b1ae68d1673
+=== entry 6e7a8f513131
 kind: translation
-rules: setup-pstack, model-role
-intent: A budget sets each entry's effort to its level, or the highest that model offers below it; drops slug parsing, the `auto` alias, and the Grok/Claude slug examples. Keep "keep the user's changed roles on a re-run" and "mark a role needing a choice".
+rules: setup-pstack, model-role, model-effort
+intent: A budget sets every entry's effort to the level its label names, or the highest effort that model offers below it (rule setup-pstack), instead of moving each default down from its own effort. Drops slug parsing, the `auto` alias, the arena-family sentence (the fallback stays on the same model, so families don't matter here), the Opus/Fable/Gemini slug examples and fast-slug rules, and "most defaults are at `xhigh`", which doesn't hold for models.json. Keep "keep the user's changed roles on a re-run" and "mark a role needing a choice".
 --- upstream
-**(b) Apply it.** Build the working table from the skill defaults, and on a re-run keep any role you changed by family, list, or alias (`inherit-parent`, `auto`). `unlimited`, `large`, `medium`, and `small` set the effort token of every real slug, panel entries included, to `max`, `xhigh`, `high`, or `medium`. The effort token is the last token, or the one before a trailing `fast`, on the ladder `max` > `xhigh` > `high` > `medium` > `low`. If the result is not a detected slug, use the same family's detected slug with the highest effort at or below the target, else mark the role as needing a choice. `inherit-parent` and `auto` do not change. So `unlimited` turns `claude-opus-5-5-xhigh` into `claude-opus-5-5-max`. Grok slugs top out at `xhigh`, so under `unlimited` the fallback puts Grok at `xhigh` and keeps `grok-4.7-xhigh-fast` as it is. `large` keeps both defaults. `small` turns them into `claude-opus-5-5-medium` and `grok-4.7-medium-fast`.
+**(b) Apply it.** Build the working table from the skill defaults, and on a re-run keep any role you changed by family, list, or alias (`inherit-parent`, `auto`). Families are the ones Phase A of the **arena** skill defines, so Fable is its own family. Each role has a target effort, which is its default's effort moved by the budget. `large` keeps it, `medium` lowers it one step, and `small` lowers it two steps, on the ladder `xhigh` > `high` > `medium` > `low`. No role runs above `xhigh`, and a target at the bottom of the ladder stays there. Most defaults are at `xhigh`, and each budget label names where those land. Set the effort token of every real slug in the role, panel entries included, to the role's target. The effort token is the last token, or the one before a trailing `fast`. If the result is not a detected slug, use the same family's detected slug with the highest effort at or below the target, else mark the role as needing a choice. `inherit-parent` and `auto` do not change. So `medium` turns `claude-opus-5-5-xhigh-fast` into `claude-opus-5-5-high-fast` and `claude-opus-5-5-high-fast` into `claude-opus-5-5-medium-fast`, and `small` turns them into `claude-opus-5-5-medium-fast` and `claude-opus-5-5-low-fast`. Opus 5.5 always runs its `-fast` slug, so every Opus 5.5 value ends in `-fast`. Fable 5.2 and Gemini have no fast slug, so never write one. Gemini 4 Neon slugs run from `low` to `xhigh` with no `max` or `fast` slug, so its seat runs at `gemini-4-neon-xhigh`, its top slug. A Gemini 4 Neon entry in a panel role takes its own target, `xhigh` moved by the budget, so `large` keeps `gemini-4-neon-xhigh`, `medium` writes `gemini-4-neon-high`, and `small` writes `gemini-4-neon-medium`.
 --- patched
-**(b) Apply it.** Build the working table from the defaults, and on a re-run keep any role you changed by model, list, or alias (`inherit-parent`). `unlimited`, `large`, `medium`, and `small` set the effort of every real entry, panel entries included, to `max`, `xhigh`, `high`, or `medium`, on the ladder `max` > `xhigh` > `high` > `medium` > `low`. Ignore effort options off that ladder. If the model doesn't offer that effort, use the highest effort it offers below it, else mark the role as needing a choice. `inherit-parent` does not change. So under `unlimited`, a model whose efforts stop at `xhigh` runs at `xhigh`.
+**(b) Apply it.** Build the working table from the defaults, and on a re-run keep any role you changed by model, list, or alias (`inherit-parent`). The budget's level is the effort its label names. Set the effort of every real entry in every role, panel entries included, to that level, on the ladder `xhigh` > `high` > `medium` > `low`. No role runs above `xhigh`. Ignore effort options off that ladder. If the model doesn't offer that level, use the highest effort it offers below it, else mark the role as needing a choice. `inherit-parent` does not change. So `medium` sets every entry to `high`, and a model whose efforts stop at `high` runs at `high` under `large`.
 
-=== entry a866843b1db8
+=== entry 72eaf27f2813
 kind: translation
 rules: ask, setup-pstack, model-role, cursor-only
-intent: Confirms roles in plain text with `inherit-parent` as the only alias; drops `auto` and Cursor's Auto. Keep the panel-list, cross-judge, and swarm notes.
+intent: Confirms roles in plain text with `inherit-parent` as the only alias; drops `auto` and Cursor's Auto. Arena's judge runs on the pool's first entry, as written (rule same-model-review), so the other-vendor filter, the Fable-is-Claude sentence, and "an alias never judges" are dropped. Keep the `xhigh` cap on offered models and the panel-list, cross-judge, and swarm notes.
 --- upstream
-**(c) Show the roles and confirm.** Show every role with its model, marking any real slug not in the detected set as needing a choice. Also list each line step 2 dropped. Ask whether to accept as-is or change specific roles, offering the detected models plus `inherit-parent` and `auto` (both mean: this role runs on the parent chat model, which is how Auto users stay on Auto) as the options. Prefer AskQuestion over free text. For panel roles (arena runners, architect runners, interrogate reviewers) the value is a list, and one subagent runs per entry, alias entries included, so the list length sets the count. `arena cross-judge pool` is also a list, but Arena selects one value from it whose model family differs from the parent's when possible. `swarm workers` is the default model for every worker unless a race or comparison assigns another model per arm.
+**(c) Show the roles and confirm.** Show every role with its model, marking any real slug not in the detected set as needing a choice. Also list each line step 2 dropped. Ask whether to accept as-is or change specific roles, offering the detected models at `xhigh` or below plus `inherit-parent` and `auto` (both mean: this role runs on the parent chat model, which is how Auto users stay on Auto) as the options. Prefer AskQuestion over free text. For panel roles (arena runners, interrogate reviewers) the value is a list, and one subagent runs per entry, alias entries included, so the list length sets the count. `arena cross-judge pool` is also a list, but Arena runs one judge. It tries only values from a vendor other than the parent's, in list order, so order it by preference. Fable and the other Claude models are one vendor. An `inherit-parent` or `auto` value never judges. `swarm workers` is the default model for every worker unless a race or comparison assigns another model per arm.
 --- patched
-**(c) Show the roles and confirm.** Show every role with its entries, marking any real entry not in the detected set as needing a choice. Also list each line step 2 dropped. Ask whether to accept as-is or change specific roles, offering the detected models plus `inherit-parent` (this role runs on the parent chat model) as the options. Ask in plain text, then end the turn. For panel roles (arena runners, architect runners, interrogate reviewers) the value is a list, and one subagent runs per entry, alias entries included, so the list length sets the count. `arena cross-judge pool` is also a list, but Arena selects one value from it whose model family differs from the parent's when possible. `swarm workers` is the default model for every worker unless a race or comparison assigns another model per arm.
+**(c) Show the roles and confirm.** Show every role with its entries, marking any real entry not in the detected set as needing a choice. Also list each line step 2 dropped. Ask whether to accept as-is or change specific roles, offering the detected models at `xhigh` or below plus `inherit-parent` (this role runs on the parent chat model) as the options. Ask in plain text, then end the turn. For panel roles (arena runners, interrogate reviewers) the value is a list, and one subagent runs per entry, alias entries included, so the list length sets the count. `arena cross-judge pool` is also a list, but Arena runs one judge, on its first entry, so order it by preference. `swarm workers` is the default model for every worker unless a race or comparison assigns another model per arm.
 
-=== entry 123c59674009
+=== entry 10edb63fd512
 kind: translation
 rules: setup-pstack, model-role
-intent: Writes the project models file with a `# budget:` line and one line per role named as in models.json; drops `alwaysApply`. Keep the whole-file overwrite for idempotent re-runs.
+intent: Writes the project models file with a `# budget:` line and one line per role named as in models.json; drops `alwaysApply` and the `# defaults: 3` marker (see the step 2 entry). Keep the whole-file overwrite for idempotent re-runs.
 --- upstream
-Write `~/.cursor/rules/pstack-models.mdc` with `alwaysApply: true`, a `# budget` line with the chosen label and its target effort, and one line per role, using the same labels poteto-mode uses. Overwrite the whole file so re-runs stay idempotent. Shape:
+Write `~/.cursor/rules/pstack-models.mdc` with `alwaysApply: true`, the `# defaults: 3` line, a `# budget` line with the chosen label and the effort that label names, and one line per role, using the same labels poteto-mode uses. Overwrite the whole file so re-runs stay idempotent. Shape:
 --- patched
-Write that file with a `# budget:` line holding the chosen label and its target effort, and one line per role, using the role names below. Create `.agents/` if it is missing. Overwrite the whole file so re-runs stay idempotent. Shape:
+Write that file with a `# budget:` line holding the chosen label and the effort that label names, and one line per role, using the role names below. Create `.agents/` if it is missing. Overwrite the whole file so re-runs stay idempotent. Shape:
 
-=== entry 44feae09a7e5
+=== entry 2421fa9fa2a9
 kind: translation
-rules: setup-pstack, model-role
-intent: Shows the file's shape without frontmatter or model names, then lists every role with its default from models.json. Keep the header comments' meaning and one line per role.
+rules: setup-pstack, model-role, general-purpose
+intent: Shows the file's shape without frontmatter, the `# defaults: 3` marker, or model names, then lists upstream's nine roles with their defaults from models.json, followed by the two willyskills roles that skills here still read (`hardest tasks`, `how explorer`), which upstream retired. `how explainer` and `why investigators` are left out because no skill reads them. `inherit-parent` omits `target`; the general-purpose agent needs no field. Keep the header comments' meaning and one line per role.
 --- upstream
 ```
 ---
@@ -72,25 +109,18 @@ description: pstack per-role model choices (overrides skill defaults)
 alwaysApply: true
 ---
 # pstack model configuration. One line per role. Delete a line to fall back to the skill default.
-# `inherit-parent` or `auto` as a value: the role runs on the parent chat model (omit Task `model`). Alias entries in a panel list still count toward its fan-out.
+# `inherit-parent` or `auto` as a value: the role runs on the parent chat model (omit Task `model` and spawn `generalPurpose`). Alias entries in a panel list still count toward its fan-out.
+# defaults: 3
 # budget: large (xhigh)
-feature, refactoring: grok-4.7-xhigh-fast
-bug-fix: grok-4.7-xhigh-fast
-perf-issue: grok-4.7-xhigh-fast
-hillclimb: grok-4.7-xhigh-fast
-judgment and prose: claude-opus-5-5-xhigh
-hardest tasks: claude-opus-5-5-xhigh
-how explorer: grok-4.7-xhigh-fast
-how explainer: claude-opus-5-5-xhigh
-why investigators: grok-4.7-xhigh-fast
-why synthesizer: claude-opus-5-5-xhigh
-reflect tooling: grok-4.7-xhigh-fast
-reflect judgment, divergent, synthesizer: claude-opus-5-5-xhigh
-arena runners: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast
-arena cross-judge pool: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast
-swarm workers: grok-4.7-xhigh-fast
-architect runners: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast
-interrogate reviewers: claude-opus-5-5-xhigh, grok-4.7-xhigh-fast
+feature, refactoring: claude-opus-5-5-xhigh-fast
+bug-fix: claude-opus-5-5-xhigh-fast
+perf-issue: claude-opus-5-5-xhigh-fast
+hillclimb: claude-opus-5-5-xhigh-fast
+judgment and prose: claude-opus-5-5-xhigh-fast
+arena runners: claude-fable-5-2-high, claude-opus-5-5-high-fast, gemini-4-neon-xhigh
+arena cross-judge pool: claude-opus-5-5-high-fast, gemini-4-neon-xhigh
+swarm workers: claude-opus-5-5-high-fast
+interrogate reviewers: claude-fable-5-2-high, claude-opus-5-5-high-fast, gemini-4-neon-xhigh
 ```
 --- patched
 ```
@@ -107,18 +137,12 @@ The roles, in this order, with their defaults:
 - `perf-issue`: {{model:perf-issue}}
 - `hillclimb`: {{model:hillclimb}}
 - `judgment and prose`: {{model:judgment and prose}}
-- `hardest tasks`: {{model:hardest tasks}}
-- `how explorer`: {{model:how explorer}}
-- `how explainer`: {{model:how explainer}}
-- `why investigators`: {{model:why investigators}}
-- `why synthesizer`: {{model:why synthesizer}}
-- `reflect tooling`: {{model:reflect tooling}}
-- `reflect judgment, divergent, synthesizer`: {{model:reflect judgment, divergent, synthesizer}}
 - `arena runners`: {{model:arena runners}}
 - `arena cross-judge pool`: {{model:arena cross-judge pool}}
 - `swarm workers`: {{model:swarm workers}}
-- `architect runners`: {{model:architect runners}}
 - `interrogate reviewers`: {{model:interrogate reviewers}}
+- `hardest tasks`: {{model:hardest tasks}}
+- `how explorer`: {{model:how explorer}}
 
 === entry 61b0ac6d6414
 kind: translation
@@ -135,14 +159,14 @@ name: setup-pstack
 description: Configure which models pstack uses per role and at what reasoning budget. Detects your available models and writes a project models file that overrides the defaults. Use for /setup-pstack or $setup-pstack, "configure pstack models", "pstack budget", or changing pstack's model choices.
 ---
 
-=== entry 7427877805de
+=== entry 0b8cdc69e1b3
 kind: translation
 rules: setup-pstack, model-role
-intent: Validation checks each entry's model and effort against what `orchestrator_capabilities` returned; drops `auto`. Keep "stop and ask again".
+intent: Validation checks each entry's model and effort against what `orchestrator_capabilities` returned, at `xhigh` or below; drops `auto`. Keep "stop and ask again". This block has no Cursor term, but its `auto` alias and slug check need the T3 form.
 --- upstream
-Every real slug written must be in the detected set. `inherit-parent` and `auto` always pass. If a chosen real slug is not available, stop and ask again.
+Every real slug written must be in the detected set and at `xhigh` or below. `inherit-parent` and `auto` always pass. If a chosen real slug is not available, stop and ask again.
 --- patched
-Every real entry written must be a detected model with an effort that model offers. `inherit-parent` always passes. If a chosen real entry is not available, stop and ask again.
+Every real entry written must be a detected model with an effort that model offers, at `xhigh` or below. `inherit-parent` always passes. If a chosen real entry is not available, stop and ask again.
 
 === entry 963df20bf6dd
 kind: translation
