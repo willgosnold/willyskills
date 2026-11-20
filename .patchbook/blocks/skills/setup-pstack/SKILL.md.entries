@@ -63,12 +63,12 @@ intent: Asks for the budget in plain text and ends the turn, and calls the setup
 --- patched
 **(a) Ask for a budget.** Ask in plain text, then end the turn. Offer these three options with these exact labels, and name the current budget when the file records one.
 
-=== entry 9c6961655482
+=== entry 6e7a8f513131
 kind: translation
 rules: setup-pstack, model-role, model-effort
 intent: A budget sets every entry's effort to the level its label names, or the highest effort that model offers below it (rule setup-pstack), instead of moving each default down from its own effort. Drops slug parsing, the `auto` alias, the arena-family sentence (the fallback stays on the same model, so families don't matter here), the Opus/Fable/Gemini slug examples and fast-slug rules, and "most defaults are at `xhigh`", which doesn't hold for models.json. Keep "keep the user's changed roles on a re-run" and "mark a role needing a choice".
 --- upstream
-**(b) Apply it.** Build the working table from the skill defaults, and on a re-run keep any role you changed by family, list, or alias (`inherit-parent`, `auto`). Families are the ones Phase A of the **arena** skill defines, so Fable is its own family. Each role has a target effort, which is its default's effort moved by the budget. `large` keeps it, `medium` lowers it one step, and `small` lowers it two steps, on the ladder `xhigh` > `high` > `medium` > `low`. No role runs above `xhigh`, and a target at the bottom of the ladder stays there. Most defaults are at `xhigh`, and each budget label names where those land. Set the effort token of every real slug in the role, panel entries included, to the role's target. The effort token is the last token, or the one before a trailing `fast`. If the result is not a detected slug, use the same family's detected slug with the highest effort at or below the target, else mark the role as needing a choice. `inherit-parent` and `auto` do not change. So `medium` turns `claude-opus-5-5-xhigh-fast` into `claude-opus-5-5-high-fast` and `claude-opus-5-5-high-fast` into `claude-opus-5-5-medium-fast`, and `small` turns them into `claude-opus-5-5-medium-fast` and `claude-opus-5-5-low-fast`. Opus 5.5 always runs its `-fast` slug, so every Opus 5.5 value ends in `-fast`. Fable 5.2 and Gemini have no fast slug, so never write one. Gemini tops out at `high`, so a Gemini entry runs at `high` when its role's target is `xhigh`.
+**(b) Apply it.** Build the working table from the skill defaults, and on a re-run keep any role you changed by family, list, or alias (`inherit-parent`, `auto`). Families are the ones Phase A of the **arena** skill defines, so Fable is its own family. Each role has a target effort, which is its default's effort moved by the budget. `large` keeps it, `medium` lowers it one step, and `small` lowers it two steps, on the ladder `xhigh` > `high` > `medium` > `low`. No role runs above `xhigh`, and a target at the bottom of the ladder stays there. Most defaults are at `xhigh`, and each budget label names where those land. Set the effort token of every real slug in the role, panel entries included, to the role's target. The effort token is the last token, or the one before a trailing `fast`. If the result is not a detected slug, use the same family's detected slug with the highest effort at or below the target, else mark the role as needing a choice. `inherit-parent` and `auto` do not change. So `medium` turns `claude-opus-5-5-xhigh-fast` into `claude-opus-5-5-high-fast` and `claude-opus-5-5-high-fast` into `claude-opus-5-5-medium-fast`, and `small` turns them into `claude-opus-5-5-medium-fast` and `claude-opus-5-5-low-fast`. Opus 5.5 always runs its `-fast` slug, so every Opus 5.5 value ends in `-fast`. Fable 5.2 and Gemini have no fast slug, so never write one. Gemini 4 Neon slugs run from `low` to `xhigh` with no `max` or `fast` slug, so its seat runs at `gemini-4-neon-xhigh`, its top slug. A Gemini 4 Neon entry in a panel role takes its own target, `xhigh` moved by the budget, so `large` keeps `gemini-4-neon-xhigh`, `medium` writes `gemini-4-neon-high`, and `small` writes `gemini-4-neon-medium`.
 --- patched
 **(b) Apply it.** Build the working table from the defaults, and on a re-run keep any role you changed by model, list, or alias (`inherit-parent`). The budget's level is the effort its label names. Set the effort of every real entry in every role, panel entries included, to that level, on the ladder `xhigh` > `high` > `medium` > `low`. No role runs above `xhigh`. Ignore effort options off that ladder. If the model doesn't offer that level, use the highest effort it offers below it, else mark the role as needing a choice. `inherit-parent` does not change. So `medium` sets every entry to `high`, and a model whose efforts stop at `high` runs at `high` under `large`.
 
@@ -90,7 +90,7 @@ Write `~/.cursor/rules/pstack-models.mdc` with `alwaysApply: true`, the `# defau
 --- patched
 Write that file with a `# budget:` line holding the chosen label and the effort that label names, and one line per role, using the role names below. Create `.agents/` if it is missing. Overwrite the whole file so re-runs stay idempotent. Shape:
 
-=== entry 42b9997f34a5
+=== entry 2421fa9fa2a9
 kind: translation
 rules: setup-pstack, model-role, general-purpose
 intent: Shows the file's shape without frontmatter, the `# defaults: 3` marker, or model names, then lists upstream's nine roles with their defaults from models.json, followed by the two willyskills roles that skills here still read (`hardest tasks`, `how explorer`), which upstream retired. `how explainer` and `why investigators` are left out because no skill reads them. `inherit-parent` omits `target`; the general-purpose agent needs no field. Keep the header comments' meaning and one line per role.
@@ -109,10 +109,10 @@ bug-fix: claude-opus-5-5-xhigh-fast
 perf-issue: claude-opus-5-5-xhigh-fast
 hillclimb: claude-opus-5-5-xhigh-fast
 judgment and prose: claude-opus-5-5-xhigh-fast
-arena runners: claude-fable-5-2-high, claude-opus-5-5-high-fast, gemini-4-carbon-high
-arena cross-judge pool: claude-opus-5-5-high-fast, gemini-4-carbon-high
+arena runners: claude-fable-5-2-high, claude-opus-5-5-high-fast, gemini-4-neon-xhigh
+arena cross-judge pool: claude-opus-5-5-high-fast, gemini-4-neon-xhigh
 swarm workers: claude-opus-5-5-high-fast
-interrogate reviewers: claude-fable-5-2-high, claude-opus-5-5-high-fast, gemini-4-carbon-high
+interrogate reviewers: claude-fable-5-2-high, claude-opus-5-5-high-fast, gemini-4-neon-xhigh
 ```
 --- patched
 ```
