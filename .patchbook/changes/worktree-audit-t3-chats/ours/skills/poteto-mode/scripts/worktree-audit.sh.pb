@@ -28,7 +28,7 @@ cd "$repo" || exit 1
 git rev-parse --git-dir >/dev/null 2>&1 || { echo "error: not a git repo: $repo" >&2; exit 1; }
 
 # Main worktree is the first entry; everything else is a candidate.
-main_wt=$(git worktree list --porcelain | awk '/^worktree /{print $2; exit}')
+main_wt=$(git worktree list --porcelain | sed -n 's/^worktree //p' | head -n 1)
 
 if [ -z "$base" ]; then
 	for cand in "$(git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null)" origin/main origin/master; do
@@ -86,7 +86,7 @@ now=$(date +%s)
 echo "# base: $base"
 printf "SIZE\tAGE\tMERGED\tDIRTY\tREMOTE\tPR\tLAST_CHAT\tBUCKET\tWORKTREE\n"
 
-git worktree list --porcelain | awk '/^worktree /{print $2}' | while read -r wt; do
+git worktree list --porcelain | sed -n 's/^worktree //p' | while IFS= read -r wt; do
 	[ "$wt" = "$main_wt" ] && continue
 
 	size=$(du -sh "$wt" 2>/dev/null | awk '{print $1}')
@@ -120,15 +120,22 @@ git worktree list --porcelain | awk '/^worktree /{print $2}' | while read -r wt;
 	# Most recent agent chat that ran in this worktree or below it.
 	last="-"; last_ts=0
 	slug=$(printf '%s' "$wt" | sed 's#[^A-Za-z0-9]#-#g')
-	# A chat started in a subfolder has its own folder, "$slug-<rest>", which a
-	# sibling worktree such as glint-482-r37 also matches, so check its cwd.
-	for f in "$claude_projects/$slug"/*.jsonl \
-		$(grep -l -F -e "\"cwd\":\"${wt}/" "$claude_projects/$slug"-*/*.jsonl 2>/dev/null) \
-		$([ -s "$codex_rollouts" ] && xargs grep -l -F -e "\"cwd\":\"${wt}\"" -e "\"cwd\":\"${wt}/" < "$codex_rollouts" 2>/dev/null); do
+	# Claude Code keeps a chat's subagent transcripts in <session>/subagents/
+	# below its folder. A chat started in a subfolder has its own folder,
+	# "$slug-<rest>", which a sibling worktree such as glint-482-r37 also
+	# matches, so check its cwd. One path per line, so spaces survive.
+	while IFS= read -r f; do
 		[ -f "$f" ] || continue
 		ts=$(mtime "$f")
 		[ "${ts:-0}" -gt "$last_ts" ] && last_ts=$ts
-	done
+	done < <(
+		[ -d "$claude_projects/$slug" ] && find "$claude_projects/$slug" -name '*.jsonl' 2>/dev/null
+		for d in "$claude_projects/$slug"-*/; do
+			[ -d "$d" ] && find "$d" -name '*.jsonl' -exec grep -l -F -e "\"cwd\":\"${wt}/" {} + 2>/dev/null
+		done
+		[ -s "$codex_rollouts" ] && tr '\n' '\0' < "$codex_rollouts" \
+			| xargs -0 grep -l -F -e "\"cwd\":\"${wt}\"" -e "\"cwd\":\"${wt}/" 2>/dev/null
+	)
 	[ "$last_ts" -gt 0 ] && last=$(fmt_day "$last_ts" 2>/dev/null)
 	recent=$([ "$last_ts" -gt 0 ] 2>/dev/null && [ $(( (now - last_ts) / 86400 )) -le 4 ] && echo yes || echo no)
 
