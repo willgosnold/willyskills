@@ -59,7 +59,7 @@
 100644 897a01cabf2b01153882c96223285f28a59cf724 poteto-help/references/recipes.md
 100644 335054c590b0535157ed39ebbd9a03d9493322df poteto-mode/SKILL.md
 100644 4325be8e29e26cebfc8fb359794bf95048bd8093 poteto-mode/playbooks/authoring-a-skill.md
-100644 1ddd566cdae002f1d41d94aaeaad5f6192d612b4 poteto-mode/playbooks/autonomous-run.md
+100644 a469d71a99eb976aacb33f47d5cdb071700b0fe7 poteto-mode/playbooks/autonomous-run.md
 100644 5a0b757ff864bf2ea9ddace5ef418485953b20c9 poteto-mode/playbooks/autopilot-full.md
 100644 2cca41205ce59089b2a61f9691e0f46c572a0e04 poteto-mode/playbooks/autopilot-stack.md
 100644 291082a1d933fe09cfd927d564b012fdbe7606f5 poteto-mode/playbooks/babysit.md
@@ -76,10 +76,10 @@
 100644 9c6028d5813ac63c9042a9eaceb775a708ae6ebd poteto-mode/playbooks/refactoring.md
 100644 8b53afe6bf9c1cdbd6d5a5e082ee918edbb67c30 poteto-mode/playbooks/runtime-forensics.md
 100644 8cd0c0fc1faaa0c2cc4be0c2b520bf069afd6ca7 poteto-mode/playbooks/session-pickup.md
-100644 0f23f6bd084117babedfa698e97b4b38cfd4db81 poteto-mode/playbooks/shipping.md
+100644 6105070e91a158ee7d2529026bd40e2d5fe716bd poteto-mode/playbooks/shipping.md
 100644 275df6089fe6c32fd15ca45cb1be1483d991ff7e poteto-mode/playbooks/trace-forensics.md
 100644 bb58a9938f3a5d4c1d9f35df256b448a78cf93dd poteto-mode/playbooks/visual-parity.md
-100644 fb620e044cd774e0a9d9c1f1dfecadadb9bacdd8 poteto-mode/playbooks/worktree-cleanup.md
+100644 ff4dcbb3c3ac7951b657320d01d68631778fbd9e poteto-mode/playbooks/worktree-cleanup.md
 100644 b2fc7d35712783707607cf2f39752885c8d5105c poteto-mode/references/bugbot-triage.md
 100644 c2658d7d1b31848c3b71960543cb0368e56cd4c7 poteto-mode/scripts/.gitignore
 100644 d9c63e2007449a80000abe75ecaf7f2a0bd5826b poteto-mode/scripts/bootstrap.ts
@@ -97,7 +97,7 @@
 100644 1b53279c7f3e5da55703ed17d6ad0616254c5751 poteto-mode/scripts/watch-pr/types.compile.ts
 100644 60b9abcac983fc0a4319428c1be145dc110a8cc5 poteto-mode/scripts/watch-pr/types.ts
 100755 99807d577c3b006cfe6ee9e149cf2914bfd4afd6 poteto-mode/scripts/watch-pr/watch-pr
-100755 e7e29cfee992450ed6f2cc86695bf9252b09d555 poteto-mode/scripts/worktree-audit.sh
+100755 91d974dbbd74524c6f7431b9dfd50844b5772755 poteto-mode/scripts/worktree-audit.sh
 100644 213fd63a4a03acf6ddb8a72429f6032b31f9b746 poteto-mode/worker.md
 100644 978066a386273c926748621d9ab2448b90f6b416 poteto-tdd/SKILL.md
 100644 5ee25b02e701ca3e304122248a412d2372ab097c principle-attack-the-premise/SKILL.md
@@ -128,7 +128,7 @@
 100644 1bda1fe8f63c347ae7408a736ec8b35e79114ca9 pstack/SKILL.md
 100644 1965e3d17c60d02b1ff28b3cf19ad96a02c40900 pstack/agents/comment-sicko.md
 100644 e750fadb9b04e8e080553d96c0b2b734c6f69db9 pstack/agents/poteto-agent.md
-100644 35ccd9f76f52ec7afe50d139ff2ad48131f9bec9 recall/SKILL.md
+100644 762e11db1cb8decbafac197afd622500bc84ce42 recall/SKILL.md
 100644 21c07465f7d386320e739a197c58c486c439cec9 reflect/SKILL.md
 100644 f1dd2c09108dde1a5f56097cee8461b3ea834499 research/LICENSE
 100644 ffc9eb89849cc4cf74962ce93d786ffd17c6a5dc research/SKILL.md
@@ -146,7 +146,7 @@
 100644 5276464244857a3cc29890ff4a978a197b21f3fc setup-matt-pocock-skills/triage-labels.md
 100644 81b2a785aba6569611535474f55463278a03fe63 setup-pstack/SKILL.md
 100644 168c094eb4da3165edab28892cb09ea3feb0399b sharpen/SKILL.md
-100644 2cb53242e7dfffd79decb5a8f676a6317d316370 show-me-your-work/SKILL.md
+100644 9c02f2eafe0fbd8f0f6a48d9900caea478dadbe0 show-me-your-work/SKILL.md
 100644 db220376ecb8c582a6a4f6575a8f26469603a38d show-me-your-work/references/decision-log-template.tsv
 100755 052e53b7e1090579eaec1d3d59f7a1cd2f2e452a show-me-your-work/scripts/log.sh
 100644 d31c0be382181fd28f1fdcff6519470cad3b2831 statechart/SKILL.md
@@ -560,7 +560,7 @@
 100644 f659423d24c489616168096695ecfde1714bf45d statechart/scripts/test/tlc.ts
 100644 9b16905d0a049715f942bdbe4bf3a3a80be02bad statechart/scripts/tsconfig.json
 100644 9559314668f6573e17db7c278d05f5776b235ebc statechart/scripts/worker.ts
-100644 c1c4201b73fe4385d1398a658c08c6cfa067ed3d swarm/SKILL.md
+100644 7ad483d796380a5c07b5dda18372c01b936c663a swarm/SKILL.md
 100644 6146b65c4543af52c2693e844fc0ac4e4c010fae teach/SKILL.md
 100644 6977dd29c5d19e4cdc988e5c99a7127e45c2435b technical-writing/SKILL.md
 100644 e1e5aa7c97ed39c425d60d933a96424a3f14539e typescript-best-practices/SKILL.md
