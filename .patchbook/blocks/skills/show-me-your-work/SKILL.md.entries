@@ -9,12 +9,12 @@ At the end of the run, before handing back, check the log told the truth. Read t
 
 === entry 6a66e30b7aae
 kind: policy
-rules: same-model-review, delegate, transcripts
-intent: Policy: the trail reviewer runs on the same model and effort as the worker unless the user names another (rule same-model-review), so upstream's other-vendor requirement is dropped. Still applies: upstream still asks for a cross-vendor reviewer here, and a trail review is not one of the panels that compare competing work. It spawns with `delegate_task` and reads the run's transcript through this thread's ID. Upstream's "pick each subagent's reasoning level for the job" sentence is dropped, since the reviewer's effort is the worker's.
+rules: same-model-review, delegate, read-only, transcripts
+intent: Policy: the trail reviewer runs on the same model and effort as the worker unless the user names another (rule same-model-review), so upstream's other-vendor requirement is dropped. Still applies: upstream still asks for a cross-vendor reviewer here, and a trail review is not one of the panels that compare competing work. It spawns with `delegate_task` as a read-only child (the read-only brief, then `git status`) and reads the run's transcript through this thread's ID. Upstream's "pick each subagent's reasoning level for the job" sentence is dropped, since the reviewer's effort is the worker's.
 --- upstream
 Before handing back, spawn a subagent on another vendor's model than the one that did the work. Self-review is not a substitute. The subagent reads the audit trail and the run's transcript, then flags what the user should pay attention to. Not a redo of the work, a scan for what's suboptimal or risky. Pick each subagent's reasoning level for the job, per the Subagents section of the **poteto-mode** skill.
 --- patched
-Before handing back, spawn a subagent with `delegate_task` on the same model and effort as the one that did the work, unless the user named another. Self-review is not a substitute. The subagent reads the audit trail and the run's transcript (give it this thread's ID to read with `t3_thread_read`), then flags what the user should pay attention to. Not a redo of the work, a scan for what's suboptimal or risky.
+Before handing back, spawn a subagent with `delegate_task` on the same model and effort as the one that did the work, unless the user named another. Self-review is not a substitute. The subagent reads the audit trail and the run's transcript (give it this thread's ID to read with `t3_thread_read`), then flags what the user should pay attention to. Its brief says "Do not edit, create, commit, or push files.", and you run `git status` after it finishes. Not a redo of the work, a scan for what's suboptimal or risky.
 
 === entry 8e56eb83c511
 kind: translation
