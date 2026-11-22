@@ -1,8 +1,8 @@
 === entry a58adc5488ce
 kind: translation
-rules: delegate, general-purpose, read-only, model-role, model-unnamed
-intent: Upstream merged explorers and explainers into one read-only subagent and names no model for it. It becomes one read-only delegate_task child sharing the checkout, on the `judgment and prose` line of the project models file, else willyskills's default (rule model-unnamed: an unnamed spawn that is not fast-cheap, mechanical, or hardest-task work). Preserve the one-pass explore-and-explain spawn and that the quoted brief follows.
+rules: capabilities, delegate, general-purpose, read-only, model-role, model-unnamed
+intent: Upstream merged explorers and explainers into one read-only subagent and names no model for it. It becomes one read-only delegate_task child sharing the checkout, spawned after orchestrator_capabilities, with its taskId and childThreadId kept, on the `judgment and prose` line of the project models file, else willyskills's default (rule model-unnamed: an unnamed spawn that is not fast-cheap, mechanical, or hardest-task work). Preserve the one-pass explore-and-explain spawn and that the quoted brief follows.
 --- upstream
 Spawn one Task subagent with `subagent_type: generalPurpose` and `readonly: true` that explores and explains in one pass. Give it the user's question and this brief:
 --- patched
-Spawn one `delegate_task` child that explores and explains in one pass, on the `judgment and prose` line in {{snippet:models-file}}, else {{model:judgment and prose}}. {{snippet:model-entry}} Give it its own `clientRequestId` and no `isolation`, and run `git status` afterward. Its `task` holds the user's question, the line "Do not edit, create, commit, or push files.", and this brief:
+Call `orchestrator_capabilities` once, then spawn one `delegate_task` child that explores and explains in one pass, on the `judgment and prose` line in {{snippet:models-file}}, else {{model:judgment and prose}}. {{snippet:model-entry}} Give it its own `clientRequestId` and no `isolation`, keep the returned `taskId` and `childThreadId`, and run `git status` afterward. Its `task` holds the user's question, the line "Do not edit, create, commit, or push files.", and this brief:
