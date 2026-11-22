@@ -19,7 +19,7 @@ Every candidate gets the same prompt, so the prompt is the contract.
 
 ## Phase B: Fan out
 
-Spawn all N subagents in one message: N `delegate_task` calls with `mode: "async"`, each with its own `clientRequestId` and, when its output location is a worktree, `isolation: "worktree"`. A worktree starts from the parent's current local commit without uncommitted edits, so commit the shared grounding first or give it by absolute path. Each `task` holds the whole brief: the task, the path to the shared grounding, its own output path, and instructions to produce the artifact and a short rationale naming the alternatives it considered and what it rejected. Keep each `taskId` and `childThreadId`. Each completion wakes this thread, so end the turn instead of polling.
+Spawn all N subagents in one message: N `delegate_task` calls with `mode: "async"`, each with its own `clientRequestId` and `isolation: "worktree"`, since every candidate writes. Only outside a git repository, where the output location is `/tmp/arena-<slug>/candidate-<n>/`, does a candidate share the checkout. A worktree starts from the parent's current local commit without uncommitted edits, so commit the shared grounding first or give it by absolute path. Each `task` holds the whole brief: the task, the path to the shared grounding, its own output path, and instructions to produce the artifact and a short rationale naming the alternatives it considered and what it rejected. Keep each `taskId` and `childThreadId`. Each completion wakes this thread, so end the turn instead of polling.
 
 If a candidate produces no output, proceed with N-1 and note the dropout.
 
