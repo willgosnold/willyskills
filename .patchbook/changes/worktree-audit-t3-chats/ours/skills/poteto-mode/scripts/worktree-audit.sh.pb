@@ -69,18 +69,27 @@ elif raw=$(gh pr list --author "@me" --state all --limit 1000 \
 fi
 [ -s "$prs" ] || echo "[]" > "$prs"
 
-# Chat transcripts. Claude Code keeps one folder per working directory under
-# ~/.claude/projects, named after the path with every other character as "-".
-# Codex records each session's cwd in its rollout files. T3 sets CODEX_HOME for
-# its own Codex, so look in every ~/.codex* home as well.
+# Chat transcripts. Claude Code and Codex record each session's working
+# directory as "cwd" in its JSONL transcript. Claude Code keeps them under
+# ~/.claude/projects, subagent transcripts included, and a subagent's file sits
+# in its parent's folder even when it ran in another worktree, so match on the
+# recorded cwd, not the folder. T3 sets CODEX_HOME for its own Codex, so look in
+# every ~/.codex* home as well. Index every (mtime, cwd) pair once.
 mtime() { stat -c %Y "$1" 2>/dev/null || stat -f %m "$1" 2>/dev/null; }
 claude_projects="${CLAUDE_CONFIG_DIR:-$HOME/.claude}/projects"
-codex_rollouts=$(mktemp)
-for home in "${CODEX_HOME:-}" "$HOME"/.codex "$HOME"/.codex-*; do
-	[ -n "$home" ] && [ -d "$home/sessions" ] && (cd "$home/sessions" && pwd -P)
-done | sort -u | while read -r sessions; do
-	find "$sessions" -name 'rollout-*.jsonl' -mtime -30 2>/dev/null
-done > "$codex_rollouts"
+chats=$(mktemp)
+while IFS= read -r -d '' f; do
+	ts=$(mtime "$f")
+	grep -o '"cwd":"[^"]*"' "$f" 2>/dev/null | sort -u \
+		| sed 's/^"cwd":"//; s/"$//' | awk -v ts="${ts:-0}" '{print ts "\t" $0}'
+done < <(
+	[ -d "$claude_projects" ] && find "$claude_projects" -name '*.jsonl' -print0 2>/dev/null
+	for home in "${CODEX_HOME:-}" "$HOME"/.codex "$HOME"/.codex-*; do
+		[ -n "$home" ] && [ -d "$home/sessions" ] && (cd "$home/sessions" && pwd -P)
+	done | sort -u | while IFS= read -r sessions; do
+		find "$sessions" -name 'rollout-*.jsonl' -print0 2>/dev/null
+	done
+) > "$chats"
 now=$(date +%s)
 
 echo "# base: $base"
@@ -117,25 +126,10 @@ git worktree list --porcelain | sed -n 's/^worktree //p' | while IFS= read -r wt
 		'.[] | select(.head==$b) | "#\(.number)/\(.state)"' "$prs" 2>/dev/null | head -1)
 	[ -z "$pr" ] && pr="-"
 
-	# Most recent agent chat that ran in this worktree or below it.
-	last="-"; last_ts=0
-	slug=$(printf '%s' "$wt" | sed 's#[^A-Za-z0-9]#-#g')
-	# Claude Code keeps a chat's subagent transcripts in <session>/subagents/
-	# below its folder. A chat started in a subfolder has its own folder,
-	# "$slug-<rest>", which a sibling worktree such as glint-482-r37 also
-	# matches, so check its cwd. One path per line, so spaces survive.
-	while IFS= read -r f; do
-		[ -f "$f" ] || continue
-		ts=$(mtime "$f")
-		[ "${ts:-0}" -gt "$last_ts" ] && last_ts=$ts
-	done < <(
-		[ -d "$claude_projects/$slug" ] && find "$claude_projects/$slug" -name '*.jsonl' 2>/dev/null
-		for d in "$claude_projects/$slug"-*/; do
-			[ -d "$d" ] && find "$d" -name '*.jsonl' -exec grep -l -F -e "\"cwd\":\"${wt}/" {} + 2>/dev/null
-		done
-		[ -s "$codex_rollouts" ] && tr '\n' '\0' < "$codex_rollouts" \
-			| xargs -0 grep -l -F -e "\"cwd\":\"${wt}\"" -e "\"cwd\":\"${wt}/" 2>/dev/null
-	)
+	# Most recent agent chat whose recorded cwd is this worktree or below it.
+	# Matching "$wt/" keeps glint-482 from matching glint-482-r37.
+	last="-"
+	last_ts=$(WT="$wt" awk -F'\t' '($2 == ENVIRON["WT"] || index($2, ENVIRON["WT"] "/") == 1) && $1 > m { m = $1 } END { print m + 0 }' "$chats")
 	[ "$last_ts" -gt 0 ] && last=$(fmt_day "$last_ts" 2>/dev/null)
 	recent=$([ "$last_ts" -gt 0 ] 2>/dev/null && [ $(( (now - last_ts) / 86400 )) -le 4 ] && echo yes || echo no)
 
@@ -151,4 +145,4 @@ git worktree list --porcelain | sed -n 's/^worktree //p' | while IFS= read -r wt
 		"$size" "$age" "$merged" "$dirty" "$remote" "$pr" "$last" "$bucket" "$wt"
 done | sort -t$'\t' -k1,1 -rh
 
-rm -f "$prs" "$codex_rollouts"
+rm -f "$prs" "$chats"
