@@ -2,6 +2,12 @@
 
 Patches that no longer apply, newest first. Each keeps its intent and says why it was retired.
 
+## skills/poteto-mode/playbooks/runtime-forensics.md 135b89dd7690 (translation)
+
+intent: Replaces picking a reasoning level and fast or standard speed with the effort ceiling from the role's models-file line: lower it for routine work, never raise it. Keep the pointer to the Subagents section and every step unchanged.
+
+Retired at pstack 7a58391: upstream's sentence dropped 'fast or standard speed' and now only defers to the Subagents section, which carries the effort ceiling, so the block has no Cursor term left to translate.
+
 ## skills/poteto-mode/playbooks/orchestrate.md 25ab709f3f5f (translation)
 
 intent: Coordinator spawns, resumes, and drains agents only through T3's task tools, and sets effort under the role line's ceiling. Workers and verifiers that write default to their own worktree the way upstream defaulted them to cloud, and the list of reasons to stay on this machine becomes a note that every child runs here; the 'cloud agents cannot read the local store' clause becomes 'briefs give the store's absolute path'. The verifier's different model family comes from the cross-judge pool. Preserve the three-layer roles, the never-edits-code rule, the rolling window cap, and one writer per worktree. Policy: verifiers run on their worker's model and effort (rule same-model-review).
