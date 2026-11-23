@@ -28,11 +28,11 @@ The defaults are the role entries listed in step 5 below. If that file already e
 === entry 37ded065fd50
 kind: translation
 rules: ask, setup-pstack
-intent: Asks for the budget in plain text and ends the turn; with no models file, names the budget whose effort matches the defaults instead of hard-coding one, since the defaults in models.json are not all at one effort. Keep the three exact labels.
+intent: Asks for the budget in plain text and ends the turn; with no models file, it says the defaults mix `high` and `xhigh`, so every budget changes some of them, in place of upstream's "`large` matches the skill defaults", since the willyskills defaults in models.json are not all at one effort. Keep the three exact labels.
 --- upstream
 **(a) Ask for a budget.** Prefer AskQuestion over free text. Offer these three options with these exact labels, and name the current budget when the rule records one. With no rule, say that `large` matches the skill defaults.
 --- patched
-**(a) Ask for a budget.** Ask in plain text, then end the turn. Offer these three options with these exact labels, and name the current budget when the file records one. With no models file, name the budget whose effort matches the defaults in step 5.
+**(a) Ask for a budget.** Ask in plain text, then end the turn. Offer these three options with these exact labels, and name the current budget when the file records one. With no models file, say that the defaults in step 5 mix `high` and `xhigh`, so every budget changes some of them.
 
 === entry 6e7a8f513131
 kind: translation
