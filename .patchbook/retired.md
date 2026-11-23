@@ -2,6 +2,30 @@
 
 Patches that no longer apply, newest first. Each keeps its intent and says why it was retired.
 
+## skills/interrogate/SKILL.md fc18e66f1474 (translation)
+
+intent: The default table comes from willyskills's `interrogate reviewers` role. The placeholder expands to a list, so one row covers all reviewers in order. Preserve the table form.
+
+Retired at pstack 7a58391: upstream removed the default-model table; adversaries now take their models through the arena skill's Phase A step 3.
+
+## skills/interrogate/SKILL.md 2df50e629aaa (translation)
+
+intent: Each reviewer is a read-only child sharing the checkout, with `target` from its entry per the model-entry snippet (inherit-parent omits target). Preserve configured-entry-else-default.
+
+Retired at pstack 7a58391: upstream's adversaries now write repros in their own worktrees through arena Phase B, so the read-only reviewer settings are gone; the `generalPurpose` omission carries into entry 396b0b06eb52.
+
+## skills/interrogate/SKILL.md 6f513b774653 (translation)
+
+intent: Deleted: the whole block is the rejected-slug and family-prefix fallback, which model-role drops (orchestrator_capabilities lists what exists). If upstream adds non-fallback guidance here, keep that part.
+
+Retired at pstack 7a58391: upstream removed the rejected-slug and family-prefix fallback block.
+
+## skills/interrogate/SKILL.md 9cd5262f18c2 (translation)
+
+intent: Replaces picking a reasoning level and fast or standard speed with the effort ceiling from the role's models-file line: lower it for routine work, never raise it. Keep the pointer to the Subagents section and the shared reviewer template.
+
+Retired at pstack 7a58391: upstream removed the reviewer-prompt, rubric and code-quality references and the reasoning-and-speed sentence with them.
+
 ## skills/figure-it-out/SKILL.md bb548e38e218 (translation)
 
 intent: Replaces picking a reasoning level and fast or standard speed with the effort ceiling from the role's models-file line: lower it for routine work, never raise it. Keep the pointer to the Subagents section and the rest of the bullet list unchanged.
