@@ -2,6 +2,12 @@
 
 Patches that no longer apply, newest first. Each keeps its intent and says why it was retired.
 
+## skills/poteto-mode/playbooks/trace-forensics.md 8cbbfab0cb96 (translation)
+
+intent: Replaces picking a reasoning level and fast or standard speed with the effort ceiling from the role's models-file line: lower it for routine work, never raise it. Keep the pointer to the Subagents section and every step unchanged.
+
+Retired at pstack 7a58391: upstream's sentence dropped 'fast or standard speed' and now only defers to the Subagents section, which carries the effort ceiling, so the block has no Cursor term left to translate.
+
 ## skills/poteto-mode/playbooks/runtime-forensics.md 135b89dd7690 (translation)
 
 intent: Replaces picking a reasoning level and fast or standard speed with the effort ceiling from the role's models-file line: lower it for routine work, never raise it. Keep the pointer to the Subagents section and every step unchanged.
