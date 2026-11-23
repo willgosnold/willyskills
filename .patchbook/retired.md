@@ -2,6 +2,12 @@
 
 Patches that no longer apply, newest first. Each keeps its intent and says why it was retired.
 
+## skills/figure-it-out/SKILL.md bb548e38e218 (translation)
+
+intent: Replaces picking a reasoning level and fast or standard speed with the effort ceiling from the role's models-file line: lower it for routine work, never raise it. Keep the pointer to the Subagents section and the rest of the bullet list unchanged.
+
+Retired at pstack 7a58391: upstream dropped "and fast or standard speed", and the remaining "pick each subagent's reasoning level" defers to poteto-mode's Subagents section, whose patched text already makes the line's effort a ceiling.
+
 ## skills/architect/SKILL.md bcaf34d31ad8 (translation)
 
 intent: Opens the visible phase list in T3's terms (update_plan in Codex, the reply in Claude Code) and keeps it current. Preserve that it opens before starting, with one entry per phase.
