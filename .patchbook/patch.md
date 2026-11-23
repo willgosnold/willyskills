@@ -52,7 +52,7 @@ T3: `delegate_task`, with the whole brief in `task`. Give each spawn its own `cl
 ### agent-brief
 Intent: pstack's named agents are prompt files, not agent types.
 Cursor: `subagent_type: "poteto-agent"`, `subagent_type: "comment-sicko"`.
-T3: no type field. The brief starts: "Read `<abs>/pstack/agents/<name>.md` and act as that agent." For poteto-agent, add "The poteto-mode skill is at `<abs>/poteto-mode/SKILL.md`." The pstack skills sit side by side, so `pstack/` is a sibling of the current skill's folder. Briefs use absolute paths.
+T3: no type field. The brief starts: "Read `<abs>/pstack/agents/<name>.md` and act as that agent." When the poteto-mode skill is running, its `worker.md` line comes first and this line follows it. For poteto-agent, add "The poteto-mode skill is at `<abs>/poteto-mode/SKILL.md`." The pstack skills sit side by side, so `pstack/` is a sibling of the current skill's folder. Briefs use absolute paths.
 
 ### general-purpose
 Intent: the default agent needs no field.
