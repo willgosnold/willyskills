@@ -2,6 +2,18 @@
 
 Patches that no longer apply, newest first. Each keeps its intent and says why it was retired.
 
+## skills/poteto-mode/playbooks/babysit.md 303f48cdd024 (translation)
+
+intent: Dropped the sentence about not routing to Cursor's built-in babysit skill; T3 has none. Keep the opening claim and the hand-off to playbooks/shipping.md.
+
+Retired at pstack 7a58391: upstream dropped the sentence about Cursor's built-in babysit skill, so there is nothing left to remove.
+
+## skills/poteto-mode/playbooks/babysit.md e971fea959f8 (translation)
+
+intent: drive and background run on wakes from watch_pull_request on the frontier plus a 30-minute schedule_task heartbeat (a merge ends the watch without a wake); each wake re-runs the watcher, which stays the source of the verdict. Keep rearm-after-every-push-wave, the no-second-sleep-loop rule, and unwatching before handing work back.
+
+Retired at pstack 7a58391: upstream cut the playbook to six bullets and dropped the 'run drive and background under /loop in dynamic mode' step, so no wake mechanism or Cursor term is left to translate.
+
 ## skills/poteto-mode/SKILL.md 1bec9809dcd4 (translation)
 
 intent: Drops the cloud-agent URL from Session pickup's sources and the Cursor restart from Pause safely's triggers, and rewrites the quoted user phrase "/loop until X" as "keep going until X". Every playbook name and description otherwise stays verbatim, since routing matches on them.
