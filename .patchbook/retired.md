@@ -2,6 +2,36 @@
 
 Patches that no longer apply, newest first. Each keeps its intent and says why it was retired.
 
+## skills/poteto-mode/playbooks/orchestrate.md 25ab709f3f5f (translation)
+
+intent: Coordinator spawns, resumes, and drains agents only through T3's task tools, and sets effort under the role line's ceiling. Workers and verifiers that write default to their own worktree the way upstream defaulted them to cloud, and the list of reasons to stay on this machine becomes a note that every child runs here; the 'cloud agents cannot read the local store' clause becomes 'briefs give the store's absolute path'. The verifier's different model family comes from the cross-judge pool. Preserve the three-layer roles, the never-edits-code rule, the rolling window cap, and one writer per worktree. Policy: verifiers run on their worker's model and effort (rule same-model-review).
+
+Retired at pstack 7a58391: upstream deleted playbooks/orchestrate.md, and no surviving file carries this text.
+
+## skills/poteto-mode/playbooks/orchestrate.md 850c1a1d2385 (translation)
+
+intent: The read-only liveness probe uses `task_status`, which reads state without waking the agent. The Cursor-restart bullet becomes a T3 restart: no rule covers it, so it keeps upstream's recovery steps and drops the local-versus-cloud split, since every child runs on this machine and its worktree and pushed branches outlive the session. Preserve never resuming to check on an agent, the retry-by-mode table, and reattaching by PR and branch rather than agent id.
+
+Retired at pstack 7a58391: upstream deleted playbooks/orchestrate.md, and no surviving file carries this text.
+
+## skills/poteto-mode/playbooks/orchestrate.md da6d7e9ea334 (translation)
+
+intent: Every child runs in a worktree on this machine, so the lost-work example is a worktree removed or the machine dying, not a cloud VM. Keep the rule that output is externalized the moment it lands, and the three examples of externalizing.
+
+Retired at pstack 7a58391: upstream deleted playbooks/orchestrate.md, and no surviving file carries this text.
+
+## skills/poteto-mode/playbooks/orchestrate.md a3856a70a3d4 (policy)
+
+intent: Policy: a dedicated verifier runs on its worker's model, not a different family, unless the user names another (rule same-model-review).
+
+Retired at pstack 7a58391: upstream deleted playbooks/orchestrate.md, and no surviving file carries this text.
+
+## skills/poteto-mode/playbooks/orchestrate.md 46658be16fff (policy)
+
+intent: Reload the orchestrator after auto-compaction. The frontmatter PreToolUse hook records the coordinator's session id once; the project's settings.json SessionStart compact hook (a compact hook in skill frontmatter does not fire) prints a reload directive and the state file for that session only. The Orchestrate playbook names the state file the coordinator keeps current, and references/compact-reload.md holds the settings snippet and script.
+
+Retired at pstack 7a58391: upstream deleted playbooks/orchestrate.md along with its state-file list, so there is no block left to name the orchestrator state file in; the reload-the-orchestrator-after change (frontmatter hook and references/compact-reload.md) is with the user as a separate decision, and if it is kept, the state file needs a new home in a surviving block.
+
 ## skills/poteto-mode/playbooks/opening-a-pr.md 49969656b7a9 (translation)
 
 intent: Parallel writers on one branch are `delegate_task` calls with `isolation: "worktree"`, which copies only committed work. Preserves the worktree-off-main rule, the reset alternative, and the dirty and snarled worktree recoveries.
