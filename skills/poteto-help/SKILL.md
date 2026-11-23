@@ -45,18 +45,18 @@ If cost is the worry, say where the tokens go and how to spend fewer. pstack spe
 
 pstack is built for T3 Code, running Claude Code or Codex.
 
-Other tools can read the skills, because they use the Agent Skills format. But most workflow skills, including **poteto-mode**, **how**, **why**, and **teach**, spawn T3 child tasks with per-role models, and scheduled tasks are a T3 feature, so those parts may not work there.
+Other tools can read the skills, because they use the Agent Skills format. But most workflow skills, including **poteto-mode**, **how**, and **teach**, spawn T3 child tasks, some with per-role models, and scheduled tasks are a T3 feature, so those parts may not work there.
 
 ## Start a task with `/poteto-mode` (`$poteto-mode` in Codex)
 
-The **poteto-mode** skill matches the task to a playbook, copies the playbook's steps into a visible step list (`update_plan` in Codex, the reply in Claude Code), and runs the other skills as the steps need them. A step it skips stays in the list as `skip: <reason>`. A good prompt states the goal and how to tell it's done. It doesn't list skills, because a hand-written sequence tends to drop or reorder steps the playbook would keep. Read [`references/prompting.md`](references/prompting.md) before you help word one.
+The **poteto-mode** skill matches the task to a playbook, copies the playbook's steps into a visible step list (`update_plan` in Codex, the reply in Claude Code), and runs the other skills as the steps need them. A good prompt states the goal and how to tell it's done. It doesn't list skills, because a hand-written sequence tends to drop or reorder steps the playbook would keep. Read [`references/prompting.md`](references/prompting.md) before you help word one.
 
 Whether the **poteto-mode** skill stays on depends on how the user starts it:
 
 - Enter on `/poteto-mode` (`$poteto-mode` in Codex) attaches the skill to one message. It fades as the chat moves on.
 - To keep it on, start each new task with `/poteto-mode`.
 
-Mid-chat, "new task" makes the mode match a fresh playbook. The **poteto-mode** skill already uses `poteto-agent` for the subagents its playbook steps spawn. To get the same style from a subagent of your own, start its brief with "Read `<abs>/pstack/agents/poteto-agent.md` and act as that agent. The poteto-mode skill is at `<abs>/poteto-mode/SKILL.md`.", where `<abs>` is the absolute path of the folder that holds the pstack skills (resolve `..` from this skill's folder).
+Mid-chat, "new task" makes the mode match a fresh playbook. The **poteto-mode** skill already uses `poteto-agent` for the subagents its playbook steps spawn. To get the same style from a subagent of your own, start its brief, right after the `worker.md` line when poteto-mode is running, with "Read `<abs>/pstack/agents/poteto-agent.md` and act as that agent. The poteto-mode skill is at `<abs>/poteto-mode/SKILL.md`.", where `<abs>` is the absolute path of the folder that holds the pstack skills (resolve `..` from this skill's folder).
 
 ## Pick a skill
 
@@ -74,6 +74,7 @@ In Codex, start with `$` instead of `/`.
 | Understand a change or subsystem, explained plainly | [`/teach`](../teach/SKILL.md) |
 | Catch up on their own recent work on a topic | [`/recall`](../recall/SKILL.md) |
 | Catch up on what changed in this chat since their last message, in plain words and small visuals, with every item waiting on them listed and decidable from the reply alone | [`/ketchup`](../ketchup/SKILL.md) |
+| Catch up like `/ketchup`, in a short subtitled video of slides, with the waiting calls as text under it | [`/ketchup-video`](../ketchup-video/SKILL.md) |
 | Know what a small diff could break outside itself | [`/blast-radius`](../blast-radius/SKILL.md) |
 | Settle types and module shape before code that crosses a function boundary | [`/architect`](../architect/SKILL.md) |
 | Get several attempts at one brief, merged into the best one | [`/arena`](../arena/SKILL.md) |
@@ -89,6 +90,7 @@ In Codex, start with `$` instead of `/`.
 | Bring a verification skill and its feature map back in line with the app | [`/maintain-verification-skill`](../maintain-verification-skill/SKILL.md) |
 | Formally verify a race, invariant, or other property that tests rarely reach | [`/create-formal-verification-skill`](../create-formal-verification-skill/SKILL.md) |
 | Bring a formal verification back in line after the code it covers changed, and learn whether a failure is drift or a bug | [`/maintain-formal-verification-skill`](../maintain-formal-verification-skill/SKILL.md) |
+| Show a PM or designer what the user sees as a chart checked by a TLA+ model, with the shortest path to each state that breaks a rule | [`/statechart`](../statechart/SKILL.md) |
 | Vet a performance number before reporting or acting on it | [`/benchmark-checklist`](../benchmark-checklist/SKILL.md) |
 | Run a large or cross-cutting change, or one to review after stepping away | [`/figure-it-out`](../figure-it-out/SKILL.md) |
 | Keep a decision log during a run, and review it afterward | [`/show-me-your-work`](../show-me-your-work/SKILL.md) |
@@ -105,16 +107,15 @@ Close calls:
 
 - **how** explains what the code does. **why** explains the reasons. **teach** runs one or both and explains the result plainly.
 - **arena** gives every worker the same brief and merges the best parts. **swarm** splits work into slices or a race and returns one report.
-- **architect** implements right after it settles the design. Add "with checkpoint" to review the design before it writes code.
 - **interrogate** reviews the diff. **blast-radius** looks for breakage outside the diff and proves the one fact that makes the change safe.
 - **recall** rebuilds context across recent chats. **ketchup** covers only this chat since the user's last message. Resuming one specific chat or branch is the Session pickup playbook.
-- **figure-it-out** designs one rigorous run. The Orchestrate playbook runs a program that spans days and many PRs. The Autonomous run playbook drives one task to a finish condition.
+- **figure-it-out** designs one rigorous run. The Autonomous run playbook drives one task to a finish condition.
 
 Not in pstack:
 
 - `/deslop` ships separately, if it is installed. To drive the app, agents use the project's own verification skill, T3's `preview_*` tools for a UI, or the shell for a CLI.
 - Repeating work on a timer uses T3's scheduled tasks (`schedule_task`), not a pstack skill.
-- pstack has no `/orchestrate` skill. Orchestrate is a playbook in the **poteto-mode** skill. If the slash menu shows `/orchestrate`, another plugin provides it.
+- pstack has no `/orchestrate` skill. If the slash menu shows `/orchestrate`, another plugin provides it.
 
 ## Playbooks and principles
 
@@ -124,10 +125,10 @@ Playbooks are step lists inside the **poteto-mode** skill, not skills, so they h
 - "land the stack" runs Shipping.
 - "take over this branch" runs Session pickup.
 - "pause safely" runs Pause safely.
-- "full autopilot on this queue" runs Autopilot-full. "stack them, don't ship" runs Autopilot-stack.
+- "full autopilot on this queue" runs Autopilot-full. "autopilot, don't merge" runs Autopilot-stack.
 - "run the eval playbook" runs Eval.
 
-Without the **poteto-mode** skill, a phrase such as "babysit this pr" can start another installed skill for the same job instead. The Playbooks section of [`poteto-mode`](../poteto-mode/SKILL.md) lists every playbook and when it applies.
+Without the **poteto-mode** skill, a phrase such as "babysit this pr" can start another installed skill for the same job instead. The Playbooks section of [`poteto-mode`](../poteto-mode/SKILL.md) lists every playbook.
 
 pstack has no planning skill. T3's plan mode works alongside it. For work that spans phases or stacked PRs, asking `/poteto-mode` (`$poteto-mode` in Codex) for a plan runs the [Multi-phase plan playbook](../poteto-mode/playbooks/multi-phase-plan.md), which writes the plan and doesn't implement it. For a design question, the Prototype playbook or the **architect** skill settles it in code first.
 
