@@ -2,6 +2,36 @@
 
 Patches that no longer apply, newest first. Each keeps its intent and says why it was retired.
 
+## skills/why/SKILL.md 1dee5fd9349d (translation)
+
+intent: Every spawn takes its model from its role line in the project models file, else the role's willyskills default, applied as the model-entry snippet says. Drops the rejected-slug fallbacks; the poteto-mode pointer now only lowers effort within the line's ceiling.
+
+Retired at pstack 7a58391: upstream cut why to one paragraph that spawns no subagents, so there are no role lines to apply.
+
+## skills/why/SKILL.md 68051d8304d7 (translation)
+
+intent: Every spawn is a plain `delegate_task` that keeps full tool and MCP access; never narrowing `runtimeMode` replaces "do not use readonly/Ask mode". Keeps the reason (MCP-backed investigators and citation spot-checks) and that investigators write nothing, now enforced by the brief and a `git status` check.
+
+Retired at pstack 7a58391: upstream cut why to one paragraph that spawns no subagents.
+
+## skills/why/SKILL.md e13a8a92d392 (translation)
+
+intent: The available MCP servers are the MCP tools in this agent's tool list. Drops the available-tools map and the `mcps/` folder.
+
+Retired at pstack 7a58391: upstream removed the MCP discovery step and its `mcps/` folder.
+
+## skills/why/SKILL.md 9aad2f123d9c (translation)
+
+intent: Investigators spawn as one `delegate_task` per category in a single message, each owning one MCP, with the model from the `why investigators` line, else its willyskills default.
+
+Retired at pstack 7a58391: upstream removed the parallel investigators and the `why investigators` role.
+
+## skills/why/SKILL.md 9ea9cff1882e (translation)
+
+intent: The synthesizer takes its model from the `why synthesizer` line, else its willyskills default. The list of what it gets is unchanged.
+
+Retired at pstack 7a58391: upstream removed the synthesizer and the `why synthesizer` role.
+
 ## skills/reflect/SKILL.md 1fcdeb5e787b (translation)
 
 intent: Deletes the command that lists transcript files. The thread ID from the step above names the transcript directly, so there is nothing to list.
