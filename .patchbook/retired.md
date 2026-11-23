@@ -2,6 +2,12 @@
 
 Patches that no longer apply, newest first. Each keeps its intent and says why it was retired.
 
+## skills/poteto-mode/SKILL.md 1bec9809dcd4 (translation)
+
+intent: Drops the cloud-agent URL from Session pickup's sources and the Cursor restart from Pause safely's triggers, and rewrites the quoted user phrase "/loop until X" as "keep going until X". Every playbook name and description otherwise stays verbatim, since routing matches on them.
+
+Retired at pstack 7a58391: upstream replaced the described playbook list with a bare list of playbook names that holds no Cursor term, so there is nothing left to translate.
+
 ## skills/interrogate/SKILL.md fc18e66f1474 (translation)
 
 intent: The default table comes from willyskills's `interrogate reviewers` role. The placeholder expands to a list, so one row covers all reviewers in order. Preserve the table form.
