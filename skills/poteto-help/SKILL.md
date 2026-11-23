@@ -56,7 +56,7 @@ Whether the **poteto-mode** skill stays on depends on how the user starts it:
 - Enter on `/poteto-mode` (`$poteto-mode` in Codex) attaches the skill to one message. It fades as the chat moves on.
 - To keep it on, start each new task with `/poteto-mode`.
 
-Mid-chat, "new task" makes the mode match a fresh playbook. The **poteto-mode** skill already uses `poteto-agent` for the subagents its playbook steps spawn. To get the same style from a subagent of your own, start its brief with "Read `<abs>/pstack/agents/poteto-agent.md` and act as that agent. The poteto-mode skill is at `<abs>/poteto-mode/SKILL.md`.", where `<abs>` is the absolute path of the folder that holds the pstack skills (resolve `..` from this skill's folder).
+Mid-chat, "new task" makes the mode match a fresh playbook. The **poteto-mode** skill already uses `poteto-agent` for the subagents its playbook steps spawn. To get the same style from a subagent of your own, start its brief, right after the `worker.md` line when poteto-mode is running, with "Read `<abs>/pstack/agents/poteto-agent.md` and act as that agent. The poteto-mode skill is at `<abs>/poteto-mode/SKILL.md`.", where `<abs>` is the absolute path of the folder that holds the pstack skills (resolve `..` from this skill's folder).
 
 ## Pick a skill
 

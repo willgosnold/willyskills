@@ -21,7 +21,7 @@ A `# budget: unlimited` line comes from an older setup. Before step 3, make it `
 
 ### 3. Budget, map, and confirm
 
-**(a) Ask for a budget.** Ask in plain text, then end the turn. Offer these three options with these exact labels, and name the current budget when the file records one. With no models file, name the budget whose effort matches the defaults in step 5.
+**(a) Ask for a budget.** Ask in plain text, then end the turn. Offer these three options with these exact labels, and name the current budget when the file records one. With no models file, say that the defaults in step 5 mix `high` and `xhigh`, so every budget changes some of them.
 
 - `large — xhigh reasoning`
 - `medium — high reasoning`
