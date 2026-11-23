@@ -1,26 +1,17 @@
-=== entry 49969656b7a9
-kind: translation
-rules: delegate, isolation
-intent: Parallel writers on one branch are `delegate_task` calls with `isolation: "worktree"`, which copies only committed work. Preserves the worktree-off-main rule, the reset alternative, and the dirty and snarled worktree recoveries.
---- upstream
-**Worktree.** Work from a git worktree off main. Subagents inherit it. Multiple `Task` calls on the same branch each get their own worktree, or `git fetch && git reset --hard origin/<branch>` between them. Dirty branch with unrelated work: patch out, fresh worktree, apply. Snarled worktree: reset from main, redo minimally.
---- patched
-**Worktree.** Work from a git worktree off main. Subagents inherit it. Multiple `delegate_task` calls on the same branch each get their own worktree (`isolation: "worktree"`, a checkout of the parent's current local commit, so commit first), or `git fetch && git reset --hard origin/<branch>` between them. Dirty branch with unrelated work: patch out, fresh worktree, apply. Snarled worktree: reset from main, redo minimally.
-
-=== entry 9a4d7f564f09
+=== entry ec7234b3df12
 kind: translation
 rules: team-kit, invoke
-intent: `/deslop` loses its plugin name and runs only if installed. Preserves the order (deslop before commit, no-comments before review) and the technical-writing and unslop requirements. The deslop, no-comments, technical-writing, and unslop skills are named with no slash.
+intent: `/deslop` loses its plugin name and runs only if installed, named with no slash. Preserve the worktree-off-trunk rule, the small landable commits, and deslop before commit.
 --- upstream
-**PRs.** Run `/deslop` from `cursor-team-kit` over the diff before commit and `/no-comments` before review. Write every PR title, description, and commit body with `/technical-writing` (every layer except Diátaxis, and apply the STE vocabulary rules: one word per action, keep articles, a plain verb over `-ing` where one works), then apply `/unslop`.
+Work from a git worktree off trunk, and keep unrelated work out of it. Rebase into small, landable commits. Run `/deslop` from `cursor-team-kit` over the diff before commit.
 --- patched
-**PRs.** Run the **deslop** skill, if it is installed, over the diff before commit and the **no-comments** skill before review. Write every PR title, description, and commit body with the **technical-writing** skill (every layer except Diátaxis, and apply the STE vocabulary rules: one word per action, keep articles, a plain verb over `-ing` where one works), then apply the **unslop** skill.
+Work from a git worktree off trunk, and keep unrelated work out of it. Rebase into small, landable commits. Run the **deslop** skill, if it is installed, over the diff before commit.
 
-=== entry a60ae6c65955
+=== entry 53f0e8e91cdb
 kind: translation
-rules: invoke
-intent: The subagent runs the interrogate, deslop, and no-comments skills, named with no slash. Preserve the no-babysitting default and the Autopilot owner exemption.
+rules: pr-tool, cursor-only
+intent: There is no run-provided PR tool here, so the "through the run's PR tool" clause is dropped and `gh` (or Origin's CLI) is the path, followed by `link_pull_request` once per stack layer. Preserve ready-not-draft PRs, stacking by base branch, and that opening a PR does not start a babysit.
 --- upstream
-A subagent that opens a PR runs `interrogate`, `/deslop`, and `/no-comments`, and posts the URL. It returns to the parent without babysitting, unless it is an Autopilot-full or Autopilot-stack owner. That owner's brief assigns the babysit loop and is the ask `playbooks/babysit.md` waits for. The owner starts the loop after its code-ready report, reports merge-ready or STACK-READY per its playbook, and is exempt from the rules here and in `playbooks/babysit.md` that hold babysitting until a whole stack is built.
+Stack follow-ups by base branch. Open PRs ready, through the run's PR tool with `draft: false`. Without one, use `gh pr create` without `--draft`, or `origin pr create --status open` when Origin's CLI resolves the repository. Opening a PR does not start a babysit.
 --- patched
-A subagent that opens a PR runs the **interrogate**, **deslop**, and **no-comments** skills, and posts the URL. It returns to the parent without babysitting, unless it is an Autopilot-full or Autopilot-stack owner. That owner's brief assigns the babysit loop and is the ask `playbooks/babysit.md` waits for. The owner starts the loop after its code-ready report, reports merge-ready or STACK-READY per its playbook, and is exempt from the rules here and in `playbooks/babysit.md` that hold babysitting until a whole stack is built.
+Stack follow-ups by base branch. Open PRs ready, with `gh pr create` without `--draft`, or `origin pr create --status open` when Origin's CLI resolves the repository. Right after creating each PR, call `link_pull_request` with its URL, once per stack layer. Opening a PR does not start a babysit.

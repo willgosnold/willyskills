@@ -2,6 +2,18 @@
 
 Patches that no longer apply, newest first. Each keeps its intent and says why it was retired.
 
+## skills/poteto-mode/playbooks/opening-a-pr.md 49969656b7a9 (translation)
+
+intent: Parallel writers on one branch are `delegate_task` calls with `isolation: "worktree"`, which copies only committed work. Preserves the worktree-off-main rule, the reset alternative, and the dirty and snarled worktree recoveries.
+
+Retired at pstack 7a58391: upstream replaced the Worktree paragraph with one sentence that no longer mentions parallel Task calls on one branch, so there is no spawn left to translate.
+
+## skills/poteto-mode/playbooks/opening-a-pr.md a60ae6c65955 (translation)
+
+intent: The subagent runs the interrogate, deslop, and no-comments skills, named with no slash. Preserve the no-babysitting default and the Autopilot owner exemption.
+
+Retired at pstack 7a58391: upstream dropped the paragraph on what a PR-opening subagent runs and the Autopilot owner exemption.
+
 ## skills/poteto-mode/playbooks/multi-phase-plan.md ef26c450e81f (translation)
 
 intent: Explorers are delegate_task children whose brief opens with the poteto-agent read line (absolute paths resolved from this skill's folder), and the effort pick becomes a ceiling taken from the role line, never raised; the plan file's default home is the shared pstack state folder. Keep the explicit model per the Subagents section, the file-pointer return contract, and every other step as written. Step 5 names the technical-writing and unslop skills with no slash.
