@@ -2,6 +2,30 @@
 
 Patches that no longer apply, newest first. Each keeps its intent and says why it was retired.
 
+## skills/poteto-mode/playbooks/multi-phase-plan.md ef26c450e81f (translation)
+
+intent: Explorers are delegate_task children whose brief opens with the poteto-agent read line (absolute paths resolved from this skill's folder), and the effort pick becomes a ceiling taken from the role line, never raised; the plan file's default home is the shared pstack state folder. Keep the explicit model per the Subagents section, the file-pointer return contract, and every other step as written. Step 5 names the technical-writing and unslop skills with no slash.
+
+Retired at pstack 7a58391: upstream cut the playbook to five steps; explorer subagents, the poteto-agent brief, the effort pick, and the plan file's store location are gone.
+
+## skills/poteto-mode/playbooks/multi-phase-plan.md c8af48ae5edc (translation)
+
+intent: The live lanes' model comes from the swarm workers role line in the project models file, else the willyskills default, with no hard-coded slug. Everything else in the verification rule stays verbatim.
+
+Retired at pstack 7a58391: upstream dropped the Verification section with its ten live lanes and their model, keeping only a one-line verification rule with no model choice.
+
+## skills/poteto-mode/playbooks/multi-phase-plan.md badec09370bc (translation)
+
+intent: The control skill is the project's own verification skill when it has one, else T3's preview tools for browser, Electron, and web UIs and the shell for CLIs and TUIs. Keep the per-surface pick, native mobile, two-surface lanes, and the Appendix C risk for an uncontrolled surface.
+
+Retired at pstack 7a58391: upstream dropped the Control skill section; the plan now only says each live box drives the real surface, with no Cursor control skill named.
+
+## skills/poteto-mode/playbooks/multi-phase-plan.md a1c6fc6a1a6a (translation)
+
+intent: In the plan skeleton: the hourly audit tick is an interval schedule_task (reported nextRunAt, deleted at close); PRs open through origin or gh and are linked with link_pull_request; /deslop is conditional on being installed; live lanes run in their own worktree on this machine and drive the project verification skill, preview tools, or the shell, not a cloud VM. The PR heading placeholder says 'The task' because the bare capitalized word trips the Cursor-term check (no rule covers that). Keep every heading, sub-block, box order, and the tick prompt verbatim. Rule gap: scripts/check-plan.mjs still requires the literal "/loop 1h" marker in Program checklist, so it reports a false problem until the script's marker is patched. The PR mechanics box names the deslop and no-comments skills with no slash.
+
+Retired at pstack 7a58391: upstream dropped the plan skeleton, including its hourly audit tick, PR opening, deslop step, and live-lane setup, so the check-plan-hourly-tick wording has nothing to apply to.
+
 ## skills/poteto-mode/playbooks/bug-fix.md 244bab33ef86 (translation)
 
 intent: Replaces picking a reasoning level and fast or standard speed with the effort ceiling from the role's models-file line: lower it for routine work, never raise it. Keep the pointer to the Subagents section and the ownership line.
