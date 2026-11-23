@@ -216,6 +216,6 @@ Anything that isn't one paragraph is a change in `changes/<name>/CHANGE.md`, app
 
 - **pstack-support-skill**: the subagent briefs and the LICENSE ship in a `pstack` support skill, since the `skills` CLI installs skill folders only.
 - **bun-gitignore**: `node_modules/` is gitignored beside `scripts/package.json`.
-- **check-plan-hourly-tick** and **worktree-audit-t3-chats**: whole-file edits to upstream's scripts. When upstream changes a script, sync merges it with ours; a conflict is resolved from the change's intent.
+- **worktree-audit-t3-chats**: a whole-file edit to upstream's script. When upstream changes the script, sync merges it with ours; a conflict is resolved from the change's intent.
 
 Only `skills/` ships (`[output]` in `config.toml`). Upstream's `docs/`, `automations/`, `README.md`, and `plugin.json` are for Cursor users. `hooks.ts` holds the checks a pattern can't express: each skill's `name` must be its folder name, because the `skills` CLI names the install folder after it and Codex matches `$name` against it, and `node_modules/` must be gitignored beside each `scripts/package.json`.
