@@ -2,6 +2,90 @@
 
 Patches that no longer apply, newest first. Each keeps its intent and says why it was retired.
 
+## skills/reflect/SKILL.md 1fcdeb5e787b (translation)
+
+intent: Deletes the command that lists transcript files. The thread ID from the step above names the transcript directly, so there is nothing to list.
+
+Retired at pstack 7a58391: upstream removed the command that lists transcript files.
+
+## skills/reflect/SKILL.md 612bf39b7f1c (translation)
+
+intent: Replaces the transcript-file layouts and the opening-prompt match with how the thread is read: `t3_thread_read` on `parentThreadId`, and a subagent's chat on its `childThreadId`. Keeps the fallback to a tight digest. This block has no Cursor term, but without the change it describes files that no longer exist.
+
+Retired at pstack 7a58391: upstream removed the transcript-file layouts and the opening-prompt match.
+
+## skills/reflect/SKILL.md cb36f987c82e (translation)
+
+intent: Three reviewers spawn together as three `delegate_task` calls in one message, each with its whole brief and its own `clientRequestId`. Drops the agent type and the `readonly: false` setting (the default), and keeps the reason: reviewers need MCP access to the context the transcript references.
+
+Retired at pstack 7a58391: upstream reflect no longer spawns reviewers; the parent reads the transcript itself.
+
+## skills/reflect/SKILL.md 5157161f31ee (translation)
+
+intent: Each reviewer and the synthesizer take their model from their role line in the project models file, else the default in the table, applied as the model-entry snippet says. Drops the rejected-slug fallbacks, and the poteto-mode pointer now only lowers effort within the line's ceiling.
+
+Retired at pstack 7a58391: upstream reflect no longer spawns subagents, and the reflect role lines are retired.
+
+## skills/reflect/SKILL.md ef9be67a1261 (translation)
+
+intent: The default column holds each role's willyskills default from models.json instead of a hard-coded model. Keeps the lens, role line, and template columns as they are.
+
+Retired at pstack 7a58391: upstream removed the reviewer lens table and the reflect roles it named.
+
+## skills/reflect/SKILL.md ec00188f9333 (translation)
+
+intent: The templates go verbatim as each child's `task`, with the thread reference (and how to read it) standing in for the transcript path. Reviewers return findings as their task result; each completion wakes this thread, and synthesis waits until all three have returned.
+
+Retired at pstack 7a58391: upstream removed the reviewer templates and the wait for their results.
+
+## skills/reflect/SKILL.md b18d28d636f2 (translation)
+
+intent: The synthesizer is one `delegate_task` call with its model from the `reflect judgment, divergent, synthesizer` line, else that role's default. Drops the agent type and `readonly: false`, and keeps the reason it needs MCP: spot-verifying citations.
+
+Retired at pstack 7a58391: upstream removed the synthesizer spawn; the parent now presents Accepted, Rejected and Backlog itself.
+
+## skills/reflect/SKILL.md ff502e4a2467 (translation)
+
+intent: The skill-authoring handoffs go to the `skill-creator` skill, if it is installed, which has the same draft / test / iterate and description-optimization loops. The routing label becomes `new skill via skill-creator:`, matching what the synthesizer template emits. Keep the four routes and the trivial-edit-done-directly rule.
+
+Retired at pstack 7a58391: upstream removed the routing list that handed skill edits to `create-skill`.
+
+## skills/reflect/SKILL.md bdf8364557df (translation)
+
+intent: The trigger is what the user types, so it gives both forms. Preserve the skip conditions and that one-offs are not learnings.
+
+Retired at pstack 7a58391: upstream removed the trigger paragraph with its quoted `/reflect`; the description says only "reflect".
+
+## skills/reflect/references/divergent-reviewer.md 0acd819d8733 (translation)
+
+intent: A skill counts as used when the transcript shows it read from a skill folder, loaded with `Skill` (how Claude Code opens a skill), or named in a `delegate_task` brief. The paths rule gives only the project folders; the user-level folders (`~/.agents/skills/`, `~/.claude/skills/`, `~/.claude/plugins/`, `~/.codex/skills/`) are the closest match for Cursor's user and plugin folders.
+
+Retired at pstack 7a58391: upstream deleted the file when reflect stopped spawning reviewer and synthesizer subagents.
+
+## skills/reflect/references/judgment-reviewer.md 0acd819d8733 (translation)
+
+intent: A skill counts as used when the transcript shows it read from a skill folder, loaded with `Skill` (how Claude Code opens a skill), or named in a `delegate_task` brief. The paths rule gives only the project folders; the user-level folders (`~/.agents/skills/`, `~/.claude/skills/`, `~/.claude/plugins/`, `~/.codex/skills/`) are the closest match for Cursor's user and plugin folders.
+
+Retired at pstack 7a58391: upstream deleted the file when reflect stopped spawning reviewer and synthesizer subagents.
+
+## skills/reflect/references/tooling-reviewer.md 0acd819d8733 (translation)
+
+intent: A skill counts as used when the transcript shows it read from a skill folder, loaded with `Skill` (how Claude Code opens a skill), or named in a `delegate_task` brief. The paths rule gives only the project folders; the user-level folders (`~/.agents/skills/`, `~/.claude/skills/`, `~/.claude/plugins/`, `~/.codex/skills/`) are the closest match for Cursor's user and plugin folders.
+
+Retired at pstack 7a58391: upstream deleted the file when reflect stopped spawning reviewer and synthesizer subagents.
+
+## skills/reflect/references/synthesizer.md 859b2e1104e7 (translation)
+
+intent: The new-skill route label becomes `new skill via skill-creator:`, matching reflect's SKILL.md. Keep every criterion unchanged.
+
+Retired at pstack 7a58391: upstream deleted the file when reflect stopped spawning reviewer and synthesizer subagents.
+
+## skills/reflect/references/synthesizer.md 12906bd834bb (translation)
+
+intent: The new-skill row drafts via `skill-creator` and routes as `new skill via skill-creator: <kebab-name>`, matching reflect's SKILL.md. Keep the three row shapes.
+
+Retired at pstack 7a58391: upstream deleted the file when reflect stopped spawning reviewer and synthesizer subagents.
+
 ## skills/poteto-mode/playbooks/trace-forensics.md 8cbbfab0cb96 (translation)
 
 intent: Replaces picking a reasoning level and fast or standard speed with the effort ceiling from the role's models-file line: lower it for routine work, never raise it. Keep the pointer to the Subagents section and every step unchanged.
