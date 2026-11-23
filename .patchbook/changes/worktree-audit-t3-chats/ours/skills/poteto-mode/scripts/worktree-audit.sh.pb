@@ -69,17 +69,23 @@ elif raw=$(gh pr list --author "@me" --state all --limit 1000 \
 fi
 [ -s "$prs" ] || echo "[]" > "$prs"
 
-# Chat transcripts. Claude Code keeps one folder per working directory under
-# ~/.claude/projects, named after the path with every other character as "-".
-# Codex records each session's cwd in its rollout files. T3 sets CODEX_HOME for
-# its own Codex, so look in every ~/.codex* home as well.
-claude_projects="${CLAUDE_CONFIG_DIR:-$HOME/.claude}/projects"
-codex_rollouts=$(mktemp)
-for home in "${CODEX_HOME:-}" "$HOME"/.codex "$HOME"/.codex-*; do
-	[ -n "$home" ] && [ -d "$home/sessions" ] && (cd "$home/sessions" && pwd -P)
-done | sort -u | while read -r sessions; do
-	find "$sessions" -name 'rollout-*.jsonl' -mtime -30 2>/dev/null
-done > "$codex_rollouts"
+# Chat transcripts. Claude Code keeps one JSONL file per session under
+# ~/.claude/projects, and Codex one rollout file per session under each
+# ~/.codex*/sessions (T3 sets CODEX_HOME for its own Codex). Both record every
+# working directory the session used as "cwd". Index each session once as
+# "<mtime>\t<cwd>", one line per distinct cwd, so a worktree's newest chat is
+# the newest line whose cwd is the worktree or a folder inside it.
+chats=$(mktemp)
+for home in "${CLAUDE_CONFIG_DIR:-$HOME/.claude}/projects" "${CODEX_HOME:-}" "$HOME"/.codex "$HOME"/.codex-*; do
+	[ -n "$home" ] && [ -d "$home" ] && (cd "$home" && pwd -P)
+done | sort -u | while IFS= read -r dir; do
+	find "$dir" -name '*.jsonl' -print0 2>/dev/null
+done | while IFS= read -r -d '' f; do
+	ts=$(stat "${stat_fmt[@]}" "$f" 2>/dev/null | awk '{print $1}')
+	[ -n "$ts" ] || continue
+	grep -o '"cwd": *"[^"]*"' "$f" 2>/dev/null | sed 's/^"cwd": *"//; s/"$//' | sort -u \
+		| while IFS= read -r cwd; do printf '%s\t%s\n' "$ts" "$cwd"; done
+done > "$chats"
 now=$(date +%s)
 
 echo "# base: $base"
@@ -116,15 +122,10 @@ git worktree list --porcelain | awk '/^worktree /{print $2}' | while read -r wt;
 		'.[] | select(.head==$b) | "#\(.number)/\(.state)"' "$prs" 2>/dev/null | head -1)
 	[ -z "$pr" ] && pr="-"
 
-	# Most recent agent chat that ran in this worktree or below it.
-	last="-"; last_ts=0
-	slug=$(printf '%s' "$wt" | sed 's#[^A-Za-z0-9]#-#g')
-	for f in "$claude_projects/$slug"/*.jsonl \
-		$([ -s "$codex_rollouts" ] && xargs grep -l -F -e "\"cwd\":\"${wt}\"" -e "\"cwd\":\"${wt}/" < "$codex_rollouts" 2>/dev/null); do
-		[ -f "$f" ] || continue
-		ts=$(stat "${stat_fmt[@]}" "$f" 2>/dev/null | awk '{print $1}')
-		[ "${ts:-0}" -gt "$last_ts" ] && last_ts=$ts
-	done
+	# Most recent agent chat that ran in this worktree or below it. Comparing
+	# whole paths keeps glint-482 from matching glint-482-r37.
+	last="-"
+	last_ts=$(awk -F'\t' -v wt="$wt" '($2 == wt || index($2, wt "/") == 1) && $1 > m { m = $1 } END { print m + 0 }' "$chats")
 	[ "$last_ts" -gt 0 ] && last=$(fmt_day "$last_ts" 2>/dev/null)
 	recent=$([ "$last_ts" -gt 0 ] 2>/dev/null && [ $(( (now - last_ts) / 86400 )) -le 4 ] && echo yes || echo no)
 
@@ -140,4 +141,4 @@ git worktree list --porcelain | awk '/^worktree /{print $2}' | while read -r wt;
 		"$size" "$age" "$merged" "$dirty" "$remote" "$pr" "$last" "$bucket" "$wt"
 done | sort -t$'\t' -k1,1 -rh
 
-rm -f "$prs" "$codex_rollouts"
+rm -f "$prs" "$chats"
