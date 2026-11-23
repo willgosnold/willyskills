@@ -64,7 +64,7 @@ Correct the log, not the story. The audit never edits or removes a row, even an 
 
 ## Cross-model review of the trail
 
-Before handing back, spawn a subagent with `delegate_task` on the same model and effort as the one that did the work, unless the user named another. Self-review is not a substitute. The subagent reads the audit trail and the run's transcript (give it this thread's ID to read with `t3_thread_read`), then flags what the user should pay attention to. Not a redo of the work, a scan for what's suboptimal or risky. Pick its effort for the job within that entry's ceiling, per the Subagents section of the **poteto-mode** skill.
+Before handing back, spawn a subagent with `delegate_task` on the same model and effort as the one that did the work, unless the user named another. Self-review is not a substitute. The subagent reads the audit trail and the run's transcript (give it this thread's ID to read with `t3_thread_read`), then flags what the user should pay attention to. Not a redo of the work, a scan for what's suboptimal or risky.
 
 - Decisions logged with weak or absent evidence.
 - Verification steps skipped or claimed without proof in the transcript.

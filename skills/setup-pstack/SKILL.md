@@ -15,28 +15,29 @@ Call `orchestrator_capabilities`. Each entry in `providers` lists a provider ins
 
 ### 2. Load current state
 
-The defaults are the role entries listed in step 5 below. If that file already exists, read it and treat its `# budget:` line and its role entries as the current choices. Otherwise start from those defaults. A line whose role is not in step 5, such as `how critics`, is from a retired role. Drop it.
+The defaults are the role entries listed in step 5 below. If that file already exists, read it and treat its `# budget:` line and its role entries as the current choices. Otherwise start from those defaults. A line whose role is not in step 5, such as `hardest tasks`, `architect runners`, `reflect tooling`, or `why investigators`, is from a retired role. Drop it.
+
+A `# budget: unlimited` line comes from an older setup. Before step 3, make it `large`, because no role runs above `xhigh`, and tell the user you replaced it.
 
 ### 3. Budget, map, and confirm
 
-**(a) Ask for a budget.** Ask in plain text, then end the turn. Offer these four options with these exact labels, and name the current budget when the file records one. With no models file, name the budget whose effort matches the defaults in step 5.
+**(a) Ask for a budget.** Ask in plain text, then end the turn. Offer these three options with these exact labels, and name the current budget when the file records one. With no models file, name the budget whose effort matches the defaults in step 5.
 
-- `unlimited — max reasoning`
 - `large — xhigh reasoning`
 - `medium — high reasoning`
 - `small — medium reasoning`
 
-**(b) Apply it.** Build the working table from the defaults, and on a re-run keep any role you changed by model, list, or alias (`inherit-parent`). `unlimited`, `large`, `medium`, and `small` set the effort of every real entry, panel entries included, to `max`, `xhigh`, `high`, or `medium`, on the ladder `max` > `xhigh` > `high` > `medium` > `low`. Ignore effort options off that ladder. If the model doesn't offer that effort, use the highest effort it offers below it, else mark the role as needing a choice. `inherit-parent` does not change. So under `unlimited`, a model whose efforts stop at `xhigh` runs at `xhigh`.
+**(b) Apply it.** Build the working table from the defaults, and on a re-run keep any role you changed by model, list, or alias (`inherit-parent`). `large`, `medium`, and `small` set the effort of every real entry, panel entries included, to `xhigh`, `high`, or `medium`, on the ladder `xhigh` > `high` > `medium` > `low`. No role runs above `xhigh`. Ignore effort options off that ladder. If the model doesn't offer that effort, use the highest effort it offers below it, else mark the role as needing a choice. `inherit-parent` does not change.
 
-**(c) Show the roles and confirm.** Show every role with its entries, marking any real entry not in the detected set as needing a choice. Also list each line step 2 dropped. Ask whether to accept as-is or change specific roles, offering the detected models plus `inherit-parent` (this role runs on the parent chat model) as the options. Ask in plain text, then end the turn. For panel roles (arena runners, architect runners, interrogate reviewers) the value is a list, and one subagent runs per entry, alias entries included, so the list length sets the count. `arena cross-judge pool` is also a list, but Arena selects one value from it whose model family differs from the parent's when possible. `swarm workers` is the default model for every worker unless a race or comparison assigns another model per arm.
+**(c) Show the roles and confirm.** Show every role with its entries, marking any real entry not in the detected set as needing a choice. Also list each line step 2 dropped. Ask whether to accept as-is or change specific roles, offering the detected models at `xhigh` or below plus `inherit-parent` (this role runs on the parent chat model) as the options. Ask in plain text, then end the turn. For panel roles (arena runners, interrogate reviewers) the value is a list, and one subagent runs per entry, alias entries included, so the list length sets the count. `arena cross-judge pool` is also a list, but Arena runs one judge from it, so order it by preference. `swarm workers` is the default model for every worker unless a race or comparison assigns another model per arm.
 
 ### 4. Validate
 
-Every real entry written must be a detected model with an effort that model offers. `inherit-parent` always passes. If a chosen real entry is not available, stop and ask again.
+Every real entry written must be a detected model with an effort that model offers, at `xhigh` or below. `inherit-parent` always passes. If a chosen real entry is not available, stop and ask again.
 
 ### 5. Write the models file
 
-Write that file with a `# budget:` line holding the chosen label and its target effort, and one line per role, using the role names below. Create `.agents/` if it is missing. Overwrite the whole file so re-runs stay idempotent. Shape:
+Write that file with a `# budget:` line holding the chosen label and the effort that label names, and one line per role, using the role names below. Create `.agents/` if it is missing. Overwrite the whole file so re-runs stay idempotent. Shape:
 
 ```
 # pstack model configuration. One line per role. Delete a line to fall back to the default.
@@ -52,17 +53,9 @@ The roles, in this order, with their defaults:
 - `perf-issue`: `claudeAgent/claude-haiku-5-5 xhigh`
 - `hillclimb`: `claudeAgent/claude-sonnet-5-5 high`
 - `judgment and prose`: `claudeAgent/claude-opus-5-5 high`
-- `hardest tasks`: `claudeAgent/claude-opus-5-5 xhigh`
-- `how explorer`: `claudeAgent/claude-haiku-5-5 xhigh`
-- `how explainer`: `claudeAgent/claude-opus-5-5 high`
-- `why investigators`: `claudeAgent/claude-haiku-5-5 xhigh`
-- `why synthesizer`: `claudeAgent/claude-opus-5-5 high`
-- `reflect tooling`: `claudeAgent/claude-haiku-5-5 xhigh`
-- `reflect judgment, divergent, synthesizer`: `claudeAgent/claude-opus-5-5 high`
 - `arena runners`: `claudeAgent/claude-opus-5-5 high`, `codex/gpt-6.1-sol xhigh`
 - `arena cross-judge pool`: `claudeAgent/claude-opus-5-5 high`
 - `swarm workers`: `claudeAgent/claude-haiku-5-5 xhigh`
-- `architect runners`: `claudeAgent/claude-opus-5-5 high`, `codex/gpt-6.1-sol xhigh`
 - `interrogate reviewers`: `claudeAgent/claude-opus-5-5 high`, `codex/gpt-6.1-sol xhigh`
 
 ### 6. Confirm
