@@ -1,12 +1,13 @@
-=== entry 2c1fe3e8fc20
+=== entry e4064bf46dac
 kind: translation
-rules: agent-brief, background, invoke
-intent: A poteto-agent is a brief that starts from this file, not an agent type, so substituting a plain general-purpose brief is what skips the read. `is_background` is dropped; the spawner sets `mode: "async"`. The description names both invocations of poteto-mode on first mention.
+rules: agent-brief, background, model-role, cursor-only, invoke
+intent: A poteto-agent is a brief that starts from this file, not an agent type, so substituting a plain general-purpose brief is what skips the read. `is_background` is dropped; the spawner sets `mode: "async"`. The `model` key is dropped: only Cursor reads it, and the spawner sets the delegate's `target` from the role line poteto-mode names for the task. The description names both invocations of poteto-mode on first mention.
 --- upstream
 ---
 name: poteto-agent
 description: Delegate subagent for code-writing and helper tasks spawned during a `/poteto-mode` run. Use for delegates, not as the runner for `/poteto-mode` itself. Spawn a fresh `poteto-agent` for each new task, and resume one only in the strict cases that poteto-mode's Subagents section names. Reads the `poteto-mode` skill's `SKILL.md` in full before any work, including its inline Principles index. Substituting `generalPurpose` skips that read and drifts.
 is_background: true
+model: claude-opus-5-5-xhigh-fast
 ---
 --- patched
 ---

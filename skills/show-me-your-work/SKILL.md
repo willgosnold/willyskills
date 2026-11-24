@@ -62,9 +62,9 @@ At the end of the run, before handing back, check the log told the truth. Read t
 
 Correct the log, not the story. The audit never edits or removes a row, even an invented one. When a row records neither a real decision nor a real action, or its claim or evidence is wrong, add a row that supersedes it with what actually happened and a pointer that resolves. This audit does not check rows outside this run's stretches. If this run's own work shows one of them is wrong, supersede it like any wrong call.
 
-## Cross-model review of the trail
+## Independent review of the trail
 
-Before handing back, spawn a subagent with `delegate_task` on the same model and effort as the one that did the work, unless the user named another. Self-review is not a substitute. The subagent reads the audit trail and the run's transcript (give it this thread's ID to read with `t3_thread_read`), then flags what the user should pay attention to. Not a redo of the work, a scan for what's suboptimal or risky. Pick its effort for the job within that entry's ceiling, per the Subagents section of the **poteto-mode** skill.
+Before handing back, spawn a subagent with `delegate_task` on the same model and effort as the one that did the work, unless the user named another. Self-review is not a substitute. The subagent reads the audit trail and the run's transcript (give it this thread's ID to read with `t3_thread_read`), then flags what the user should pay attention to. Its brief includes the line "Do not edit, create, commit, or push files.", and you run `git status` once it returns. Not a redo of the work, a scan for what's suboptimal or risky.
 
 - Decisions logged with weak or absent evidence.
 - Verification steps skipped or claimed without proof in the transcript.
