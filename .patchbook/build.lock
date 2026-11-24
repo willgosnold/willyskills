@@ -42,7 +42,7 @@
 100644 e17e35dbfc0f2d5fc509510649a5cdd968758984 implement/SKILL.md
 100644 f8794dc153b409052a9167baf10858cf01b36175 implement/agents/openai.yaml
 100644 eec84607e25d1c3395685fa6a7ee5a3b953a9c8b in-your-own-words/SKILL.md
-100644 0d8172c8c278f59e8f918c5e07aff17e82cbb318 interrogate/SKILL.md
+100644 746e82a8a4860cdb166d31190b2367bc4c8c2f8c interrogate/SKILL.md
 100644 27b12663af5332bfb21614fe342f1d855b901d37 ketchup-video/SKILL.md
 100644 184ddc145086f10ae4eefd48f79524af2fcc0701 ketchup/SKILL.md
 100644 8346e37cf3988ad52b86583c611fa6de3cde4bd3 maintain-formal-verification-skill/SKILL.md
@@ -57,10 +57,10 @@
 100644 bad6de5598e81a2083a75dedf8e4e29273255de4 poteto-help/SKILL.md
 100644 28e541a9abcb9e0c772cc3cc8fdcfcefaa4ac7f0 poteto-help/references/prompting.md
 100644 897a01cabf2b01153882c96223285f28a59cf724 poteto-help/references/recipes.md
-100644 6e9a50cda9e992043234bb24c9b5fa00d039ab19 poteto-mode/SKILL.md
+100644 dd6c0f4629a4099b4c0bdae3ac25ed05f68e4612 poteto-mode/SKILL.md
 100644 4325be8e29e26cebfc8fb359794bf95048bd8093 poteto-mode/playbooks/authoring-a-skill.md
 100644 9c8c53b4f33d7817cbb254546cd69f10bbbde944 poteto-mode/playbooks/autonomous-run.md
-100644 8e5be3f29a2004e5b5c65e8c23d663c2574c8327 poteto-mode/playbooks/autopilot-full.md
+100644 16052b5b1a279845a09b75b339856a9e5fc847b2 poteto-mode/playbooks/autopilot-full.md
 100644 2cca41205ce59089b2a61f9691e0f46c572a0e04 poteto-mode/playbooks/autopilot-stack.md
 100644 3219b50c06ba57367dbdfe3264b2025392cabf47 poteto-mode/playbooks/babysit.md
 100644 4ff22878f544a6628609eeaf9e3b6dafc17c3fa0 poteto-mode/playbooks/bug-fix.md
@@ -129,7 +129,7 @@
 100644 1bda1fe8f63c347ae7408a736ec8b35e79114ca9 pstack/SKILL.md
 100644 1965e3d17c60d02b1ff28b3cf19ad96a02c40900 pstack/agents/comment-sicko.md
 100644 e750fadb9b04e8e080553d96c0b2b734c6f69db9 pstack/agents/poteto-agent.md
-100644 80fc87e1d062ef7f7eaaa24663fb9081375f983a recall/SKILL.md
+100644 a6aad978f39a55041cdd562de9c66c0073250e11 recall/SKILL.md
 100644 58ada6b50e44ddf588d3efb8eec318e76cd02129 reflect/SKILL.md
 100644 9809d459dc82812e3f882c0c94700602c5da6a4e reframe/SKILL.md
 100644 f1dd2c09108dde1a5f56097cee8461b3ea834499 research/LICENSE
@@ -148,7 +148,7 @@
 100644 5276464244857a3cc29890ff4a978a197b21f3fc setup-matt-pocock-skills/triage-labels.md
 100644 111d7dddaac7f3f1ddecd50708f6d0d42a9ebaf1 setup-pstack/SKILL.md
 100644 168c094eb4da3165edab28892cb09ea3feb0399b sharpen/SKILL.md
-100644 2d12f79cbd8e54a1a5d89327c6ea4ad852bfd177 show-me-your-work/SKILL.md
+100644 2f62067573a10c1a7caf93547dca3740d3f84c77 show-me-your-work/SKILL.md
 100644 db220376ecb8c582a6a4f6575a8f26469603a38d show-me-your-work/references/decision-log-template.tsv
 100755 052e53b7e1090579eaec1d3d59f7a1cd2f2e452a show-me-your-work/scripts/log.sh
 100644 d31c0be382181fd28f1fdcff6519470cad3b2831 statechart/SKILL.md
