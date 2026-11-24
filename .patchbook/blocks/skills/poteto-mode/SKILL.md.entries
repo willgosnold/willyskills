@@ -120,3 +120,12 @@ intent: A second opinion runs on the same model and effort as the work it checks
 You own every subagent's work. Review the diff and write your own summary. A second opinion is the same prompt on another vendor's model.
 --- patched
 You own every subagent's work. Review the diff and write your own summary. A second opinion is the same prompt in a fresh subagent on the same model and effort, unless the user named another.
+
+=== entry e7defd9c4dbb
+kind: translation
+rules: resume
+intent: Names how T3 resumes an existing subagent, a t3_thread_send to its childThreadId, so the agent does not look for a resume call that does not exist. The fresh-subagent default and when to resume stay as upstream wrote them.
+--- upstream
+**Fresh subagents by default.** Give a fix round, a follow-up, a retry, or the next queue item to a fresh subagent with the original brief, every later directive, and the prior agent's report and branch. Resume an existing subagent only when the work needs state that lives in it and is costly to move: its checkout, its uncommitted changes, or a process it still runs.
+--- patched
+**Fresh subagents by default.** Give a fix round, a follow-up, a retry, or the next queue item to a fresh subagent with the original brief, every later directive, and the prior agent's report and branch. Resume an existing subagent, with `t3_thread_send` to its `childThreadId`, only when the work needs state that lives in it and is costly to move: its checkout, its uncommitted changes, or a process it still runs.
