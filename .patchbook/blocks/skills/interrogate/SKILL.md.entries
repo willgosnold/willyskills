@@ -1,8 +1,8 @@
 === entry 396b0b06eb52
 kind: translation
-rules: model-role, general-purpose
+rules: model-role, general-purpose, isolation
 intent: Interrogate reuses arena's Phase A steps 3-4 and Phase B with the `interrogate reviewers` line in place of `arena runners`, so it also names that role's willyskills default (arena's patched step 3 names only the arena default). "Spawn each adversary as `generalPurpose`" is dropped because a T3 child has no agent type, so "four changes" becomes "three changes". Preserve the worktree copy of uncommitted changes, what each adversary gets, and the quoted brief, which follows as its own block.
 --- upstream
 Run Phase A steps 3 and 4 and Phase B of the **arena** skill, with four changes. Read the `interrogate reviewers` line in place of `arena runners`. Copy the scope's uncommitted changes into each worktree. Spawn each adversary as `generalPurpose`. In place of the arena task and rationale, give each adversary the scope, the intent, and this brief:
 --- patched
-Run Phase A steps 3 and 4 and Phase B of the **arena** skill, with three changes. Read the `interrogate reviewers` line in place of `arena runners`, with {{model:interrogate reviewers}} as its default. Copy the scope's uncommitted changes into each worktree. In place of the arena task and rationale, give each adversary the scope, the intent, and this brief:
+Run Phase A steps 3 and 4 and Phase B of the **arena** skill, with three changes. Read the `interrogate reviewers` line in place of `arena runners`, with {{model:interrogate reviewers}} as its default. A worktree starts from the last commit, so save the scope's uncommitted changes as a patch in `/tmp` (`git diff HEAD --binary`) and have each adversary `git apply` it before reviewing. In place of the arena task and rationale, give each adversary the scope, the intent, and this brief:
