@@ -9,12 +9,12 @@ At the end of the run, before handing back, check the log told the truth. Read t
 
 === entry 6a66e30b7aae
 kind: policy
-rules: same-model-review, delegate, transcripts
+rules: same-model-review, delegate, transcripts, read-only
 intent: Policy (same-model-review): the trail reviewer runs on the same model and effort as the worker that did the work, unless the user named another, so upstream's other-vendor requirement is dropped; it still applies while willyskills keeps cross-family runs to the arena runner and interrogate panels. The reasoning-level sentence is dropped because the effort is fixed to the worker's. In T3 terms the reviewer is a `delegate_task` child that reads the run's transcript through this thread's ID. Preserve that self-review is no substitute and that it scans for risk rather than redoing the work.
 --- upstream
 Before handing back, spawn a subagent on another vendor's model than the one that did the work. Self-review is not a substitute. The subagent reads the audit trail and the run's transcript, then flags what the user should pay attention to. Not a redo of the work, a scan for what's suboptimal or risky. Pick each subagent's reasoning level for the job, per the Subagents section of the **poteto-mode** skill.
 --- patched
-Before handing back, spawn a subagent with `delegate_task` on the same model and effort as the one that did the work, unless the user named another. Self-review is not a substitute. The subagent reads the audit trail and the run's transcript (give it this thread's ID to read with `t3_thread_read`), then flags what the user should pay attention to. Not a redo of the work, a scan for what's suboptimal or risky.
+Before handing back, spawn a subagent with `delegate_task` on the same model and effort as the one that did the work, unless the user named another. Self-review is not a substitute. The subagent reads the audit trail and the run's transcript (give it this thread's ID to read with `t3_thread_read`), then flags what the user should pay attention to. Its brief includes the line "Do not edit, create, commit, or push files.", and you run `git status` once it returns. Not a redo of the work, a scan for what's suboptimal or risky.
 === entry 8e56eb83c511
 kind: translation
 rules: invoke
