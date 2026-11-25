@@ -10,8 +10,8 @@ Work from a git worktree off trunk, and keep unrelated work out of it. Rebase in
 === entry 53f0e8e91cdb
 kind: translation
 rules: pr-tool, cursor-only
-intent: There is no run-provided PR tool here, so the "through the run's PR tool" clause is dropped and `gh` (or Origin's CLI) is the path, followed by `link_pull_request` once per stack layer. Preserve ready-not-draft PRs, stacking by base branch, and that opening a PR does not start a babysit.
+intent: There is no run-provided PR tool here, so the "through the run's PR tool" clause is dropped and `gh` (or Origin's CLI) is the path, followed by `link_pull_request` once per stack layer and a `list_thread_pull_requests` check before finishing. Preserve ready-not-draft PRs, stacking by base branch, and that opening a PR does not start a babysit.
 --- upstream
 Stack follow-ups by base branch. Open PRs ready, through the run's PR tool with `draft: false`. Without one, use `gh pr create` without `--draft`, or `origin pr create --status open` when Origin's CLI resolves the repository. Opening a PR does not start a babysit.
 --- patched
-Stack follow-ups by base branch. Open PRs ready, with `gh pr create` without `--draft`, or `origin pr create --status open` when Origin's CLI resolves the repository. Right after creating each PR, call `link_pull_request` with its URL, once per stack layer. Opening a PR does not start a babysit.
+Stack follow-ups by base branch. Open PRs ready, with `gh pr create` without `--draft`, or `origin pr create --status open` when Origin's CLI resolves the repository. Right after creating each PR, call `link_pull_request` with its URL, once per stack layer, and check `list_thread_pull_requests` before finishing. Opening a PR does not start a babysit.
