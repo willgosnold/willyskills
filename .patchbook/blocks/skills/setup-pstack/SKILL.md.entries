@@ -14,7 +14,7 @@ intent: Detects models with `orchestrator_capabilities`, including each model's 
 --- upstream
 Enumerate the model slugs you can pass to a `Task` subagent in this session. That is the dependable source. If Cursor also exposes a models API or CLI that lists the user's entitled models, prefer it for completeness. If you cannot detect any, ask the user to paste the slugs they have access to. Never write a real slug you have not confirmed is available. The aliases `inherit-parent` and `auto` are always valid even though they are not detected slugs.
 --- patched
-Call `orchestrator_capabilities`. Each entry in `providers` lists a provider instance's models and each model's effort options (`effort`, or `reasoningEffort` for `codex`). That is the dependable source. A provider whose `canRunChildTask` is false can't run a role, so leave it out. If you cannot detect any, ask the user to paste the models they have access to. Never write a real model you have not confirmed is available. The alias `inherit-parent` is always valid even though it is not a detected model.
+Call `orchestrator_capabilities`. Each entry in `providers` lists a provider instance's models and each model's effort options (such as `effort` for `claudeAgent`, `reasoningEffort` for `codex`, or `thought_level` for `antigravity`). That is the dependable source. A provider whose `canRunChildTask` is false can't run a role, so leave it out. If you cannot detect any, ask the user to paste the models they have access to. Never write a real model you have not confirmed is available. The alias `inherit-parent` is always valid even though it is not a detected model.
 
 === entry cf59bc9fbcaf
 kind: translation
