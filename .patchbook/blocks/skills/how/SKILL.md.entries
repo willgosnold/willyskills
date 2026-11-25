@@ -5,4 +5,4 @@ intent: The one explainer is a read-only `delegate_task` child sharing the check
 --- upstream
 Spawn one Task subagent with `subagent_type: generalPurpose` and `readonly: true` that explores and explains in one pass. Give it the user's question and this brief:
 --- patched
-Spawn one subagent with `delegate_task`, no `isolation`, and the model from the `judgment and prose` line in {{snippet:models-file}}, else {{model:judgment and prose}}, that explores and explains in one pass, and run `git status` once it returns. Give it the user's question, the line "Do not edit, create, commit, or push files.", and this brief:
+Spawn one subagent with `delegate_task`, its own `clientRequestId`, no `isolation`, and the model from the `judgment and prose` line in {{snippet:models-file}}, else {{model:judgment and prose}}, that explores and explains in one pass. Keep the returned `taskId` and `childThreadId`, and run `git status` once it returns. Give it the user's question, the line "Do not edit, create, commit, or push files.", and this brief:
