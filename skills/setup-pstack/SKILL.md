@@ -11,7 +11,7 @@ Write `.agents/pstack-models.md` in the project's main checkout (`"$(dirname "$(
 
 ### 1. Detect available models
 
-Call `orchestrator_capabilities`. Each entry in `providers` lists a provider instance's models and each model's effort options (`effort`, or `reasoningEffort` for `codex`). That is the dependable source. A provider whose `canRunChildTask` is false can't run a role, so leave it out. If you cannot detect any, ask the user to paste the models they have access to. Never write a real model you have not confirmed is available. The alias `inherit-parent` is always valid even though it is not a detected model.
+Call `orchestrator_capabilities`. Each entry in `providers` lists a provider instance's models and each model's effort options (such as `effort` for `claudeAgent`, `reasoningEffort` for `codex`, or `thought_level` for `antigravity`). That is the dependable source. A provider whose `canRunChildTask` is false can't run a role, so leave it out. If you cannot detect any, ask the user to paste the models they have access to. Never write a real model you have not confirmed is available. The alias `inherit-parent` is always valid even though it is not a detected model.
 
 ### 2. Load current state
 
