@@ -8,4 +8,4 @@ Shared sentences for patched blocks. `{{snippet:<name>}}` in a patched block exp
 
 ## model-entry
 
-A role line is `<role>: <entry>, <entry>, ...`, and a panel role runs one subagent per entry. An entry `<provider>/<model> <effort>` becomes `target: {providerInstanceId: <provider>, model: <model>, options: {effort: <effort>}}`, with `reasoningEffort` instead of `effort` for `codex`. `inherit-parent` means omit `target`. The effort is a ceiling: lower it for routine work, never raise it, and never set `fastMode`.
+A role line is `<role>: <entry>, <entry>, ...`, and a panel role runs one subagent per entry. An entry `<provider>/<model> <effort>` becomes `target: {providerInstanceId: <provider>, model: <model>, options: {effort: <effort>}}`, where `effort` is the effort option `orchestrator_capabilities` lists for that model, such as `effort` for `claudeAgent`, `reasoningEffort` for `codex`, or `thought_level` for `antigravity`. `inherit-parent` means omit `target`. The effort is a ceiling: lower it for routine work, never raise it, and never set `fastMode`.
